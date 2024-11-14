@@ -1,0 +1,15 @@
+#video-preview{
+    margin-top: 15px;
+}
+#video-url{
+    margin-bottom: 15px;
+}
+.program-details-row{
+    display: flex;
+    margin-bottom: 15px;
+}
+.registry-item{
+    display: flex;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
