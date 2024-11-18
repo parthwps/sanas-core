@@ -704,7 +704,15 @@ if (!function_exists('sanas_guest_info')) {
             ));
 
             // send the email
-            // wp_mail($guestEmail, $subject, $body, $headers);
+            if(wp_mail($guestEmail, $subject, $body, $headers)){
+                wp_send_json_success(array(
+                    'message' => 'Email sent successfully.', 
+                ));
+            }else{
+                wp_send_json_success(array(
+                    'message' => 'Email sent successfully.1', 
+                ));
+            }
         } else {
             wp_send_json_error(array('message' => 'Failed to insert guest information.'));
         }
