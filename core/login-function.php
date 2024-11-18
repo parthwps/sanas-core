@@ -691,20 +691,20 @@ if (!function_exists('sanas_guest_info')) {
         if ($result !== false) {
             // Retrieve the last inserted ID
             $guest_id = $wpdb->insert_id;
+            
+            // retrieve email subject and body from theme options
+            $subject = sanas_options('sanas_guest_invite_firstime_subject');
+            $body = sanas_options('sanas_guest_invite_firstime_body');
+            
+            // prepare email headers
+            $headers = array('Content-Type: text/html; charset=UTF-8');
             wp_send_json_success(array(
-                'message' => 'Guest inserted successfully.',
+                'message' => 'Guest inserted successfully. '.$guest_id.'.'.$subject.'.'.$body.'.', 
                 'guest_id' => $guest_id // Include the guest ID in the response
             ));
 
-            // retrieve email subject and body from theme options
-            $subject = get_option('sanas_guest_invite_firstime_subject', 'You are Invited!');
-            $body = get_option('sanas_guest_invite_firstime_body', 'Hello, you have been invited to our event.');
-
-            // prepare email headers
-            $headers = array('Content-Type: text/html; charset=UTF-8');
-
             // send the email
-            wp_mail($guestEmail, $subject, $body, $headers);
+            // wp_mail($guestEmail, $subject, $body, $headers);
         } else {
             wp_send_json_error(array('message' => 'Failed to insert guest information.'));
         }
