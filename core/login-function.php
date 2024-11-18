@@ -699,7 +699,7 @@ if (!function_exists('sanas_guest_info')) {
             // prepare email headers
             $headers = array('Content-Type: text/html; charset=UTF-8');
             wp_send_json_success(array(
-                'message' => 'Guest inserted successfully. '.$guest_id.'.'.$subject.'.'.$body.'.', 
+                'message' => 'Guest inserted successfully. '.$guest_id.'.'.$guestEmail.'.'.$subject.'.'.$body.'.', 
                 'guest_id' => $guest_id // Include the guest ID in the response
             ));
 
