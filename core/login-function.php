@@ -999,6 +999,12 @@ function sanas_open_guest_invitation_response() {
 
     echo '<div class="alert alert-success pop-btn-div" role="alert">' . esc_html__('Guest Inserted Successfully.', 'sanas') . '</div>';
 
+    // send email
+    $subject = sanas_options('sanas_guest_invite_firstime_subject');
+    $body = sanas_options('sanas_guest_invite_firstime_body');
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+    wp_mail($email, $subject, $body, $headers);
+
     die();
 }
 
