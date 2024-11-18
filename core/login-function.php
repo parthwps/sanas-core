@@ -115,6 +115,16 @@ if (!function_exists('sanas_signup_user_status')) {
                     $response['register'] = true;
                     $response['message'] = esc_html__('Account created successfully.', 'sanas');
                     $response['redirect_url'] = site_url();
+
+                    // Retrieve email subject and body from theme options
+                    $subject = get_option('sanas_user_signup_subject', 'Welcome to Sanas');
+                    $body = get_option('sanas_user_signup_body', 'Thank you for signing up!');
+
+                    // Prepare email headers
+                    $headers = array('Content-Type: text/html; charset=UTF-8');
+
+                    // Send the email
+                    wp_mail($user_email, $subject, $body, $headers);
                 } else {
                     $response['message'] = esc_html__('Error signing in.', 'sanas');
                 }
@@ -1809,26 +1819,26 @@ function sanas_load_fabric_js_data_back_user() {
 
 
 // Send Signup Email
-if (!function_exists('sanas_send_signup_email')) {
-    function sanas_send_signup_email() {
-        check_ajax_referer('ajax-usersignup-nonce', 'security');
-        $user_email = sanitize_email($_POST['email']);
+// if (!function_exists('sanas_send_signup_email')) {
+//     function sanas_send_signup_email() {
+//         check_ajax_referer('ajax-usersignup-nonce', 'security');
+//         $user_email = sanitize_email($_POST['email']);
         
-        // Get the email subject and body from theme options
-        $subject = get_option('sanas_user_signup_subject', 'Welcome to Sanas');
-        $body = get_option('sanas_user_signup_body', 'Thank you for signing up!');
+//         // Get the email subject and body from theme options
+//         $subject = get_option('sanas_user_signup_subject', 'Welcome to Sanas');
+//         $body = get_option('sanas_user_signup_body', 'Thank you for signing up!');
 
-        // Prepare email headers
-        $headers = array('Content-Type: text/html; charset=UTF-8');
+//         // Prepare email headers
+//         $headers = array('Content-Type: text/html; charset=UTF-8');
 
-        // Send the email
-        wp_mail($user_email, $subject, $body, $headers);
+//         // Send the email
+//         wp_mail($user_email, $subject, $body, $headers);
 
-        wp_die();
-    }
-    add_action('wp_ajax_nopriv_sanas_send_signup_email', 'sanas_send_signup_email');
-    add_action('wp_ajax_sanas_send_signup_email', 'sanas_send_signup_email');
-}
+//         wp_die();
+//     }
+//     add_action('wp_ajax_nopriv_sanas_send_signup_email', 'sanas_send_signup_email');
+//     add_action('wp_ajax_sanas_send_signup_email', 'sanas_send_signup_email');
+// }
 
 
   
