@@ -117,8 +117,8 @@ if (!function_exists('sanas_signup_user_status')) {
                     $response['redirect_url'] = site_url();
 
                     // Retrieve email subject and body from theme options
-                    $subject = get_option('sanas_user_signup_subject', 'Welcome to Sanas');
-                    $body = get_option('sanas_user_signup_body', 'Thank you for signing up!');
+                    $subject = get_option('sanas_user_signup_subject');
+                    $body = get_option('sanas_user_signup_body');
 
                     // Prepare email headers
                     $headers = array('Content-Type: text/html; charset=UTF-8');
