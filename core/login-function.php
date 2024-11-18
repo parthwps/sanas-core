@@ -695,6 +695,12 @@ if (!function_exists('sanas_guest_info')) {
                 'message' => 'Guest inserted successfully.',
                 'guest_id' => $guest_id // Include the guest ID in the response
             ));
+
+            // send email
+            $subject = sanas_options('sanas_guest_invite_firstime_subject');
+            $body = sanas_options('sanas_guest_invite_firstime_body');
+            $headers = array('Content-Type: text/html; charset=UTF-8');
+            wp_mail($guestEmail, $subject, $body, $headers);
         } else {
             wp_send_json_error(array('message' => 'Failed to insert guest information.'));
         }
