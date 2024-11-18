@@ -695,12 +695,6 @@ if (!function_exists('sanas_guest_info')) {
                 'message' => 'Guest inserted successfully.',
                 'guest_id' => $guest_id // Include the guest ID in the response
             ));
-
-            // send email
-            $subject = sanas_options('sanas_guest_invite_firstime_subject');
-            $body = sanas_options('sanas_guest_invite_firstime_body');
-            $headers = array('Content-Type: text/html; charset=UTF-8');
-            wp_mail($guestEmail, $subject, $body, $headers);
         } else {
             wp_send_json_error(array('message' => 'Failed to insert guest information.'));
         }
@@ -983,12 +977,6 @@ function sanas_open_guest_invitation_response() {
                     'guest_id' => $insert_id,
                     'url' => $guest_preview_url.'&guestid='.$insert_id // Include the guest ID in the response
                 ));
-
-                // send email
-                $subject = sanas_options('sanas_guest_invite_firstime_subject');
-                $body = sanas_options('sanas_guest_invite_firstime_body');
-                $headers = array('Content-Type: text/html; charset=UTF-8');
-                wp_mail($email, $subject, $body, $headers);
             }
             else{
                 wp_send_json_error(array('message' => 'Failed to insert guest information.'));
@@ -998,12 +986,6 @@ function sanas_open_guest_invitation_response() {
         }
 
     echo '<div class="alert alert-success pop-btn-div" role="alert">' . esc_html__('Guest Inserted Successfully.', 'sanas') . '</div>';
-
-    // send email
-    $subject = sanas_options('sanas_guest_invite_firstime_subject');
-    $body = sanas_options('sanas_guest_invite_firstime_body');
-    $headers = array('Content-Type: text/html; charset=UTF-8');
-    wp_mail($email, $subject, $body, $headers);
 
     die();
 }
