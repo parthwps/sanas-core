@@ -926,17 +926,25 @@ function sanas_guest_invitation_response() {
     $guest_name = $wpdb->get_var($wpdb->prepare("SELECT guest_name FROM $guest_info_table WHERE guest_id = %d", $guestid));
     // get event image
     $event_id = $wpdb->get_var($wpdb->prepare("SELECT guest_event_id FROM $guest_info_table WHERE guest_id = %d", $guestid));
-    
-    // Get event data including image URL
-    $event_data = $wpdb->get_row($wpdb->prepare(
-        "SELECT e.*, a.guid as image_url 
-         FROM $event_table e
-         LEFT JOIN {$wpdb->posts} a ON e.event_front_card_preview = a.ID
-         WHERE e.event_no = %d",
-        $event_id
-    ));
-    
-    $event_image = $event_data ? $event_data->image_url : '';
+    $event_image = $wpdb->get_var($wpdb->prepare("SELECT event_front_card_preview FROM $event_table WHERE event_no = %d", $event_id));
+
+    // Convert base64 image to URL
+    if($event_image) {
+        $upload_dir = wp_upload_dir();
+        $upload_path = $upload_dir['path'];
+        $filename = 'event-preview-' . $event_id . '.png';
+        $file = $upload_path . '/' . $filename;
+        
+        // Remove header from base64 string
+        $base64_string = str_replace('data:image/png;base64,', '', $event_image);
+        $base64_string = str_replace(' ', '+', $base64_string);
+        
+        // Save base64 as image file
+        file_put_contents($file, base64_decode($base64_string));
+        
+        // Get URL of saved image
+        $event_image_url = $upload_dir['url'] . '/' . $filename;
+    }
 
     $wpdb->update(
         $guest_info_table,
@@ -956,7 +964,7 @@ function sanas_guest_invitation_response() {
         array('%d')
     );
 
-    sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image, $guest_name);
+    echo sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image_url, $guest_name);
     echo '<div class="alert alert-success pop-btn-div" role="alert">' . esc_html__('Guest Submitted Response Successfully.', 'sanas') . '</div>';
 
     die();
@@ -968,16 +976,9 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest,
     $subject = sanas_options('sanas_guest_yes_subject');
     $body = sanas_options('sanas_guest_yes_body');
     
-    // Replace placeholders with actual values
     $body = str_replace(
-        array('%%guestname', '%%gueststatus', '%%guestkids', '%%guestadult', '%%eventimg'),
-        array(
-            $guest_name,
-            $status,
-            $kidsguest,
-            $adultguest,
-            $event_image
-        ),
+        array('%%guestname', '%%gueststatus', '%%guestkids', '%%guestadult', '%%eventimg'), 
+        array($guest_name, $status, $kidsguest, $adultguest, $event_image),
         $body
     );
 
@@ -985,7 +986,6 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest,
     wp_mail($guest_email, $subject, $body, $headers);
 
     return $status;
-
 }
 
 add_action('wp_ajax_nopriv_sanas_open_guest_invitation_response', 'sanas_open_guest_invitation_response');
