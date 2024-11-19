@@ -953,12 +953,12 @@ add_action('wp_ajax_sanas_guest_invitation_response_mail', 'sanas_guest_invitati
 function sanas_guest_invitation_response_mail($email) {
     
     //send mail to guest
+    echo $email;
     $subject = sanas_options('sanas_guest_yes_subject');
     $body = sanas_options('guest_invitation_response_body');
     $headers = array('Content-Type: text/html; charset=UTF-8');
     wp_mail($email, $subject, $body, $headers);
 
-    wp_die();
 
 }
 
