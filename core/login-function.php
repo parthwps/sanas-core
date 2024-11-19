@@ -927,8 +927,7 @@ function sanas_guest_invitation_response() {
     // get event image
     $event_id = $wpdb->get_var($wpdb->prepare("SELECT guest_event_id FROM $guest_info_table WHERE guest_id = %d", $guestid));
     $event_image = $wpdb->get_var($wpdb->prepare("SELECT event_front_card_preview FROM $event_table WHERE event_no = %d", $event_id));
-    $event_name = $wpdb->get_var($wpdb->prepare("SELECT event_name FROM $event_table WHERE event_no = %d", $event_id));
-    $event_date = $wpdb->get_var($wpdb->prepare("SELECT event_date FROM $event_table WHERE event_no = %d", $event_id));
+
 
     $wpdb->update(
         $guest_info_table,
@@ -954,24 +953,22 @@ function sanas_guest_invitation_response() {
     echo $adultguest;
     echo $event_image;
     echo $guest_name;
-    echo $event_name;
-    echo $event_date;
-    echo sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image, $guest_name, $event_name, $event_date);
+    echo sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image, $guest_name);
     echo '<div class="alert alert-success pop-btn-div" role="alert">' . esc_html__('Guest Submitted Response Successfully.', 'sanas') . '</div>';
 
     die();
 }
 
 //send mail to guest
-function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image, $guest_name, $event_name, $event_date) {
+function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image, $guest_name) {
     
     $subject = sanas_options('sanas_guest_yes_subject');
     $body = sanas_options('sanas_guest_yes_body');
-    $body = str_replace(array('%%guestname', '%%gueststatus', '%%guestkids', '%%guestadult', '%%eventimage', '%%eventname', '%%eventdate'), array($guest_name, $status, $kidsguest, $adultguest, $event_image, $event_name, $event_date), $body);
+    $body = str_replace(array('%%guestname', '%%gueststatus', '%%guestkids', '%%guestadult', '%%eventimg'), array($guest_name, $status, $kidsguest, $adultguest, $event_image), $body);
     $headers = array('Content-Type: text/html; charset=UTF-8');
     wp_mail($guest_email, $subject, $body, $headers);
 
-    return $event_name;
+    return $status;
 
 }
 
