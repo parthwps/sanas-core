@@ -723,7 +723,7 @@ if (!function_exists('sanas_guest_info')) {
             wp_mail($guestEmail, $subject, $body, $headers);
 
             wp_send_json_success(array(
-                'message' => 'Guest inserted successfully. Event Date: ' . $event_date .', Event Name: ' . $event_name, 
+                'message' => 'Guest inserted successfully. ' . $event_date .' ' . $event_name, 
                 'guest_id' => $guest_id, // Include the guest ID in the response
                 'event_id' => $event_id,
                 'event_name' => $event_name,
