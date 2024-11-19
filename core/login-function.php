@@ -920,8 +920,11 @@ function sanas_guest_invitation_response() {
  
     $guest_info_table = $wpdb->prefix . "guest_details_info"; 
 
-    // get guest email
-    $guest_email = $wpdb->get_var($wpdb->prepare("SELECT guest_email FROM $guest_info_table WHERE guest_id = %d", $guestid));
+    // get guest email and event image
+    $guest_data = $wpdb->get_row($wpdb->prepare("SELECT guest_email, event_image, guest_name FROM $guest_info_table WHERE guest_id = %d", $guestid));
+    $guest_email = $guest_data->guest_email;
+    $event_image = $guest_data->event_image;
+    $guest_name = $guest_data->guest_name;
 
     $wpdb->update(
         $guest_info_table,
@@ -942,17 +945,18 @@ function sanas_guest_invitation_response() {
     );
 
     echo $guest_email;
-    echo sanas_guest_invitation_response_mail($guest_email);
-    echo '<div class="alert alert-success pop-btn-div" role="alert">' . esc_html__('Guest Submited Response Successfully.', 'sanas') . '</div>';
+    echo sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image, $guest_name);
+    echo '<div class="alert alert-success pop-btn-div" role="alert">' . esc_html__('Guest Submitted Response Successfully.', 'sanas') . '</div>';
 
     die();
 }
 
 //send mail to guest
-function sanas_guest_invitation_response_mail($guest_email) {
+function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image, $guest_name) {
     
     $subject = sanas_options('sanas_guest_yes_subject');
     $body = sanas_options('sanas_guest_yes_body');
+    $body = str_replace(array('%%guestname', '%%gueststatus', '%%guestkids', '%%guestadult', '%%eventimage'), array($guest_name, $status, $kidsguest, $adultguest, $event_image), $body);
     $headers = array('Content-Type: text/html; charset=UTF-8');
     wp_mail($guest_email, $subject, $body, $headers);
 
