@@ -666,10 +666,6 @@ if (!function_exists('sanas_guest_info')) {
             $event_id
         ), ARRAY_A);
 
-        if (!$event_data) {
-            wp_send_json_error(array('message' => 'Event data not found.'));
-        }
-
         // Query to check if the email exists
         $email_exists = $wpdb->get_var($wpdb->prepare(
             "SELECT COUNT(*) FROM $table_name WHERE guest_event_id = %d AND guest_email = %s", 
