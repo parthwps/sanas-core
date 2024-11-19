@@ -659,13 +659,6 @@ if (!function_exists('sanas_guest_info')) {
         $guestGroup = sanitize_text_field($_POST['guestGroup']);
         $event_id = sanitize_text_field($_POST['event_id']);
         
-        // Fetch event details for the email body
-        $event_table = $wpdb->prefix . 'sanas_card_event';
-        $event_data = $wpdb->get_row($wpdb->prepare(
-            "SELECT event_name, event_date, event_time, event_location, event_host, invite_link, event_img FROM $event_table WHERE event_no = %d",
-            $event_id
-        ), ARRAY_A);
-
         // Query to check if the email exists
         $email_exists = $wpdb->get_var($wpdb->prepare(
             "SELECT COUNT(*) FROM $table_name WHERE guest_event_id = %d AND guest_email = %s", 
@@ -698,24 +691,27 @@ if (!function_exists('sanas_guest_info')) {
         if ($result !== false) {
             // Retrieve the last inserted ID
             $guest_id = $wpdb->insert_id;
-
+            
             // retrieve email subject and body from theme options
             $subject = sanas_options('sanas_guest_invite_firstime_subject');
             $body = sanas_options('sanas_guest_invite_firstime_body');
 
+            // Fetch event details for the email body
+            $event_data = get_post($event_id);
+
             // Replace placeholders with actual data
             $subject = str_replace(
                 array('%%eventname'),
-                array($event_data['event_name']),
+                array($event_data['post_name']),
                 $subject
             );
             $body = str_replace(
                 array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%eventhost', '%%invitelink', '%%eventimg'),
                 array(
                     $guestName, 
-                    $event_data['event_name'], 
-                    $event_data['event_date'], 
-                    $event_data['event_time'], 
+                    $event_data['post_name'], 
+                    $event_data['post_date'], 
+                    $event_data['post_date'], 
                     $event_data['event_location'], 
                     $event_data['event_host'], 
                     $event_data['invite_link'], 
