@@ -700,11 +700,11 @@ if (!function_exists('sanas_guest_info')) {
             $event_id = (int) $event_id;
             $event_rsvp_id = $wpdb->prefix . 'sanas_card_event'; // Include table prefix
             $query = $wpdb->prepare(
-                "SELECT event_rsvp_id FROM $event_rsvp_id WHERE event_no = %d",
+                "SELECT event_user, event_rsvp_id FROM $event_rsvp_id WHERE event_no = %d",
                 $event_id
             );
-            $rsvp_id = $wpdb->get_var($query);
-            $event_data = get_post($rsvp_id);
+            $results = $wpdb->get_results($query, ARRAY_A);
+            $event_data = get_post($results['event_rsvp_id']);
 
             // Replace placeholders with actual data
             $subject = str_replace(
@@ -712,20 +712,20 @@ if (!function_exists('sanas_guest_info')) {
                 array($event_data->post_name),
                 $subject
             );
-            // $body = str_replace(
-            //     array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%eventhost', '%%invitelink', '%%eventimg'),
-            //     array(
-            //         $guestName, 
-            //         $event_data['post_name'], 
-            //         $event_data['post_date'], 
-            //         $event_data['post_date'], 
-            //         $event_data['event_location'], 
-            //         $event_data['event_host'], 
-            //         $event_data['invite_link'], 
-            //         $event_data['event_img']
-            //     ),
-            //     $body
-            // );
+            $body = str_replace(
+                array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%eventhost', '%%invitelink', '%%eventimg'),
+                array(
+                    $guestName, 
+                    $event_data->post_name,
+                    $event_data->post_date, 
+                    $event_data->post_date, 
+                    $event_data['event_location'], 
+                    $event_data['event_host'], 
+                    $event_data['invite_link'], 
+                    $event_data['event_img']
+                ),
+                $body
+            );
             
             $headers = array('Content-Type: text/html; charset=UTF-8');
             wp_mail($guestEmail, $subject, $body, $headers);
@@ -734,6 +734,7 @@ if (!function_exists('sanas_guest_info')) {
                 'message' => 'Guest inserted successfully. ', 
                 'guest_id' => $guest_id,
                 'event_id' => $event_id,
+                'rsvp_id' => get_post($results['event_rsvp_id']),
                 'event_data' => $event_data->post_name,
             ));
         } else {
