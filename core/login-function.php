@@ -697,6 +697,7 @@ if (!function_exists('sanas_guest_info')) {
             $body = sanas_options('sanas_guest_invite_firstime_body');
 
             // Fetch event details for the email body
+            $event_id = (int) $event_id;
             $event_data = get_post($event_id);
 
             // Replace placeholders with actual data
