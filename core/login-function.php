@@ -697,7 +697,7 @@ if (!function_exists('sanas_guest_info')) {
             $body = sanas_options('sanas_guest_invite_firstime_body');
 
             // Fetch event details for the email body
-            $event_data = get_post_meta($event_id, 'post_name',  true);
+            $event_data = get_post($event_id);
 
             // Replace placeholders with actual data
             $subject = str_replace(
@@ -729,7 +729,6 @@ if (!function_exists('sanas_guest_info')) {
             wp_send_json_success(array(
                 'message' => 'Guest inserted successfully. ', 
                 'guest_id' => $guest_id,
-                'guest_email' => $guestEmail,
                 'event_data' => $event_data,
             ));
         } else {
