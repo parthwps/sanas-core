@@ -921,6 +921,9 @@ function sanas_guest_invitation_response() {
  
     $guest_info_table = $wpdb->prefix . "guest_details_info"; 
 
+    // get guest email
+    $guest_email = $wpdb->get_var($wpdb->prepare("SELECT guest_email FROM $guest_info_table WHERE guest_id = %d", $guestid));
+
     $wpdb->update(
         $guest_info_table,
         array(
@@ -939,19 +942,19 @@ function sanas_guest_invitation_response() {
         array('%d')
     );
 
-    sanas_guest_invitation_response_mail($email);
-    echo '<div class="alert alert-success pop-btn-div" role="alert">' . esc_html__('Guest Submited Response Successfully.'. $email . '', 'sanas') . '</div>';
+    sanas_guest_invitation_response_mail($guest_email);
+    echo '<div class="alert alert-success pop-btn-div" role="alert">' . esc_html__('Guest Submited Response Successfully.', 'sanas') . '</div>';
 
     die();
 }
 
 //send mail to guest
-function sanas_guest_invitation_response_mail($email) {
-    error_log("Sending email to: " . $email); // Log the email address
+function sanas_guest_invitation_response_mail($guest_email) {
+    error_log("Sending email to: " . $guest_email); // Log the email address
     $subject = sanas_options('sanas_guest_yes_subject');
     $body = sanas_options('guest_invitation_response_body');
     $headers = array('Content-Type: text/html; charset=UTF-8');
-    wp_mail($email, $subject, $body, $headers);
+    wp_mail($guest_email, $subject, $body, $headers);
 
 }
 
@@ -1029,7 +1032,6 @@ function sanas_open_guest_invitation_response() {
             )
         );  
         
-        sanas_guest_invitation_response_mail($email);
     }
 
 
