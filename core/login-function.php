@@ -694,9 +694,27 @@ if (!function_exists('sanas_guest_info')) {
             // Retrieve the last inserted ID
             $guest_id = $wpdb->insert_id;
 
+
+            // get event details
+            $event_name = get_post_meta($event_id, 'event_name', true);
+            $event_date = get_post_meta($event_id, 'event_date', true);
+
             // retrieve email subject and body from theme options
             $subject = sanas_options('sanas_guest_invite_firstime_subject');
             $body = sanas_options('sanas_guest_invite_firstime_body');
+
+            
+            // Replace placeholders with actual data
+            $subject = str_replace(
+                array('%%eventname'),
+                array($event_name),
+                $subject
+            );
+            $body = str_replace(
+                array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%eventhost', '%%invitelink', '%%eventimg'),
+                array($guestName, $event_name, $event_date),
+                $body
+            );
             
             // prepare email headers
             $headers = array('Content-Type: text/html; charset=UTF-8');
