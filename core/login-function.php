@@ -658,17 +658,6 @@ if (!function_exists('sanas_guest_info')) {
         $guestGroup = sanitize_text_field($_POST['guestGroup']);
         $event_id = sanitize_text_field($_POST['event_id']);
         
-        // Additional event details
-        $table_name = $wpdb->prefix . 'sanas_card_event';
-
-        $eventHost = sanitize_text_field($_POST['eventHost']);
-        $inviteLink = esc_url($_POST['inviteLink']);
-        $eventImg = esc_url($_POST['eventImg']);
-        $eventName = sanitize_text_field($_POST['eventName']);
-        $eventDate = sanitize_text_field($_POST['eventDate']);
-        $eventTime = sanitize_text_field($_POST['eventTime']);
-        $eventLocation = sanitize_text_field($_POST['eventLocation']);
-        
         // Insert the data into the database
  
         // Query to check if the email exists
@@ -703,6 +692,17 @@ if (!function_exists('sanas_guest_info')) {
         if ($result !== false) {
             // Retrieve the last inserted ID
             $guest_id = $wpdb->insert_id;
+
+            // Additional event details
+            $table_name = $wpdb->prefix . 'sanas_card_event';
+
+            $eventHost = sanitize_text_field($_POST['event_host']);
+            $inviteLink = esc_url($_POST['invite_link']);
+            $eventImg = esc_url($_POST['event_img']);
+            $eventName = sanitize_text_field($_POST['event_name']);
+            $eventDate = sanitize_text_field($_POST['event_date']);
+            $eventTime = sanitize_text_field($_POST['event_time']);
+            $eventLocation = sanitize_text_field($_POST['event_location']);  
             
             // retrieve email subject and body from theme options
             $subject = sanas_options('sanas_guest_invite_firstime_subject');
