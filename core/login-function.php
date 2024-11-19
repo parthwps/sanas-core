@@ -693,8 +693,8 @@ if (!function_exists('sanas_guest_info')) {
             $guest_id = $wpdb->insert_id;
             
             // retrieve email subject and body from theme options
-            $subject = sanas_options('sanas_guest_invite_firstime_subject');
-            $body = sanas_options('sanas_guest_invite_firstime_body');
+            // $subject = sanas_options('sanas_guest_invite_firstime_subject');
+            // $body = sanas_options('sanas_guest_invite_firstime_body');
 
             
             // $event_id = (int) $event_id;
@@ -706,46 +706,46 @@ if (!function_exists('sanas_guest_info')) {
             // $event_rsvp_id = $wpdb->get_var($query);
             // $event_data = get_post($event_rsvp_id);
 
-            $event_id = (int) $event_id;
-            $event_table = $wpdb->prefix . 'sanas_card_event';
-            $query = $wpdb->prepare(
-                "SELECT event_user, event_card_id, event_rsvp_id, event_front_card_preview FROM $event_table WHERE event_no = %d",
-                $event_id
-            );
-            $event_table_data = $wpdb->get_row($query, ARRAY_A);
-            $event_data = get_post($event_table_data['event_rsvp_id']);
+            // $event_id = (int) $event_id;
+            // $event_table = $wpdb->prefix . 'sanas_card_event';
+            // $query = $wpdb->prepare(
+            //     "SELECT event_user, event_card_id, event_rsvp_id, event_front_card_preview FROM $event_table WHERE event_no = %d",
+            //     $event_id
+            // );
+            // $event_table_data = $wpdb->get_row($query, ARRAY_A);
+            // $event_data = get_post($event_table_data['event_rsvp_id']);
 
-            $subject = str_replace(
-                array('%%eventname'),
-                array($event_data->post_name),
-                $subject
-            );
-            $body = str_replace(
-                array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%eventhost', '%%invitelink', '%%eventimg'),
-                array(
-                    $guestName, 
-                    $event_data->post_name,
-                    $event_data->post_date, 
-                    $event_data->post_date, 
-                    'location', 
-                    get_the_author_meta('display_name', $event_table_data['event_user']), 
-                    $event_table_data['event_user'], 
-                    $event_table_data['event_front_card_preview']
-                ),
-                $body
-            );
+            // $subject = str_replace(
+            //     array('%%eventname'),
+            //     array($event_data->post_name),
+            //     $subject
+            // );
+            // $body = str_replace(
+            //     array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%eventhost', '%%invitelink', '%%eventimg'),
+            //     array(
+            //         $guestName, 
+            //         $event_data->post_name,
+            //         $event_data->post_date, 
+            //         $event_data->post_date, 
+            //         'location', 
+            //         get_the_author_meta('display_name', $event_table_data['event_user']), 
+            //         $event_table_data['event_user'], 
+            //         $event_table_data['event_front_card_preview']
+            //     ),
+            //     $body
+            // );
             
-            $headers = array('Content-Type: text/html; charset=UTF-8');
-            wp_mail($guestEmail, $subject, $body, $headers);
+            // $headers = array('Content-Type: text/html; charset=UTF-8');
+            // wp_mail($guestEmail, $subject, $body, $headers);
 
             wp_send_json_success(array(
                 'message' => 'Guest inserted successfully. ', 
                 'guest_id' => $guest_id,
-                'event_id' => $event_id,
-                'post_name' => $event_data->post_name,
-                'title' => $event_data->post_title,
-                'date' => $event_data->post_date,
-                'img' => $event_table_data['event_front_card_preview'],
+                // 'event_id' => $event_id,
+                // 'post_name' => $event_data->post_name,
+                // 'title' => $event_data->post_title,
+                // 'date' => $event_data->post_date,
+                // 'img' => $event_table_data['event_front_card_preview'],
             ));
         } else {
             wp_send_json_error(array('message' => 'Failed to insert guest information.'));
