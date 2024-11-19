@@ -696,8 +696,15 @@ if (!function_exists('sanas_guest_info')) {
 
 
             // get event details
-            $event_name = get_post_meta($event_id, 'event_name', true);
-            $event_date = get_post_meta($event_id, 'event_date', true);
+            $table_name = $wpdb->prefix . 'sanas_card_event';
+            $event_name = $wpdb->get_var($wpdb->prepare(
+                "SELECT event_name FROM $table_name WHERE event_no = %d",
+                $event_id
+            ));
+            $event_date = $wpdb->get_var($wpdb->prepare(
+                "SELECT event_date FROM $table_name WHERE event_no = %d",
+                $event_id
+            ));
 
             // retrieve email subject and body from theme options
             $subject = sanas_options('sanas_guest_invite_firstime_subject');
@@ -723,7 +730,7 @@ if (!function_exists('sanas_guest_info')) {
             wp_mail($guestEmail, $subject, $body, $headers);
 
             wp_send_json_success(array(
-                'message' => 'Guest inserted successfully.', 
+                'message' => 'Guest inserted successfully. Event Date: ' . $event_date .', Event Name: ' . $event_name, 
                 'guest_id' => $guest_id // Include the guest ID in the response
             ));
         } else {
