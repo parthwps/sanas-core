@@ -658,12 +658,6 @@ if (!function_exists('sanas_guest_info')) {
         $guestGroup = sanitize_text_field($_POST['guestGroup']);
         $event_id = sanitize_text_field($_POST['event_id']);
         
-        // Additional event details
-        $eventName = sanitize_text_field($_POST['eventName']);
-        $eventDate = sanitize_text_field($_POST['eventDate']);
-        $eventTime = sanitize_text_field($_POST['eventTime']);
-        $eventLocation = sanitize_text_field($_POST['eventLocation']);
-        
         // Insert the data into the database
  
         // Query to check if the email exists
@@ -699,6 +693,14 @@ if (!function_exists('sanas_guest_info')) {
             // Retrieve the last inserted ID
             $guest_id = $wpdb->insert_id;
             
+            $event_name = get_post_meta($event_id, 'event_name', true);
+            $event_date = get_post_meta($event_id, 'event_date', true);
+            $event_time = get_post_meta($event_id, 'event_time', true);
+            $event_location = get_post_meta($event_id, 'event_location', true);
+            $event_host = get_post_meta($event_id, 'event_host', true);
+            $invite_link = get_post_meta($event_id, 'invite_link', true);
+            $event_img = get_post_meta($event_id, 'event_img', true);
+
             // retrieve email subject and body from theme options
             $subject = sanas_options('sanas_guest_invite_firstime_subject');
             $body = sanas_options('sanas_guest_invite_firstime_body');
@@ -706,12 +708,12 @@ if (!function_exists('sanas_guest_info')) {
             // Replace placeholders with actual data
             $subject = str_replace(
                 array('%%eventname'),
-                array($eventName),
+                array($event_name),
                 $subject
             );
             $body = str_replace(
-                array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation'),
-                array($guestName, $eventName, $eventDate, $eventTime, $eventLocation),
+                array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%eventhost', '%%invitelink', '%%eventimg'),
+                array($guestName, $event_name, $event_date, $event_time, $event_location, $event_host, $invite_link, $event_img),
                 $body
             );
             
