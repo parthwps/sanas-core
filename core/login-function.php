@@ -659,6 +659,11 @@ if (!function_exists('sanas_guest_info')) {
         $event_id = sanitize_text_field($_POST['event_id']);
         
         // Additional event details
+        $table_name = $wpdb->prefix . 'sanas_card_event';
+
+        $eventHost = sanitize_text_field($_POST['eventHost']);
+        $inviteLink = esc_url($_POST['inviteLink']);
+        $eventImg = esc_url($_POST['eventImg']);
         $eventName = sanitize_text_field($_POST['eventName']);
         $eventDate = sanitize_text_field($_POST['eventDate']);
         $eventTime = sanitize_text_field($_POST['eventTime']);
@@ -710,8 +715,8 @@ if (!function_exists('sanas_guest_info')) {
                 $subject
             );
             $body = str_replace(
-                array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation'),
-                array($guestName, $eventName, $eventDate, $eventTime, $eventLocation),
+                array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%eventhost', '%%invitelink', '%%eventimg'),
+                array($guestName, $eventName, $eventDate, $eventTime, $eventLocation, $eventHost, $inviteLink, $eventImg),
                 $body
             );
             
