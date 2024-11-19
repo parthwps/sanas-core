@@ -942,7 +942,7 @@ function sanas_guest_invitation_response() {
     );
 
     echo $guest_email;
-    sanas_guest_invitation_response_mail($guest_email);
+    echo sanas_guest_invitation_response_mail($guest_email);
     echo '<div class="alert alert-success pop-btn-div" role="alert">' . esc_html__('Guest Submited Response Successfully.', 'sanas') . '</div>';
 
     die();
@@ -950,11 +950,13 @@ function sanas_guest_invitation_response() {
 
 //send mail to guest
 function sanas_guest_invitation_response_mail($guest_email) {
-    error_log("Sending email to: " . $guest_email); // Log the email address
+    
     $subject = sanas_options('sanas_guest_yes_subject');
     $body = sanas_options('guest_invitation_response_body');
     $headers = array('Content-Type: text/html; charset=UTF-8');
     wp_mail($guest_email, $subject, $body, $headers);
+
+    return $guest_email;
 
 }
 
