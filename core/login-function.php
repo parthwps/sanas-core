@@ -707,14 +707,14 @@ if (!function_exists('sanas_guest_info')) {
             // $event_data = get_post($event_rsvp_id);
 
             $event_id = (int) $event_id; // Ensure $event_id is an integer
-$event_table = $wpdb->prefix . 'sanas_card_event'; // Table name with prefix
+            $event_table = $wpdb->prefix . 'sanas_card_event'; // Table name with prefix
 
-// Prepare and execute the query
-$query = $wpdb->prepare(
-    "SELECT event_user, event_card_id, event_rsvp_id FROM $event_table WHERE event_no = %d",
-    $event_id
-);
-$event_data = $wpdb->get_row($query, ARRAY_A); // Fetch a single row as an associative array
+            // Prepare and execute the query
+            $query = $wpdb->prepare(
+                "SELECT event_user, event_card_id, event_rsvp_id FROM $event_table WHERE event_no = %d",
+                $event_id
+            );
+            $event_data = $wpdb->get_row($query, ARRAY_A); // Fetch a single row as an associative array
 
             // Replace placeholders with actual data
             $subject = str_replace(
@@ -722,6 +722,13 @@ $event_data = $wpdb->get_row($query, ARRAY_A); // Fetch a single row as an assoc
                 array($event_data->post_name),
                 $subject
             );
+
+            $body = str_replace(
+                array('%%eventname'),
+                array($event_data->post_name),
+                $body
+            );
+
             // $body = str_replace(
             //     array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%eventhost', '%%invitelink', '%%eventimg'),
             //     array(
