@@ -696,15 +696,25 @@ if (!function_exists('sanas_guest_info')) {
             $subject = sanas_options('sanas_guest_invite_firstime_subject');
             $body = sanas_options('sanas_guest_invite_firstime_body');
 
-            // Fetch event details for the email body
-            $event_id = (int) $event_id;
-            $event_table = $wpdb->prefix . 'sanas_card_event'; // Include table prefix
-            $query = $wpdb->prepare(
-                "SELECT event_rsvp_id FROM $event_table WHERE event_no = %d",
-                $event_id
-            );
-            $event_rsvp_id = $wpdb->get_var($query);
-            $event_data = get_post($event_rsvp_id);
+            
+            // $event_id = (int) $event_id;
+            // $event_table = $wpdb->prefix . 'sanas_card_event'; // Include table prefix
+            // $query = $wpdb->prepare(
+            //     "SELECT event_rsvp_id FROM $event_table WHERE event_no = %d",
+            //     $event_id
+            // );
+            // $event_rsvp_id = $wpdb->get_var($query);
+            // $event_data = get_post($event_rsvp_id);
+
+            $event_id = (int) $event_id; // Ensure $event_id is an integer
+$event_table = $wpdb->prefix . 'sanas_card_event'; // Table name with prefix
+
+// Prepare and execute the query
+$query = $wpdb->prepare(
+    "SELECT event_user, event_card_id, event_rsvp_id FROM $event_table WHERE event_no = %d",
+    $event_id
+);
+$event_data = $wpdb->get_row($query, ARRAY_A); // Fetch a single row as an associative array
 
             // Replace placeholders with actual data
             $subject = str_replace(
@@ -734,7 +744,7 @@ if (!function_exists('sanas_guest_info')) {
                 'message' => 'Guest inserted successfully. ', 
                 'guest_id' => $guest_id,
                 'event_id' => $event_id,
-                'event_data' => $event_data->post_name,
+                'event_data' => $event_data['event_user'],
             ));
         } else {
             wp_send_json_error(array('message' => 'Failed to insert guest information.'));
