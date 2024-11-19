@@ -919,12 +919,13 @@ function sanas_guest_invitation_response() {
     $mesg = $_POST['mesg'];
  
     $guest_info_table = $wpdb->prefix . "guest_details_info"; 
+    $event_table = $wpdb->prefix . "sanas_card_event";
 
-    // get guest email and event image
-    $guest_data = $wpdb->get_row($wpdb->prepare("SELECT guest_email, event_image, guest_name FROM $guest_info_table WHERE guest_id = %d", $guestid));
-    $guest_email = $guest_data->guest_email;
-    $event_image = $guest_data->event_image;
-    $guest_name = $guest_data->guest_name;
+    // get guest email
+    $guest_email = $wpdb->get_var($wpdb->prepare("SELECT guest_email FROM $guest_info_table WHERE guest_id = %d", $guestid));
+    $guest_name = $wpdb->get_var($wpdb->prepare("SELECT guest_name FROM $guest_info_table WHERE guest_id = %d", $guestid));
+    // get event image
+    $event_image = $wpdb->get_var($wpdb->prepare("SELECT event_front_card_preview FROM $event_table WHERE event_no = %d", $event_id));
 
     $wpdb->update(
         $guest_info_table,
