@@ -966,6 +966,7 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest,
     $headers = array('Content-Type: text/html; charset=UTF-8');
     wp_mail($guest_email, $subject, $body, $headers);
 
+    return $status;
 
 }
 
