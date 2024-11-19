@@ -731,6 +731,13 @@ if (!function_exists('sanas_guest_info')) {
                 'guest_id' => $guest_id,
                 'guest_email' => $guestEmail,
                 'event_data' => $event_data,
+                '6' => $event_data['post_name'], 
+                '5' => $event_data['post_date'], 
+                '4' => $event_data['post_date'], 
+                '4' => $event_data['event_location'], 
+                '3' => $event_data['event_host'], 
+                '2' => $event_data['invite_link'], 
+                '1' => $event_data['event_img'],
             ));
         } else {
             wp_send_json_error(array('message' => 'Failed to insert guest information.'));
