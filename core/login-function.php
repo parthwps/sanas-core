@@ -692,28 +692,31 @@ if (!function_exists('sanas_guest_info')) {
             // Retrieve the last inserted ID
             $guest_id = $wpdb->insert_id;
 
-                $event_name = get_the_title($event_id);
-                $event_date = get_post_meta($event_id, 'event_date', true);
-                $event_time = get_post_meta($event_id, 'event_time', true);
-                $event_location = get_post_meta($event_id, 'event_location', true);
-                $event_host = get_post_meta($event_id, 'event_host', true);
+                // $event_name = get_the_title($event_id);
+                // $event_date = get_post_meta($event_id, 'event_date', true);
+                // $event_time = get_post_meta($event_id, 'event_time', true);
+                // $event_location = get_post_meta($event_id, 'event_location', true);
+                // $event_host = get_post_meta($event_id, 'event_host', true);
 
-                $data = array(
-                    'guestname' => $guestName,
-                    'eventname' => $event_name,
-                    'eventdate' => $event_date,
-                    'eventtime' => $event_time,
-                    'eventlocation' => $event_location,
-                    'eventhost' => $event_host,
-                );
+                // $data = array(
+                //     'guestname' => $guestName,
+                //     'eventname' => $event_name,
+                //     'eventdate' => $event_date,
+                //     'eventtime' => $event_time,
+                //     'eventlocation' => $event_location,
+                //     'eventhost' => $event_host,
+                // );
 
                 // Retrieve email subject and body from theme options with placeholders
                 $subject_template = sanas_options('sanas_guest_invite_firstime_subject');
                 $body_template = sanas_options('sanas_guest_invite_firstime_body');
 
                 // Replace placeholders in the email subject and body
-                $subject = replace_placeholders($subject_template, $data);
-                $body = replace_placeholders($body_template, $data);
+                // $subject = replace_placeholders($subject_template, $data);
+                // $body = replace_placeholders($body_template, $data);
+
+                $subject = replace_placeholders($subject_template);
+                $body = replace_placeholders($body_template);
 
                 // Prepare email headers
                 $headers = array('Content-Type: text/html; charset=UTF-8');
