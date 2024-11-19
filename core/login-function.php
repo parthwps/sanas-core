@@ -665,10 +665,18 @@ if (!function_exists('sanas_guest_info')) {
             "SELECT event_name FROM $event_table WHERE event_no = %d",
             $event_id
         ));
+        
         $event_date = $wpdb->get_var($wpdb->prepare(
             "SELECT event_date FROM $event_table WHERE event_no = %d",
             $event_id
         ));
+        
+        // Debugging: Log or output the results
+        if (!$event_name || !$event_date) {
+            error_log("Failed to retrieve event details for event_id: $event_id");
+            error_log("Event Name: " . print_r($event_name, true));
+            error_log("Event Date: " . print_r($event_date, true));
+        }
 
         // Insert the data into the database
  
