@@ -948,6 +948,8 @@ function sanas_guest_invitation_response() {
 }
 
 //send mail to guest
+add_action('wp_ajax_nopriv_sanas_guest_invitation_response_mail', 'sanas_guest_invitation_response_mail');
+add_action('wp_ajax_sanas_guest_invitation_response_mail', 'sanas_guest_invitation_response_mail');
 function sanas_guest_invitation_response_mail($email) {
     
     //send mail to guest
@@ -955,6 +957,8 @@ function sanas_guest_invitation_response_mail($email) {
     $body = sanas_options('guest_invitation_response_body');
     $headers = array('Content-Type: text/html; charset=UTF-8');
     wp_mail($email, $subject, $body, $headers);
+
+    wp_die();
 
 }
 
