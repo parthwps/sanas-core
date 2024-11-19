@@ -693,13 +693,17 @@ if (!function_exists('sanas_guest_info')) {
             // Retrieve the last inserted ID
             $guest_id = $wpdb->insert_id;
             
-            $event_name = get_post_meta($event_id, 'event_name', true);
-            $event_date = get_post_meta($event_id, 'event_date', true);
-            $event_time = get_post_meta($event_id, 'event_time', true);
-            $event_location = get_post_meta($event_id, 'event_location', true);
-            $event_host = get_post_meta($event_id, 'event_host', true);
-            $invite_link = get_post_meta($event_id, 'invite_link', true);
-            $event_img = get_post_meta($event_id, 'event_img', true);
+            // Retrieve event details
+            $table_name = $wpdb->prefix . 'sanas_card_event';
+            $event_details = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE event_no = %d", $event_id));
+
+            $event_name = $event_details->event_name;
+            $event_date = $event_details->event_date;
+            $event_time = $event_details->event_time;
+            $event_location = $event_details->event_location;
+            $event_host = $event_details->event_host;
+            $invite_link = $event_details->invite_link;
+            $event_img = $event_details->event_img;
 
             // retrieve email subject and body from theme options
             $subject = sanas_options('sanas_guest_invite_firstime_subject');
