@@ -725,7 +725,9 @@ if (!function_exists('sanas_guest_info')) {
             
             // send the email
             wp_mail($guestEmail, $subject, $body, $headers);
-            print_r($event_data);
+            ob_start(); // Start output buffering
+var_dump($event_data); // Dump the variable
+$dumped_event_data = ob_get_clean();
             wp_send_json_success(array(
                 'message' => 'Guest inserted successfully. ' . $event_data, 
                 'guest_id' => $guest_id, // Include the guest ID in the response
