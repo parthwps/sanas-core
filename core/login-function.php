@@ -940,8 +940,10 @@ function sanas_guest_invitation_response() {
         ),
         array('%d')
     );
-
+    
+    echo '1';
     echo sanas_guest_invitation_response_mail($email);
+    echo $email;
     
     echo '<div class="alert alert-success pop-btn-div" role="alert">' . esc_html__('Guest Submited Response Successfully.', 'sanas') . '</div>';
 
