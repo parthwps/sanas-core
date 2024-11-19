@@ -657,6 +657,13 @@ if (!function_exists('sanas_guest_info')) {
         $guestEmail = sanitize_email($_POST['guestEmail']);
         $guestGroup = sanitize_text_field($_POST['guestGroup']);
         $event_id = sanitize_text_field($_POST['event_id']);
+        
+        // Additional event details
+        $eventName = sanitize_text_field($_POST['eventName']);
+        $eventDate = sanitize_text_field($_POST['eventDate']);
+        $eventTime = sanitize_text_field($_POST['eventTime']);
+        $eventLocation = sanitize_text_field($_POST['eventLocation']);
+        
         // Insert the data into the database
  
         // Query to check if the email exists
@@ -695,6 +702,18 @@ if (!function_exists('sanas_guest_info')) {
             // retrieve email subject and body from theme options
             $subject = sanas_options('sanas_guest_invite_firstime_subject');
             $body = sanas_options('sanas_guest_invite_firstime_body');
+            
+            // Replace placeholders with actual data
+            $subject = str_replace(
+                array('%%eventname'),
+                array($eventName),
+                $subject
+            );
+            $body = str_replace(
+                array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation'),
+                array($guestName, $eventName, $eventDate, $eventTime, $eventLocation),
+                $body
+            );
             
             // prepare email headers
             $headers = array('Content-Type: text/html; charset=UTF-8');
