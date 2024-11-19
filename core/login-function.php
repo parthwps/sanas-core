@@ -916,7 +916,6 @@ function sanas_guest_invitation_response() {
     $guestid = $_POST['guestid'];
     $kidsguest = $_POST['kidsguest'];
     $adultguest = $_POST['adultguest'];
-    $email = sanitize_email($_POST['email']);
     $mesg = $_POST['mesg'];
  
     $guest_info_table = $wpdb->prefix . "guest_details_info"; 
@@ -942,6 +941,7 @@ function sanas_guest_invitation_response() {
         array('%d')
     );
 
+    echo $guest_email;
     sanas_guest_invitation_response_mail($guest_email);
     echo '<div class="alert alert-success pop-btn-div" role="alert">' . esc_html__('Guest Submited Response Successfully.', 'sanas') . '</div>';
 
