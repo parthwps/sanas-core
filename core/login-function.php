@@ -927,7 +927,6 @@ function sanas_guest_invitation_response() {
             'guest_status' => $status,
             'guest_kids' => $kidsguest,
             'guest_adult' => $adultguest,
-            'guest_email' => $email,
             'guest_msg' => $mesg
         ),
         array('guest_id' => $guestid),
@@ -935,14 +934,13 @@ function sanas_guest_invitation_response() {
             '%s',
             '%d',
             '%d',
-            '%s',
             '%s'
         ),
         array('%d')
     );
 
     sanas_guest_invitation_response_mail($email);
-    echo '<div class="alert alert-success pop-btn-div" role="alert">' . esc_html__('Guest Submited Response Successfully.', 'sanas') . '</div>';
+    echo '<div class="alert alert-success pop-btn-div" role="alert">' . esc_html__('Guest Submited Response Successfully.'. $email . '', 'sanas') . '</div>';
 
     die();
 }
