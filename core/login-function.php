@@ -706,36 +706,34 @@ if (!function_exists('sanas_guest_info')) {
             // $event_rsvp_id = $wpdb->get_var($query);
             // $event_data = get_post($event_rsvp_id);
 
-            $event_id = (int) $event_id; // Ensure $event_id is an integer
-$event_table = $wpdb->prefix . 'sanas_card_event'; // Table name with prefix
+            $event_id = (int) $event_id;
+            $event_table = $wpdb->prefix . 'sanas_card_event';
+            $query = $wpdb->prepare(
+                "SELECT event_user, event_card_id, event_rsvp_id FROM $event_table WHERE event_no = %d",
+                $event_id
+            );
+            $event_table_data = $wpdb->get_row($query, ARRAY_A);
+            $event_data = get_post($event_table_data['event_rsvp_id']);
 
-// Prepare and execute the query
-$query = $wpdb->prepare(
-    "SELECT event_user, event_card_id, event_rsvp_id FROM $event_table WHERE event_no = %d",
-    $event_id
-);
-$event_data = $wpdb->get_row($query, ARRAY_A); // Fetch a single row as an associative array
-
-            // Replace placeholders with actual data
             $subject = str_replace(
                 array('%%eventname'),
-                array($event_data->post_name),
+                array($event_table_data->post_name),
                 $subject
             );
-            // $body = str_replace(
-            //     array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%eventhost', '%%invitelink', '%%eventimg'),
-            //     array(
-            //         $guestName, 
-            //         $event_data->post_name,
-            //         $event_data->post_date, 
-            //         $event_data->post_date, 
-            //         $event_data['event_location'], 
-            //         $event_data['event_host'], 
-            //         $event_data['invite_link'], 
-            //         $event_data['event_img']
-            //     ),
-            //     $body
-            // );
+            $body = str_replace(
+                array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%eventhost', '%%invitelink', '%%eventimg'),
+                array(
+                    $guestName, 
+                    $event_table_data['event_user'],
+                    $event_table_data['event_user'], 
+                    $event_table_data['event_user'], 
+                    $guestName, 
+                    $event_table_data['event_user'], 
+                    $event_table_data['event_user'], 
+                    $event_table_data['event_rsvp_front_link']
+                ),
+                $body
+            );
             
             $headers = array('Content-Type: text/html; charset=UTF-8');
             wp_mail($guestEmail, $subject, $body, $headers);
