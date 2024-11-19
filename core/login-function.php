@@ -952,7 +952,7 @@ function sanas_guest_invitation_response() {
 function sanas_guest_invitation_response_mail($guest_email) {
     
     $subject = sanas_options('sanas_guest_yes_subject');
-    $body = sanas_options('guest_invitation_response_body');
+    $body = sanas_options('sanas_guest_yes_body');
     $headers = array('Content-Type: text/html; charset=UTF-8');
     wp_mail($guest_email, $subject, $body, $headers);
 
