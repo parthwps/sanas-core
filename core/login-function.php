@@ -736,7 +736,7 @@ if (!function_exists('sanas_guest_info')) {
                 'guest_id' => $guest_id,
                 'event_id' => $event_id,
                 'rsvp_id' => $result['event_rsvp_id'],
-                'event_data' => $event_data->post_name
+                'event_data' => $result
             ));
         } else {
             wp_send_json_error(array('message' => 'Failed to insert guest information.'));
