@@ -725,12 +725,12 @@ if (!function_exists('sanas_guest_info')) {
             
             // send the email
             wp_mail($guestEmail, $subject, $body, $headers);
-            ob_start(); // Start output buffering
-var_dump($event_data); // Dump the variable
-$dumped_event_data = ob_get_clean();
+
             wp_send_json_success(array(
-                'message' => 'Guest inserted successfully. ' . $event_data, 
-                'guest_id' => $guest_id, // Include the guest ID in the response
+                'message' => 'Guest inserted successfully. ', 
+                'guest_id' => $guest_id,
+                'guest_email' => $guestEmail,
+                'event_data' => $event_data,
             ));
         } else {
             wp_send_json_error(array('message' => 'Failed to insert guest information.'));
