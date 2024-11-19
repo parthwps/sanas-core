@@ -698,14 +698,14 @@ if (!function_exists('sanas_guest_info')) {
 
             // Fetch event details for the email body
             $event_id = (int) $event_id;
-            $event_table = $wpdb->prefix . 'sanas_card_event'; // Include table prefix
+            $event_table = $wpdb->prefix . 'sanas_card_event';
             $query = $wpdb->prepare(
                 "SELECT event_user, event_rsvp_id FROM $table_name WHERE event_no = %d",
                 $event_id
             );
-            
-            $result = $wpdb->get_row($query, ARRAY_A); // Fetch a single row as an associative array
-            $event_data = get_post($result['event_user']);
+            $result = $wpdb->get_row($query, ARRAY_A);
+
+            $event_data = get_post($result['event_rsvp_id']);
 
             // Replace placeholders with actual data
             $subject = str_replace(
@@ -736,7 +736,7 @@ if (!function_exists('sanas_guest_info')) {
                 'guest_id' => $guest_id,
                 'event_id' => $event_id,
                 'rsvp_id' => $result['event_rsvp_id'],
-                'event_data' => $event_data->post_name,
+                'event_data' => $event_data->post_name
             ));
         } else {
             wp_send_json_error(array('message' => 'Failed to insert guest information.'));
