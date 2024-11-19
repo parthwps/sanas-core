@@ -692,18 +692,15 @@ if (!function_exists('sanas_guest_info')) {
         if ($result !== false) {
             // Retrieve the last inserted ID
             $guest_id = $wpdb->insert_id;
-
-            // Additional event details
-            $table_name = $wpdb->prefix . 'sanas_card_event';
-
-            $eventHost = sanitize_text_field($_POST['event_host']);
-            $inviteLink = esc_url($_POST['invite_link']);
-            $eventImg = esc_url($_POST['event_img']);
-            $eventName = sanitize_text_field($_POST['event_name']);
-            $eventDate = sanitize_text_field($_POST['event_date']);
-            $eventTime = sanitize_text_field($_POST['event_time']);
-            $eventLocation = sanitize_text_field($_POST['event_location']);  
             
+            $event_name = get_post_meta($event_id, 'event_name', true);
+            $event_date = get_post_meta($event_id, 'event_date', true);
+            $event_time = get_post_meta($event_id, 'event_time', true);
+            $event_location = get_post_meta($event_id, 'event_location', true);
+            $event_host = get_post_meta($event_id, 'event_host', true);
+            $invite_link = get_post_meta($event_id, 'invite_link', true);
+            $event_img = get_post_meta($event_id, 'event_img', true);
+
             // retrieve email subject and body from theme options
             $subject = sanas_options('sanas_guest_invite_firstime_subject');
             $body = sanas_options('sanas_guest_invite_firstime_body');
@@ -711,12 +708,12 @@ if (!function_exists('sanas_guest_info')) {
             // Replace placeholders with actual data
             $subject = str_replace(
                 array('%%eventname'),
-                array($eventName),
+                array($event_name),
                 $subject
             );
             $body = str_replace(
                 array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%eventhost', '%%invitelink', '%%eventimg'),
-                array($guestName, $eventName, $eventDate, $eventTime, $eventLocation, $eventHost, $inviteLink, $eventImg),
+                array($guestName, $event_name, $event_date, $event_time, $event_location, $event_host, $invite_link, $event_img),
                 $body
             );
             
@@ -1373,7 +1370,7 @@ function sanas_send_invitations() {
                 $formated_mail_body = sanas_sprintf("$sanas_mail_body", array(
                     'website_url' => "$website_url",
                     'website_name' => "$website_name",
-                    'guestname' => "$guest_name",                    
+                    'guestname' => "$guest_name",
                     'eventimg' => "$preview_image",
                     'eventdate' => "$eventdate",
                     'eventtime' => $event_time_line,
@@ -1406,8 +1403,8 @@ function sanas_send_invitations() {
                
             }
              wp_send_json_success('Emails sent successfully.');
-    } else {
-        wp_send_json_error('Invalid email list.');
+                      'guestname' => "$guest_name",                    
+l list.');
     }       
 
 }
