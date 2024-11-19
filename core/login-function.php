@@ -1401,10 +1401,6 @@ function sanas_send_invitations() {
                
             }
              wp_send_json_success('Emails sent successfully.');
-             }
-             else{
-                wp_send_json_error('Invalid email list.');
-             }
                                  
         }       
 
