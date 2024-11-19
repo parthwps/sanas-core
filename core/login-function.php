@@ -709,7 +709,7 @@ if (!function_exists('sanas_guest_info')) {
             $event_id = (int) $event_id;
             $event_table = $wpdb->prefix . 'sanas_card_event';
             $query = $wpdb->prepare(
-                "SELECT event_user, event_card_id, event_rsvp_id FROM $event_table WHERE event_no = %d",
+                "SELECT event_user, event_card_id, event_rsvp_id, event_rsvp_front_link FROM $event_table WHERE event_no = %d",
                 $event_id
             );
             $event_table_data = $wpdb->get_row($query, ARRAY_A);
@@ -724,11 +724,11 @@ if (!function_exists('sanas_guest_info')) {
                 array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%eventhost', '%%invitelink', '%%eventimg'),
                 array(
                     $guestName, 
-                    $event_table_data['event_user'],
-                    $event_table_data['event_user'], 
-                    $event_table_data['event_user'], 
-                    $guestName, 
-                    $event_table_data['event_user'], 
+                    $event_data->post_name,
+                    $event_data->post_date, 
+                    $event_data->post_date, 
+                    'location', 
+                    get_the_author_meta('display_name', $event_table_data['event_user']), 
                     $event_table_data['event_user'], 
                     $event_table_data['event_rsvp_front_link']
                 ),
