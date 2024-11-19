@@ -698,12 +698,12 @@ if (!function_exists('sanas_guest_info')) {
 
             // Fetch event details for the email body
             $event_id = (int) $event_id;
-            $event_rsvp_id = $wpdb->prefix . 'sanas_card_event'; // Include table prefix
+            $event_table = $wpdb->prefix . 'sanas_card_event'; // Include table prefix
             $query = $wpdb->prepare(
-                "SELECT event_user, event_rsvp_id FROM $event_rsvp_id WHERE event_no = %d",
+                "SELECT event_user, event_rsvp_id FROM $event_table WHERE event_no = %d",
                 $event_id
             );
-            $results = $wpdb->get_results($query, ARRAY_A);
+            $results = $wpdb->get_row($query, ARRAY_A);
             $event_data = get_post($results['event_rsvp_id']);
 
             // Replace placeholders with actual data
