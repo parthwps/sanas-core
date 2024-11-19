@@ -702,28 +702,25 @@ if (!function_exists('sanas_guest_info')) {
             // Replace placeholders with actual data
             $subject = str_replace(
                 array('%%eventname'),
-                array($event_data['post_name']),
+                array($event_data->post_name),
                 $subject
             );
-            $body = str_replace(
-                array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%eventhost', '%%invitelink', '%%eventimg'),
-                array(
-                    $guestName, 
-                    $event_data['post_name'], 
-                    $event_data['post_date'], 
-                    $event_data['post_date'], 
-                    $event_data['event_location'], 
-                    $event_data['event_host'], 
-                    $event_data['invite_link'], 
-                    $event_data['event_img']
-                ),
-                $body
-            );
+            // $body = str_replace(
+            //     array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%eventhost', '%%invitelink', '%%eventimg'),
+            //     array(
+            //         $guestName, 
+            //         $event_data['post_name'], 
+            //         $event_data['post_date'], 
+            //         $event_data['post_date'], 
+            //         $event_data['event_location'], 
+            //         $event_data['event_host'], 
+            //         $event_data['invite_link'], 
+            //         $event_data['event_img']
+            //     ),
+            //     $body
+            // );
             
-            // prepare email headers
             $headers = array('Content-Type: text/html; charset=UTF-8');
-            
-            // send the email
             wp_mail($guestEmail, $subject, $body, $headers);
 
             wp_send_json_success(array(
