@@ -730,7 +730,7 @@ if (!function_exists('sanas_guest_info')) {
                     'location', 
                     get_the_author_meta('display_name', $event_table_data['event_user']), 
                     $event_table_data['event_user'], 
-                    $event_table_data['event_rsvp_front_link']
+                    $event_table_data['event_front_card_preview']
                 ),
                 $body
             );
@@ -745,7 +745,7 @@ if (!function_exists('sanas_guest_info')) {
                 'post_name' => $event_data->post_name,
                 'title' => $event_data->post_title,
                 'date' => $event_data->post_date,
-                'img' => $event_table_data['event_rsvp_front_link'],
+                'img' => $event_table_data['event_front_card_preview'],
             ));
         } else {
             wp_send_json_error(array('message' => 'Failed to insert guest information.'));
