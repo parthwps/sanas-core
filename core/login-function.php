@@ -916,6 +916,7 @@ function sanas_guest_invitation_response() {
     $guestid = $_POST['guestid'];
     $kidsguest = $_POST['kidsguest'];
     $adultguest = $_POST['adultguest'];
+    $email = sanitize_email($_POST['email']);
     $mesg = $_POST['mesg'];
  
     $guest_info_table = $wpdb->prefix . "guest_details_info"; 
@@ -926,6 +927,7 @@ function sanas_guest_invitation_response() {
             'guest_status' => $status,
             'guest_kids' => $kidsguest,
             'guest_adult' => $adultguest,
+            'guest_email' => $email,
             'guest_msg' => $mesg
         ),
         array('guest_id' => $guestid),
@@ -933,13 +935,27 @@ function sanas_guest_invitation_response() {
             '%s',
             '%d',
             '%d',
+            '%s',
             '%s'
         ),
         array('%d')
     );
+
+    sanas_guest_invitation_response_mail($email);
     echo '<div class="alert alert-success pop-btn-div" role="alert">' . esc_html__('Guest Submited Response Successfully.', 'sanas') . '</div>';
 
     die();
+}
+
+//send mail to guest
+function sanas_guest_invitation_response_mail($email) {
+    
+    //send mail to guest
+    $subject = sanas_options('sanas_guest_yes_subject');
+    $body = sanas_options('guest_invitation_response_body');
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+    wp_mail($email, $subject, $body, $headers);
+
 }
 
 add_action('wp_ajax_nopriv_sanas_open_guest_invitation_response', 'sanas_open_guest_invitation_response');
@@ -1014,7 +1030,9 @@ function sanas_open_guest_invitation_response() {
                 '%s',
                 '%d' // include this if guest_id needs specific formatting
             )
-        );      
+        );  
+        
+        sanas_guest_invitation_response_mail($email);
     }
 
 
