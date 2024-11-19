@@ -650,6 +650,8 @@ if (!function_exists('sanas_guest_info')) {
         check_ajax_referer('ajax-sanas-save-guest-nonce', 'security');
         global $wpdb;
         $table_name = $wpdb->prefix . 'guest_details_info';
+        $event_table = $wpdb->prefix . 'sanas_card_event';
+
         // Get and sanitize the posted data
         $userID    =   $current_user->ID;    
         $guestName = sanitize_text_field($_POST['guestName']);
@@ -658,7 +660,16 @@ if (!function_exists('sanas_guest_info')) {
         $guestGroup = sanitize_text_field($_POST['guestGroup']);
         $event_id = sanitize_text_field($_POST['event_id']);
 
-        
+        // get event details
+        $event_name = $wpdb->get_var($wpdb->prepare(
+            "SELECT event_name FROM $event_table WHERE event_no = %d",
+            $event_id
+        ));
+        $event_date = $wpdb->get_var($wpdb->prepare(
+            "SELECT event_date FROM $event_table WHERE event_no = %d",
+            $event_id
+        ));
+
         // Insert the data into the database
  
         // Query to check if the email exists
@@ -693,18 +704,6 @@ if (!function_exists('sanas_guest_info')) {
         if ($result !== false) {
             // Retrieve the last inserted ID
             $guest_id = $wpdb->insert_id;
-
-
-            // get event details
-            $table_name = $wpdb->prefix . 'sanas_card_event';
-            $event_name = $wpdb->get_var($wpdb->prepare(
-                "SELECT event_name FROM $table_name WHERE event_no = %d",
-                $event_id
-            ));
-            $event_date = $wpdb->get_var($wpdb->prepare(
-                "SELECT event_date FROM $table_name WHERE event_no = %d",
-                $event_id
-            ));
 
             // retrieve email subject and body from theme options
             $subject = sanas_options('sanas_guest_invite_firstime_subject');
