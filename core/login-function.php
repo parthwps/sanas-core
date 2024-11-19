@@ -720,20 +720,20 @@ if (!function_exists('sanas_guest_info')) {
                 array($event_data->post_name),
                 $subject
             );
-            // $body = str_replace(
-            //     array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%eventhost', '%%invitelink', '%%eventimg'),
-            //     array(
-            //         $guestName, 
-            //         $event_data->post_name,
-            //         $event_data->post_date, 
-            //         $event_data->post_date, 
-            //         'location', 
-            //         get_the_author_meta('display_name', $event_table_data['event_user']), 
-            //         $event_table_data['event_user'], 
-            //         $event_table_data['event_rsvp_front_link']
-            //     ),
-            //     $body
-            // );
+            $body = str_replace(
+                array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%eventhost', '%%invitelink', '%%eventimg'),
+                array(
+                    $guestName, 
+                    $event_data->post_name,
+                    $event_data->post_date, 
+                    $event_data->post_date, 
+                    'location', 
+                    get_the_author_meta('display_name', $event_table_data['event_user']), 
+                    $event_table_data['event_user'], 
+                    $event_table_data['event_rsvp_front_link']
+                ),
+                $body
+            );
             
             $headers = array('Content-Type: text/html; charset=UTF-8');
             wp_mail($guestEmail, $subject, $body, $headers);
