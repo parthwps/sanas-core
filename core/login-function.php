@@ -664,6 +664,10 @@ if (!function_exists('sanas_guest_info')) {
         $event_name = get_post_meta($event_id, 'event_name', true);
         $event_date = get_post_meta($event_id, 'event_date', true);
 
+        // Ensure event_name and event_date are not null
+        $event_name = !empty($event_name) ? $event_name : 'Unknown Event';
+        $event_date = !empty($event_date) ? $event_date : 'Unknown Date';
+
         // Insert the data into the database
  
         // Query to check if the email exists
