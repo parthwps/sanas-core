@@ -731,7 +731,10 @@ if (!function_exists('sanas_guest_info')) {
 
             wp_send_json_success(array(
                 'message' => 'Guest inserted successfully. Event Date: ' . $event_date .', Event Name: ' . $event_name, 
-                'guest_id' => $guest_id // Include the guest ID in the response
+                'guest_id' => $guest_id, // Include the guest ID in the response
+                'event_id' => $event_id,
+                'event_name' => $event_name,
+                'event_date' => $event_date,
             ));
         } else {
             wp_send_json_error(array('message' => 'Failed to insert guest information.'));
