@@ -650,6 +650,7 @@ if (!function_exists('sanas_guest_info')) {
         check_ajax_referer('ajax-sanas-save-guest-nonce', 'security');
         global $wpdb;
         $table_name = $wpdb->prefix . 'guest_details_info';
+        $event_table = $wpdb->prefix . 'sanas_card_event';
         // Get and sanitize the posted data
         $userID    =   $current_user->ID;    
         $guestName = sanitize_text_field($_POST['guestName']);
@@ -657,84 +658,79 @@ if (!function_exists('sanas_guest_info')) {
         $guestEmail = sanitize_email($_POST['guestEmail']);
         $guestGroup = sanitize_text_field($_POST['guestGroup']);
         $event_id = sanitize_text_field($_POST['event_id']);
-        
-        // Insert the data into the database
- 
+
+        // Get event information
+        $event_name = get_post_meta($event_id, 'event_name', true);
+        $event_date = get_post_meta($event_id, 'event_date', true);
+        $event_time = get_post_meta($event_id, 'event_time', true);
+        $event_location = get_post_meta($event_id, 'event_location', true);
+        $event_host = get_post_meta($event_id, 'event_host', true);
+        $invite_link = get_post_meta($event_id, 'invite_link', true);
+        $event_img = get_post_meta($event_id, 'event_img', true);
+        $preview_img = get_post_meta($event_id, 'preview_img', true); // Assuming 'preview_img' is the meta key for the preview image
+
         // Query to check if the email exists
         $email_exists = $wpdb->get_var($wpdb->prepare(
-            "SELECT COUNT(*) FROM $table_name WHERE guest_event_id = %d AND guest_email = %s", 
-            $event_id,$guestEmail
+            "SELECT COUNT(*) FROM $guest_details_table WHERE guest_event_id = %d AND guest_email = %s", 
+            $event_id, $guestEmail
         ));
 
         if ($email_exists > 0) {
             wp_send_json_error(array('message' => 'Email already exists.'));
         } else {
-
-        $result = $wpdb->insert(
-            $table_name,
-            array(
-                'guest_user_id' => $userID,
-                'guest_name' => $guestName,
-                'guest_group' => $guestGroup,
-                'guest_phone_num' => $guestContact,
-                'guest_email' => $guestEmail,
-                'guest_event_id' => $event_id,
-            ),
-            array(
-                '%d', 
-                '%s', 
-                '%s', 
-                '%s', 
-                '%s', 
-                '%d', 
-            )
-        );
-        if ($result !== false) {
-            // Retrieve the last inserted ID
-            $guest_id = $wpdb->insert_id;
-            
-            // Retrieve event details
-            $table_name = $wpdb->prefix . 'sanas_card_event';
-            $event_details = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE event_no = %d", $event_id));
-
-            $event_name = $event_details->event_name;
-            $event_date = $event_details->event_date;
-            $event_time = $event_details->event_time;
-            $event_location = $event_details->event_location;
-            $event_host = $event_details->event_host;
-            $invite_link = $event_details->invite_link;
-            $event_img = $event_details->event_img;
-
-            // retrieve email subject and body from theme options
-            $subject = sanas_options('sanas_guest_invite_firstime_subject');
-            $body = sanas_options('sanas_guest_invite_firstime_body');
-            
-            // Replace placeholders with actual data
-            $subject = str_replace(
-                array('%%eventname'),
-                array($event_name),
-                $subject
+            $result = $wpdb->insert(
+                $guest_details_table,
+                array(
+                    'guest_user_id' => $userID,
+                    'guest_name' => $guestName,
+                    'guest_group' => $guestGroup,
+                    'guest_phone_num' => $guestContact,
+                    'guest_email' => $guestEmail,
+                    'guest_event_id' => $event_id,
+                ),
+                array(
+                    '%d', 
+                    '%s', 
+                    '%s', 
+                    '%s', 
+                    '%s', 
+                    '%d', 
+                )
             );
-            $body = str_replace(
-                array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%eventhost', '%%invitelink', '%%eventimg'),
-                array($guestName, $event_name, $event_date, $event_time, $event_location, $event_host, $invite_link, $event_img),
-                $body
-            );
-            
-            // prepare email headers
-            $headers = array('Content-Type: text/html; charset=UTF-8');
-            
-            // send the email
-            wp_mail($guestEmail, $subject, $body, $headers);
 
-            wp_send_json_success(array(
-                'message' => 'Guest inserted successfully.', 
-                'guest_id' => $guest_id // Include the guest ID in the response
-            ));
-        } else {
-            wp_send_json_error(array('message' => 'Failed to insert guest information.'));
-        }
+            if ($result !== false) {
+                // Retrieve the last inserted ID
+                $guest_id = $wpdb->insert_id;
 
+                // Retrieve email subject and body from theme options
+                $subject = sanas_options('sanas_guest_invite_firstime_subject');
+                $body = sanas_options('sanas_guest_invite_firstime_body');
+                
+                // Replace placeholders with actual data
+                $subject = str_replace(
+                    array('%%eventname'),
+                    array($event_name),
+                    $subject
+                );
+                $body = str_replace(
+                    array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%eventhost', '%%invitelink', '%%eventimg', '%%previewimg'),
+                    array($guestName, $event_name, $event_date, $event_time, $event_location, $event_host, $invite_link, $event_img, $preview_img),
+                    $body
+                );
+                
+                // Prepare email headers
+                $headers = array('Content-Type: text/html; charset=UTF-8');
+                
+                // Send the email
+                wp_mail($guestEmail, $subject, $body, $headers);
+
+                wp_send_json_success(array(
+                    'message' => 'Guest inserted successfully.', 
+                    'guest_id' => $guest_id // Include the guest ID in the response
+                ));
+            } else {
+                wp_send_json_error(array('message' => 'Failed to insert guest information.'));
+            }
         }
 
         wp_die();
