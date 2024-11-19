@@ -717,7 +717,7 @@ if (!function_exists('sanas_guest_info')) {
 
             $subject = str_replace(
                 array('%%eventname'),
-                array($event_table_data->post_name),
+                array($event_data->post_name),
                 $subject
             );
             $body = str_replace(
