@@ -650,7 +650,6 @@ if (!function_exists('sanas_guest_info')) {
         check_ajax_referer('ajax-sanas-save-guest-nonce', 'security');
         global $wpdb;
         $table_name = $wpdb->prefix . 'guest_details_info';
-        $event_table = $wpdb->prefix . 'sanas_card_event';
 
         // Get and sanitize the posted data
         $userID    =   $current_user->ID;    
@@ -659,21 +658,22 @@ if (!function_exists('sanas_guest_info')) {
         $guestEmail = sanitize_email($_POST['guestEmail']);
         $guestGroup = sanitize_text_field($_POST['guestGroup']);
         $event_id = sanitize_text_field($_POST['event_id']);
+        
+        // Fetch event details for the email body
+        $event_table = $wpdb->prefix . 'sanas_card_event';
+        $event_data = $wpdb->get_row($wpdb->prepare(
+            "SELECT event_name, event_date, event_time, event_location, event_host, invite_link, event_img FROM $event_table WHERE event_no = %d",
+            $event_id
+        ), ARRAY_A);
 
-        // get event details
-        $event_name = get_post_meta($event_id, 'event_name', true);
-        $event_date = get_post_meta($event_id, 'event_date', true);
+        if (!$event_data) {
+            wp_send_json_error(array('message' => 'Event data not found.'));
+        }
 
-        // Ensure event_name and event_date are not null
-        $event_name = !empty($event_name) ? $event_name : 'Unknown Event';
-        $event_date = !empty($event_date) ? $event_date : 'Unknown Date';
-
-        // Insert the data into the database
- 
         // Query to check if the email exists
         $email_exists = $wpdb->get_var($wpdb->prepare(
             "SELECT COUNT(*) FROM $table_name WHERE guest_event_id = %d AND guest_email = %s", 
-            $event_id,$guestEmail
+            $event_id, $guestEmail
         ));
 
         if ($email_exists > 0) {
@@ -707,16 +707,24 @@ if (!function_exists('sanas_guest_info')) {
             $subject = sanas_options('sanas_guest_invite_firstime_subject');
             $body = sanas_options('sanas_guest_invite_firstime_body');
 
-            
             // Replace placeholders with actual data
             $subject = str_replace(
                 array('%%eventname'),
-                array($event_name),
+                array($event_data['event_name']),
                 $subject
             );
             $body = str_replace(
                 array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%eventhost', '%%invitelink', '%%eventimg'),
-                array($guestName, $event_name, $event_date),
+                array(
+                    $guestName, 
+                    $event_data['event_name'], 
+                    $event_data['event_date'], 
+                    $event_data['event_time'], 
+                    $event_data['event_location'], 
+                    $event_data['event_host'], 
+                    $event_data['invite_link'], 
+                    $event_data['event_img']
+                ),
                 $body
             );
             
@@ -727,11 +735,8 @@ if (!function_exists('sanas_guest_info')) {
             wp_mail($guestEmail, $subject, $body, $headers);
 
             wp_send_json_success(array(
-                'message' => 'Guest inserted successfully. ' . $event_date .' ' . $event_name, 
+                'message' => 'Guest inserted successfully. ' . $event_data['event_date'] . ' ' . $event_data['event_name'], 
                 'guest_id' => $guest_id, // Include the guest ID in the response
-                'event_id' => $event_id,
-                'event_name' => $event_name,
-                'event_date' => $event_date,
             ));
         } else {
             wp_send_json_error(array('message' => 'Failed to insert guest information.'));
