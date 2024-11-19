@@ -1401,9 +1401,12 @@ function sanas_send_invitations() {
                
             }
              wp_send_json_success('Emails sent successfully.');
-                      'guestname' => "$guest_name",                    
-l list.');
-    }       
+             }
+             else{
+                wp_send_json_error('Invalid email list.');
+             }
+                                 
+        }       
 
 }
 add_action('wp_ajax_sanas_backend_upload_image', 'sanas_backend_upload_image');
