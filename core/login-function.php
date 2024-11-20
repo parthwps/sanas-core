@@ -921,12 +921,29 @@ function sanas_guest_invitation_response() {
     $guest_info_table = $wpdb->prefix . "guest_details_info"; 
     $event_table = $wpdb->prefix . "sanas_card_event";
 
-    // get guest email
+    // get guest email and event details
     $guest_email = $wpdb->get_var($wpdb->prepare("SELECT guest_email FROM $guest_info_table WHERE guest_id = %d", $guestid));
     $guest_name = $wpdb->get_var($wpdb->prepare("SELECT guest_name FROM $guest_info_table WHERE guest_id = %d", $guestid));
-    // get event image
     $event_id = $wpdb->get_var($wpdb->prepare("SELECT guest_event_id FROM $guest_info_table WHERE guest_id = %d", $guestid));
-    $event_image = $wpdb->get_var($wpdb->prepare("SELECT event_front_card_preview FROM $event_table WHERE event_no = %d", $event_id));
+    
+    // Get event details
+    $event_data = $wpdb->get_row($wpdb->prepare(
+        "SELECT e.*, p.post_title as event_name, p.post_date as event_date, 
+         u.display_name as host_name, p.guid as event_url
+         FROM {$wpdb->prefix}sanas_card_event e
+         LEFT JOIN {$wpdb->posts} p ON e.event_rsvp_id = p.ID
+         LEFT JOIN {$wpdb->users} u ON e.event_user = u.ID
+         WHERE e.event_no = %d",
+        $event_id
+    ));
+
+    $event_image = $event_data->event_front_card_preview;
+    $event_name = $event_data->event_name;
+    $event_date = $event_data->event_date;
+    $event_time = get_post_meta($event_data->event_rsvp_id, 'event_time', true);
+    $event_location = get_post_meta($event_data->event_rsvp_id, 'event_location', true);
+    $event_host = $event_data->host_name;
+    $event_url = $event_data->event_url;
 
     // Convert base64 image to URL
     if($event_image) {
@@ -964,14 +981,14 @@ function sanas_guest_invitation_response() {
         array('%d')
     );
 
-    echo sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image_url, $guest_name);
+    echo sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image_url, $guest_name, $event_name, $event_date, $event_time, $event_location, $event_url, $event_host);
     echo '<div class="alert alert-success pop-btn-div" role="alert">' . esc_html__('Guest Submitted Response Successfully.', 'sanas') . '</div>';
 
     die();
 }
 
 //send mail to guest
-function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image, $guest_name) {
+function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image, $guest_name, $event_name, $event_date, $event_time, $event_location, $event_url, $event_host) {
     
     if ($status == 'Declined') {
         $subject = sanas_options('sanas_guest_declined_subject');
@@ -987,14 +1004,14 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest,
     }
     
     $body = str_replace(
-        array('%%guestname', '%%gueststatus', '%%guestkids', '%%guestadult', '%%eventimg'), 
-        array($guest_name, $status, $kidsguest, $adultguest, $event_image),
+        array('%%guestname', '%%gueststatus', '%%guestkids', '%%guestadult', '%%eventimg', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%invitelink', '%%eventhost'), 
+        array($guest_name, $status, $kidsguest, $adultguest, $event_image, $event_name, $event_date, $event_time, $event_location, $event_url, $event_host),
         $body
     );
 
     $subject = str_replace(
-        array('%%guestname'), 
-        array($guest_name),
+        array('%%guestname', '%%eventname'), 
+        array($guest_name, $event_name),
         $subject
     );
 
