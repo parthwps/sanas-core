@@ -993,12 +993,6 @@ function sanas_guest_invitation_response() {
     );
 
     if($prestatus != $status || $prekidsguest != $kidsguest || $preadultguest != $adultguest){
-        echo 'prestatus: ' . $prestatus;
-        echo 'status: ' . $status;
-        echo 'prekidsguest: ' . $prekidsguest;
-        echo 'kidsguest: ' . $kidsguest;
-        echo 'preadultguest: ' . $preadultguest;
-        echo 'adultguest: ' . $adultguest;
         echo sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image_url, $guest_name, $event_name, $event_date, $event_time, $event_location, $invite_link, $event_host);
     }
     echo '<div class="alert alert-success pop-btn-div" role="alert">' . esc_html__('Guest Submitted Response Successfully.', 'sanas') . '</div>';
