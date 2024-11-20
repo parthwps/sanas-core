@@ -973,9 +973,28 @@ function sanas_guest_invitation_response() {
 //send mail to guest
 function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image, $guest_name) {
     
-    $subject = sanas_options('sanas_guest_yes_subject');
-    $body = sanas_options('sanas_guest_yes_body');
+    // Map status to email template IDs
+    $templates = [
+        'Declined' => [
+            'subject' => 'sanas_guest_declined_subject',
+            'body' => 'sanas_guest_declined_body'
+        ],
+        'May Be' => [
+            'subject' => 'sanas_guest_maybe_subject', 
+            'body' => 'sanas_guest_maybe_body'
+        ],
+        'default' => [
+            'subject' => 'sanas_guest_maybe_body',
+            'body' => 'sanas_guest_yes_body'
+        ]
+    ];
+
+    // Get template for status or use default
+    $template = $templates[$status] ?? $templates['default'];
     
+    $subject = sanas_options($template['subject']);
+    $body = sanas_options($template['body']);
+
     $body = str_replace(
         array('%%guestname', '%%gueststatus', '%%guestkids', '%%guestadult', '%%eventimg'), 
         array($guest_name, $status, $kidsguest, $adultguest, $event_image),
@@ -984,8 +1003,6 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest,
 
     $headers = array('Content-Type: text/html; charset=UTF-8');
     wp_mail($guest_email, $subject, $body, $headers);
-
-    return $status;
 }
 
 add_action('wp_ajax_nopriv_sanas_open_guest_invitation_response', 'sanas_open_guest_invitation_response');
