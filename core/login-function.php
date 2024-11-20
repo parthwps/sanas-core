@@ -943,7 +943,9 @@ function sanas_guest_invitation_response() {
     $event_time = get_post_meta($event_data->event_rsvp_id, 'event_time', true);
     $event_location = esc_html(get_post_meta($event_data->event_rsvp_id, 'guest_message', true));
     $event_host = $event_data->host_name;
-    $invite_link = $event_data->event_url . '&guestid=' . $guestid;
+    
+    $preview_url = $event_data->event_url;
+    $invite_link = $preview_url . '&guestid=' . $guestid;
 
     // Convert base64 image to URL
     if($event_image) {
