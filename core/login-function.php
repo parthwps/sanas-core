@@ -917,6 +917,7 @@ function sanas_guest_invitation_response() {
     $kidsguest = $_POST['kidsguest'];
     $adultguest = $_POST['adultguest'];
     $mesg = $_POST['mesg'];
+    $preview_url = esc_url($_POST['preview_url']); // Add preview URL from POST
  
     $guest_info_table = $wpdb->prefix . "guest_details_info"; 
     $event_table = $wpdb->prefix . "sanas_card_event";
@@ -943,8 +944,8 @@ function sanas_guest_invitation_response() {
     $event_time = get_post_meta($event_data->event_rsvp_id, 'event_time', true);
     $event_location = esc_html(get_post_meta($event_data->event_rsvp_id, 'guest_message', true));
     $event_host = $event_data->host_name;
-    
-    $preview_url = $event_data->event_url;
+
+    // Build invite link using preview URL
     $invite_link = $preview_url . '&guestid=' . $guestid;
 
     // Convert base64 image to URL
