@@ -975,14 +975,7 @@ function sanas_guest_invitation_response() {
         $event_image_url = $upload_dir['url'] . '/' . $filename;
     }
 
-    $event_time_line='';
-        if(!empty($program) && count($program)>0)
-        {
-            foreach ($program as $event) 
-        {   
-            $event_time_line.=$event['program_name'].' - '.$event['program_time'].'<br>';
-        }
-    }
+    $event_time_line = $program;
 
     $wpdb->update(
         $guest_info_table,
