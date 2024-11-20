@@ -941,9 +941,9 @@ function sanas_guest_invitation_response() {
     $event_name = $event_data->event_name;
     $event_date = $event_data->event_date;
     $event_time = get_post_meta($event_data->event_rsvp_id, 'event_time', true);
-    $event_location = get_post_meta($event_data->event_rsvp_id, 'event_location', true);
+    $event_location = esc_html(get_post_meta($event_data->event_rsvp_id, 'guest_message', true));
     $event_host = $event_data->host_name;
-    $event_url = $event_data->event_url;
+    $invite_link = $event_data->event_url . '&guestid=' . $guestid;
 
     // Convert base64 image to URL
     if($event_image) {
@@ -981,14 +981,14 @@ function sanas_guest_invitation_response() {
         array('%d')
     );
 
-    echo sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image_url, $guest_name, $event_name, $event_date, $event_time, $event_location, $event_url, $event_host);
+    echo sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image_url, $guest_name, $event_name, $event_date, $event_time, $event_location, $invite_link, $event_host);
     echo '<div class="alert alert-success pop-btn-div" role="alert">' . esc_html__('Guest Submitted Response Successfully.', 'sanas') . '</div>';
 
     die();
 }
 
 //send mail to guest
-function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image, $guest_name, $event_name, $event_date, $event_time, $event_location, $event_url, $event_host) {
+function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image, $guest_name, $event_name, $event_date, $event_time, $event_location, $invite_link, $event_host) {
     
     if ($status == 'Declined') {
         $subject = sanas_options('sanas_guest_declined_subject');
@@ -1005,7 +1005,7 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest,
     
     $body = str_replace(
         array('%%guestname', '%%gueststatus', '%%guestkids', '%%guestadult', '%%eventimg', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%invitelink', '%%eventhost'), 
-        array($guest_name, $status, $kidsguest, $adultguest, $event_image, $event_name, $event_date, $event_time, $event_location, $event_url, $event_host),
+        array($guest_name, $status, $kidsguest, $adultguest, $event_image, $event_name, $event_date, $event_date, $event_location, $invite_link, $event_host),
         $body
     );
 
