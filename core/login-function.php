@@ -992,6 +992,12 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest,
         $body
     );
 
+    $subject = str_replace(
+        array('%%guestname'), 
+        array($guest_name),
+        $subject
+    );
+
     $headers = array('Content-Type: text/html; charset=UTF-8');
     wp_mail($guest_email, $subject, $body, $headers);
 
