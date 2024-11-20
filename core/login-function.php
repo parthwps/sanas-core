@@ -996,7 +996,7 @@ function sanas_guest_invitation_response() {
 }
 
 //send mail to guest
-function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image, $guest_name, $event_name, $event_date, $event_location, $invite_link, $event_host) {
+function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image, $guest_name, $event_name, $event_date, $event_time, $event_location, $invite_link, $event_host) {
     
     if ($status == 'Declined') {
         $subject = sanas_options('sanas_guest_declined_subject');
