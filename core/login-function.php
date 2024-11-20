@@ -945,11 +945,13 @@ function sanas_guest_invitation_response() {
     $event_location = esc_html(get_post_meta($event_data->event_rsvp_id, 'guest_message', true));
     $event_host = $event_data->host_name;
 
+    // Build invite link with proper URL structure
+    $site_url = site_url();
     $invite_link = add_query_arg(array(
         'card_id' => $event_data->event_card_id,
         'event_id' => $event_id,
         'guestid' => $guestid
-    ), $preview_url);
+    ), $site_url);
 
     // Convert base64 image to URL
     if($event_image) {
