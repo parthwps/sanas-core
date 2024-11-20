@@ -951,7 +951,7 @@ function sanas_guest_invitation_response() {
         'card_id' => $event_data->event_card_id,
         'event_id' => $event_id,
         'guestid' => $guestid
-    ), $site_url);
+    ), $site_url . '/guest-preview/');
 
     // Convert base64 image to URL
     if($event_image) {
