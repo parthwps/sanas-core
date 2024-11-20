@@ -943,9 +943,10 @@ function sanas_guest_invitation_response() {
 
     $event_image = $event_data->event_front_card_preview;
     $event_name = $event_data->event_name;
-    $event_date = $event_data->event_date;
+    $event_date = esc_html(get_post_meta($event_data->event_rsvp_id, 'event_date', true));
     $event_time = get_post_meta($event_data->event_rsvp_id, 'event_time', true);
     $event_location = esc_html(get_post_meta($event_data->event_rsvp_id, 'guest_message', true));
+
     $event_host = $event_data->host_name;
 
     // Build invite link with proper URL structure
