@@ -982,8 +982,8 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest,
         $body = sanas_options('sanas_guest_maybe_body');
     }
     else {
-        $subject = sanas_options('sanas_guest_yes_body');
-        $body = sanas_options('sanas_guest_update_subject');
+        $subject = sanas_options('sanas_guest_yes_subject');
+        $body = sanas_options('sanas_guest_yes_body');
     }
     
     $body = str_replace(
