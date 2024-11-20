@@ -1027,7 +1027,7 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest,
     
     $body = str_replace(
         array('%%guestname', '%%gueststatus', '%%guestkids', '%%guestadult', '%%eventimg', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%invitelink', '%%eventhost'), 
-        array($guest_name, $status, $kidsguest, $adultguest, $event_image, $event_name, $event_date, $event_date, $event_location, $invite_link, $event_host),
+        array($guest_name, $status, $kidsguest, $adultguest, $event_image, $event_name, $event_date, $event_time, $event_location, $invite_link, $event_host),
         $body
     );
 
