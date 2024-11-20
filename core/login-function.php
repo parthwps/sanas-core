@@ -944,10 +944,18 @@ function sanas_guest_invitation_response() {
     $event_image = $event_data->event_front_card_preview;
     $event_name = $event_data->event_name;
     $event_date = esc_html(get_post_meta($event_data->event_rsvp_id, 'event_date', true));
-    $event_time = esc_html(get_post_meta($event_data->event_rsvp_id, 'event_time', true));
     $event_location = esc_html(get_post_meta($event_data->event_rsvp_id, 'guest_message', true));
+    $program = get_post_meta($event_data->event_rsvp_id, 'listing_itinerary_details', true);
 
     $event_host = $event_data->host_name;
+
+    // Build event timeline
+    $event_time = '';
+    if(!empty($program) && count($program)>0) {
+        foreach ($program as $event) {   
+            $event_time_line .= $event['program_name'].' - '.$event['program_time'].'<br>';
+        }
+    }
 
     // Build invite link with proper URL structure
     $site_url = site_url();
