@@ -1026,6 +1026,8 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest,
     $headers = array('Content-Type: text/html; charset=UTF-8');
     wp_mail($guest_email, $subject, $body, $headers);
 
+    return $event_location;
+
 }
 
 add_action('wp_ajax_nopriv_sanas_open_guest_invitation_response', 'sanas_open_guest_invitation_response');
