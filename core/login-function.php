@@ -996,7 +996,7 @@ function sanas_guest_invitation_response() {
 }
 
 //send mail to guest
-function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image, $guest_name, $event_name, $event_date, $event_time, $event_location, $invite_link, $event_host) {
+function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image, $guest_name, $event_name, $event_date, $event_location, $invite_link, $event_host) {
     
     if ($status == 'Declined') {
         $subject = sanas_options('sanas_guest_declined_subject');
@@ -1010,10 +1010,15 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest,
         $subject = sanas_options('sanas_guest_yes_subject');
         $body = sanas_options('sanas_guest_yes_body');
     }
+
+    // Split event date into date and time parts
+    $date_parts = explode(' - ', $event_date);
+    $event_date_only = trim($date_parts[0]);
+    $event_time = isset($date_parts[1]) ? trim($date_parts[1]) : '';
     
     $body = str_replace(
         array('%%guestname', '%%gueststatus', '%%guestkids', '%%guestadult', '%%eventimg', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%invitelink', '%%eventhost'), 
-        array($guest_name, $status, $kidsguest, $adultguest, $event_image, $event_name, $event_date, $event_date, $event_location, $invite_link, $event_host),
+        array($guest_name, $status, $kidsguest, $adultguest, $event_image, $event_name, $event_date_only, $event_time, $event_location, $invite_link, $event_host),
         $body
     );
 
