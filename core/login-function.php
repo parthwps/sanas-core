@@ -989,7 +989,6 @@ function sanas_guest_invitation_response() {
         array('%d')
     );
 
-    echo $event_location;
     echo sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image_url, $guest_name, $event_name, $event_date, $event_time, $event_location, $invite_link, $event_host);
     echo '<div class="alert alert-success pop-btn-div" role="alert">' . esc_html__('Guest Submitted Response Successfully.', 'sanas') . '</div>';
 
@@ -1026,8 +1025,6 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest,
 
     $headers = array('Content-Type: text/html; charset=UTF-8');
     wp_mail($guest_email, $subject, $body, $headers);
-
-    return $event_location;
 
 }
 
