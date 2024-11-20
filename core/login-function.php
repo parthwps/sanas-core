@@ -913,6 +913,7 @@ function sanas_guest_invitation_response() {
 
     $allowed_html = array();
     $status = $_POST['status'];
+    $prestatus = $_POST['prestatus'];
     $guestid = $_POST['guestid'];
     $kidsguest = $_POST['kidsguest'];
     $adultguest = $_POST['adultguest'];
@@ -989,7 +990,9 @@ function sanas_guest_invitation_response() {
         array('%d')
     );
 
-    echo sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image_url, $guest_name, $event_name, $event_date, $event_time, $event_location, $invite_link, $event_host);
+    if($prestatus != $status){
+        echo sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image_url, $guest_name, $event_name, $event_date, $event_time, $event_location, $invite_link, $event_host);
+    }
     echo '<div class="alert alert-success pop-btn-div" role="alert">' . esc_html__('Guest Submitted Response Successfully.', 'sanas') . '</div>';
 
     die();
