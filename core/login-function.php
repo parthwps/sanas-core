@@ -944,7 +944,7 @@ function sanas_guest_invitation_response() {
     $event_image = $event_data->event_front_card_preview;
     $event_name = $event_data->event_name;
     $event_date = esc_html(get_post_meta($event_data->event_rsvp_id, 'event_date', true));
-    $program = esget_post_meta($rsvp_id, 'listing_itinerary_details', true);
+    $event_time = esc_html(get_post_meta($event_data->event_rsvp_id, 'event_time', true));
     $event_location = esc_html(get_post_meta($event_data->event_rsvp_id, 'guest_message', true));
 
     $event_host = $event_data->host_name;
@@ -975,8 +975,6 @@ function sanas_guest_invitation_response() {
         $event_image_url = $upload_dir['url'] . '/' . $filename;
     }
 
-    $event_time_line = $program;
-
     $wpdb->update(
         $guest_info_table,
         array(
@@ -996,7 +994,7 @@ function sanas_guest_invitation_response() {
     );
 
     if($prestatus != $status || $prekidsguest != $kidsguest || $preadultguest != $adultguest){
-        echo sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image_url, $guest_name, $event_name, $event_date, $event_time_line, $event_location, $invite_link, $event_host);
+        echo sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image_url, $guest_name, $event_name, $event_date, $event_time, $event_location, $invite_link, $event_host);
     }
     echo '<div class="alert alert-success pop-btn-div" role="alert">' . esc_html__('Guest Submitted Response Successfully.', 'sanas') . '</div>';
 
@@ -1004,7 +1002,7 @@ function sanas_guest_invitation_response() {
 }
 
 //send mail to guest
-function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image, $guest_name, $event_name, $event_date, $event_time_line, $event_location, $invite_link, $event_host) {
+function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image, $guest_name, $event_name, $event_date, $event_time, $event_location, $invite_link, $event_host) {
     
     if ($status == 'Declined') {
         $subject = sanas_options('sanas_guest_declined_subject');
@@ -1021,7 +1019,7 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest,
     
     $body = str_replace(
         array('%%guestname', '%%gueststatus', '%%guestkids', '%%guestadult', '%%eventimg', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%invitelink', '%%eventhost'), 
-        array($guest_name, $status, $kidsguest, $adultguest, $event_image, $event_name, $event_date, $event_time_line, $event_location, $invite_link, $event_host),
+        array($guest_name, $status, $kidsguest, $adultguest, $event_image, $event_name, $event_date, $event_date, $event_location, $invite_link, $event_host),
         $body
     );
 
