@@ -135,3 +135,82 @@ if( ! function_exists( 'sanas_code_social_share_post' ) ){
         <?php
     }
 }   
+
+register_activation_hook(__FILE__, 'sanas_create_wishlist_table');
+
+function sanas_create_wishlist_table() {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'sanas_wishlist';
+
+    $charset_collate = $wpdb->get_charset_collate();
+
+    $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+        user_id BIGINT(20) UNSIGNED NOT NULL,
+        card_id BIGINT(20) UNSIGNED NOT NULL,
+        PRIMARY KEY (id),
+        UNIQUE KEY user_card (user_id, card_id)
+    ) $charset_collate;";
+
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+    dbDelta($sql);
+}
+
+add_action('wp_enqueue_scripts', 'sanas_enqueue_scripts');
+function sanas_enqueue_scripts() {
+    wp_enqueue_script('sanas-wishlist', plugins_url('js/wishlist.js', __FILE__), array('jquery'), '1.0', true);
+    wp_localize_script('sanas-wishlist', 'sanas_ajax_object', array(
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'security' => wp_create_nonce('sanas_wishlist_nonce'),
+    ));
+}
+
+// Add this code in your plugin's main file or the relevant part where other AJAX functions are defined.
+add_action('wp_ajax_toggle_wishlist', 'sanas_toggle_wishlist');
+add_action('wp_ajax_nopriv_toggle_wishlist', 'sanas_toggle_wishlist');
+
+function sanas_toggle_wishlist() {
+    global $wpdb;
+    check_ajax_referer('sanas_wishlist_nonce', 'security');
+    $user_id = get_current_user_id();
+    $card_id = intval($_POST['card_id']);
+
+    if (!$user_id) {
+        wp_send_json_error(['message' => 'You must be logged in to manage your wishlist.']);
+    }
+    $is_in_wishlist = $wpdb->get_var($wpdb->prepare(
+        "SELECT id FROM {$wpdb->prefix}sanas_wishlist WHERE user_id = %d AND card_id = %d",
+        $user_id,
+        $card_id
+    ));
+
+    if ($is_in_wishlist) {
+        $result = $wpdb->delete(
+            "{$wpdb->prefix}sanas_wishlist",
+            array('user_id' => $user_id, 'card_id' => $card_id),
+            array('%d', '%d')
+        );
+
+        if ($result === false) {
+            error_log('Error removing card from wishlist: ' . $wpdb->last_error);
+            wp_send_json_error(['message' => 'Failed to remove card from wishlist.']);
+        } else {
+            wp_send_json_success(['message' => 'Card removed from wishlist', 'action' => 'removed']);
+        }
+    } else {
+        $result = $wpdb->insert(
+            "{$wpdb->prefix}sanas_wishlist",
+            array('user_id' => $user_id, 'card_id' => $card_id),
+            array('%d', '%d')
+        );
+
+        if ($result === false) {
+            error_log('Error adding card to wishlist: ' . $wpdb->last_error);
+            wp_send_json_error(['message' => 'Failed to add card to wishlist.']);
+        } else {
+            wp_send_json_success(['message' => 'Card added to wishlist', 'action' => 'added']);
+        }
+    }
+
+    wp_die();
+}
