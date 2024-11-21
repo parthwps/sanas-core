@@ -1491,13 +1491,14 @@ function sanas_send_invitations() {
                     'website_url' => "$website_url",
                     'website_name' => "$website_name",
                     'guestname' => "$guest_name",                    
-'eventimg' => "$preview_image",
+                    'eventimg' => "$preview_image",
                     'eventdate' => "$eventdate",
                     'eventtime' => $event_time_line,
                     'eventlocation' => "$guestMessage",
                     'invitelink' => "$guest_url",
                     'eventname' => "$mailtitle",
-                    'eventhost' => "$guestName"
+                    'eventhost' => "$guestName",
+                    'guestemail' => "$guestemail"
                 ));   
 
 
