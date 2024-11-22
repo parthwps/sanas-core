@@ -154,7 +154,7 @@ if ($query->have_posts()) :
                 <div class="lower-content">
                     <a href="<?php echo esc_url($dashboardURL); ?>" class="card-box-title"><h4><?php echo get_the_title(); ?></h4></a>
                     <a href="<?php echo esc_url($dashboardURL); ?>">Free</a>
-                    <div class="hart-icon">
+                    <div class="heart-icon">
                         <i class="icon-Heart"></i>
                     </div>
                 </div>
