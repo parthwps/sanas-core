@@ -224,6 +224,8 @@ endif;
                   get_current_user_id(),
                   get_the_ID()
                 ));
+
+                print_r($is_in_wishlist);
                 
                 // Construct the URL with proper formatting
                 $dashboardURL = esc_url($currentURL .$perma. $dashQuery . $dashpage. '&card_id='.get_the_id()  );
