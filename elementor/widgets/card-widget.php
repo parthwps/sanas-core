@@ -33,15 +33,21 @@ class Sanas_card_Widget extends Widget_Base {
         $this->add_control('sanas_card_mobile_all_url', [
             'label'     => esc_html__('All categories Mobile URL','sanas-core'),
             'type'      => Controls_Manager::TEXT,
-        ]);        
+        ]);   
         $this->end_controls_section();
     }
     protected function render() {
+      global $wpdb;
+      $settings = $this->get_settings_for_display();
+      $posts_per_page = $settings['sanas_card_posts_per_page'] ? $settings['sanas_card_posts_per_page'] : -1;
+      $args = array(
+          'post_type' => 'sanas_card',
+          'posts_per_page' => $posts_per_page,
+          'order' => 'ASC'
+      );
       $settings = $this->get_settings_for_display();
       $posts_per_page = $settings['sanas_card_posts_per_page'] ? $settings['sanas_card_posts_per_page'] : -1;
       $sanas_card_mobile_all_url = $settings['sanas_card_mobile_all_url'];
-
-
      ?>
      <section class="tab-section">
       <div class="container">
@@ -49,9 +55,7 @@ class Sanas_card_Widget extends Widget_Base {
           <li class="nav-item" role="presentation">
               <button class="nav-link active" id="pills-bestloved-tab" data-bs-toggle="pill" data-bs-target="#pills-bestloved" type="button" role="tab" aria-controls="pills-bestloved" aria-selected="true">Best Loved</button>
           </li>
-
             <?php
-
             $terms = get_terms(
                 array(
                     'taxonomy'   => 'sanas-card-category', // Replace with your taxonomy name
@@ -65,9 +69,6 @@ class Sanas_card_Widget extends Widget_Base {
                     )
                 )
             );
-
-
-
             if (!empty($terms) && !is_wp_error($terms)) {
                $j=1;
                 foreach ($terms as $term): ?>
@@ -86,12 +87,7 @@ class Sanas_card_Widget extends Widget_Base {
         <div class="tab-content" id="pills-tabContent">
           <div class="tab-pane fade show active" id="pills-bestloved" role="tabpanel" aria-labelledby="pills-bestloved">
             <div class="row" id="cardBoxContainer">
-              
 <?php 
-
-
-
-
 $args = array(
     'post_type' => 'sanas_card',
     'posts_per_page' => -1, // Retrieve all posts
@@ -109,17 +105,13 @@ $query = new \WP_Query($args);
 
 if ($query->have_posts()) :
     while ($query->have_posts()) : $query->the_post();
-    
-
-
             if (get_post_meta(get_the_ID(),'sanas_metabox',true)) {
               $sanas_portfolio_meta = get_post_meta(get_the_ID(),'sanas_metabox',true);
-            }
-
+            
                 $currentURL = site_url();
                 $dashQuery = 'user-dashboard';
                 $dashpage = '/?dashboard=cover';
-                // Determine the correct permalink structure
+                
                 global $wp_rewrite;
                 if ($wp_rewrite->permalink_structure == '') {
                     $perma = "&";
@@ -154,9 +146,17 @@ if ($query->have_posts()) :
                 <div class="lower-content">
                     <a href="<?php echo esc_url($dashboardURL); ?>" class="card-box-title"><h4><?php echo get_the_title(); ?></h4></a>
                     <a href="<?php echo esc_url($dashboardURL); ?>">Free</a>
-                    <div class="heart-icon">
+                    <?php if (is_user_logged_in()) : ?>
+                      <div class="heart-icon <?php echo $is_in_wishlist ? 'active' : ''; ?>" 
+                        data-card-id="<?php echo get_the_ID(); ?>" 
+                        data-is-in-wishlist="<?php echo $is_in_wishlist ? 'true' : 'false'; ?>">
                         <i class="icon-Heart"></i>
-                    </div>
+                      </div>
+                    <?php else : ?>
+                      <div class="heart-icon sanas-login-popup">
+                        <i class="icon-Heart"></i>
+                      </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
