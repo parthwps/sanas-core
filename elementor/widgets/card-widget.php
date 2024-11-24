@@ -207,14 +207,6 @@ endif;
                 foreach ($category as $categorys) {
                  $sluglink = $categorys->slug; 
                  if($sluglink == $termss){
-                  
-                  // Check if the card is in the user's wishlist
-                  $is_in_wishlist = $wpdb->get_var($wpdb->prepare(
-                    "SELECT id FROM {$wpdb->prefix}sanas_wishlist WHERE user_id = %d AND card_id = %d",
-                    get_current_user_id(),
-                    get_the_ID()
-                ));
-
 
                 $currentURL = site_url();
                 $dashQuery = 'user-dashboard';
@@ -226,6 +218,13 @@ endif;
                 } else {
                     $perma = "/";
                 }
+
+                $is_in_wishlist = $wpdb->get_var($wpdb->prepare(
+                  "SELECT id FROM {$wpdb->prefix}sanas_wishlist WHERE user_id = %d AND card_id = %d",
+                  get_current_user_id(),
+                  get_the_ID()
+                ));
+                
                 // Construct the URL with proper formatting
                 $dashboardURL = esc_url($currentURL .$perma. $dashQuery . $dashpage. '&card_id='.get_the_id()  );
 
@@ -252,9 +251,17 @@ endif;
                       <div class="lower-content">
                         <a href="<?php echo $dashboardURL; ?>" class="card-box-title"><h4><?php echo get_the_title();?></h4></a>
                         <a href="<?php echo $dashboardURL; ?>">Free</a>
-                        <div class="heart-icon">
-                          <i class="icon-Heart"></i>
-                        </div>
+                        <?php if (is_user_logged_in()) : ?>
+                          <div class="heart-icon <?php echo $is_in_wishlist ? 'active' : ''; ?>" 
+                            data-card-id="<?php echo get_the_ID(); ?>" 
+                            data-is-in-wishlist="<?php echo $is_in_wishlist ? 'true' : 'false'; ?>">
+                            <i class="icon-Heart"></i>
+                          </div>
+                        <?php else : ?>
+                          <div class="heart-icon sanas-login-popup">
+                            <i class="icon-Heart"></i>
+                          </div>
+                        <?php endif; ?>
                       </div>
                     </div>
                   </div>
