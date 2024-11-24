@@ -207,7 +207,13 @@ endif;
                 foreach ($category as $categorys) {
                  $sluglink = $categorys->slug; 
                  if($sluglink == $termss){
-
+                  
+                  // Check if the card is in the user's wishlist
+                  $is_in_wishlist = $wpdb->get_var($wpdb->prepare(
+                    "SELECT id FROM {$wpdb->prefix}sanas_wishlist WHERE user_id = %d AND card_id = %d",
+                    get_current_user_id(),
+                    get_the_ID()
+                ));
 
 
                 $currentURL = site_url();
