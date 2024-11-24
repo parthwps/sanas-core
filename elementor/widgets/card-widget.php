@@ -45,6 +45,14 @@ class Sanas_card_Widget extends Widget_Base {
           'posts_per_page' => $posts_per_page,
           'order' => 'ASC'
       );
+
+      $is_in_wishlist = $wpdb->get_var($wpdb->prepare(
+        "SELECT id FROM {$wpdb->prefix}sanas_wishlist WHERE user_id = %d AND card_id = %d",
+        get_current_user_id(),
+        get_the_ID()
+      ));
+      print_r($is_in_wishlist);
+      
       $settings = $this->get_settings_for_display();
       $posts_per_page = $settings['sanas_card_posts_per_page'] ? $settings['sanas_card_posts_per_page'] : -1;
       $sanas_card_mobile_all_url = $settings['sanas_card_mobile_all_url'];
@@ -102,13 +110,6 @@ $args = array(
 );
 
 $query = new \WP_Query($args);
-$is_in_wishlist = $wpdb->get_var($wpdb->prepare(
-  "SELECT id FROM {$wpdb->prefix}sanas_wishlist WHERE user_id = %d AND card_id = %d",
-  get_current_user_id(),
-  get_the_ID()
-));
-
-print_r($is_in_wishlist);
 
 if ($query->have_posts()) :
     while ($query->have_posts()) : $query->the_post();
