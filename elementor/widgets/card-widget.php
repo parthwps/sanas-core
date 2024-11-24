@@ -146,17 +146,9 @@ if ($query->have_posts()) :
                 <div class="lower-content">
                     <a href="<?php echo esc_url($dashboardURL); ?>" class="card-box-title"><h4><?php echo get_the_title(); ?></h4></a>
                     <a href="<?php echo esc_url($dashboardURL); ?>">Free</a>
-                    <?php if (is_user_logged_in()) : ?>
-                      <div class="heart-icon <?php echo $is_in_wishlist ? 'active' : ''; ?>" 
-                        data-card-id="<?php echo get_the_ID(); ?>" 
-                        data-is-in-wishlist="<?php echo $is_in_wishlist ? 'true' : 'false'; ?>">
+                    <div class="heart-icon">
                         <i class="icon-Heart"></i>
-                      </div>
-                    <?php else : ?>
-                      <div class="heart-icon sanas-login-popup">
-                        <i class="icon-Heart"></i>
-                      </div>
-                    <?php endif; ?>
+                    </div>
                 </div>
             </div>
         </div>
