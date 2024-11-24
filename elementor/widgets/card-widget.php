@@ -105,56 +105,52 @@ $query = new \WP_Query($args);
 
 if ($query->have_posts()) :
     while ($query->have_posts()) : $query->the_post();
-            if (get_post_meta(get_the_ID(),'sanas_metabox',true)) {
-              $sanas_portfolio_meta = get_post_meta(get_the_ID(),'sanas_metabox',true);
-            
-                $currentURL = site_url();
-                $dashQuery = 'user-dashboard';
-                $dashpage = '/?dashboard=cover';
-                
-                global $wp_rewrite;
-                if ($wp_rewrite->permalink_structure == '') {
-                    $perma = "&";
-                } else {
-                    $perma = "/";
-                }
-                // Construct the URL with proper formatting
-                $dashboardURL = esc_url($currentURL .$perma. $dashQuery . $dashpage. '&card_id='.get_the_id()  );
+        $sanas_portfolio_meta = get_post_meta(get_the_ID(), 'sanas_metabox', true);
 
-                if($sanas_portfolio_meta['sanas_bg_color'])
-                {
-                    $bg_color='style="background:'.$sanas_portfolio_meta['sanas_bg_color'].'"';
-                }
+        if ($sanas_portfolio_meta) {
+            $currentURL = site_url();
+            $dashQuery = 'user-dashboard';
+            $dashpage = '/?dashboard=cover';
 
-        ?>
+            // Build the URL with proper query parameter
+            $dashboardURL = add_query_arg('card_id', get_the_ID(), esc_url($currentURL . $dashQuery . $dashpage));
 
-        <div class="card-box col-lg-3 col-md-4 col-sm-6">
-            <div class="inner-box">
-                <a href="<?php echo esc_url($dashboardURL); ?>" class="flip-container" <?php echo $bg_color; ?>>
-                    <div class="flipper">
-                        <div class="front">
-                            <img src="<?php echo esc_url($sanas_portfolio_meta['sanas_upload_front_Image']['url']); ?>" alt="template">
+            // Check if background color is set
+            if (isset($sanas_portfolio_meta['sanas_bg_color'])) {
+                $bg_color = 'style="background:' . esc_attr($sanas_portfolio_meta['sanas_bg_color']) . '"';
+            }
+
+            ?>
+
+            <div class="card-box col-lg-3 col-md-4 col-sm-6">
+                <div class="inner-box">
+                    <a href="<?php echo esc_url($dashboardURL); ?>" class="flip-container" <?php echo isset($bg_color) ? $bg_color : ''; ?>>
+                        <div class="flipper">
+                            <div class="front">
+                                <img src="<?php echo esc_url($sanas_portfolio_meta['sanas_upload_front_Image']['url']); ?>" alt="template">
+                            </div>
+                            <div class="middel-card">
+                                <img src="<?php echo esc_url($sanas_portfolio_meta['sanas_upload_back_Image']['url']); ?>" alt="template">
+                            </div>
+                            <div class="back">
+                                <img src="<?php echo esc_url($sanas_portfolio_meta['sanas_upload_back_Image']['url']); ?>" alt="template">
+                            </div>
                         </div>
-                        <div class="middel-card">
-                            <img src="<?php echo esc_url($sanas_portfolio_meta['sanas_upload_back_Image']['url']); ?>" alt="template">
+                    </a>
+                    <div class="lower-content">
+                        <a href="<?php echo esc_url($dashboardURL); ?>" class="card-box-title">
+                            <h4><?php echo esc_html(get_the_title()); ?></h4>
+                        </a>
+                        <a href="<?php echo esc_url($dashboardURL); ?>">Free</a>
+                        <div class="heart-icon">
+                            <i class="icon-Heart"></i>
                         </div>
-                        <div class="back">
-                            <img src="<?php echo esc_url($sanas_portfolio_meta['sanas_upload_back_Image']['url']); ?>" alt="template">
-                        </div>
-                    </div>
-                </a>
-                <div class="lower-content">
-                    <a href="<?php echo esc_url($dashboardURL); ?>" class="card-box-title"><h4><?php echo get_the_title(); ?></h4></a>
-                    <a href="<?php echo esc_url($dashboardURL); ?>">Free</a>
-                    <div class="heart-icon">
-                        <i class="icon-Heart"></i>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <?php
-
+            <?php
+        }
     endwhile;
     wp_reset_postdata();
 endif;
