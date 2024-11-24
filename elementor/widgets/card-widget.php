@@ -51,8 +51,8 @@ class Sanas_card_Widget extends Widget_Base {
         get_current_user_id(),
         get_the_ID()
       ));
-      print_r($is_in_wishlist);
-      
+      echo "<script>alert(".$is_in_wishlist.");</script>";
+
       $settings = $this->get_settings_for_display();
       $posts_per_page = $settings['sanas_card_posts_per_page'] ? $settings['sanas_card_posts_per_page'] : -1;
       $sanas_card_mobile_all_url = $settings['sanas_card_mobile_all_url'];
