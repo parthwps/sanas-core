@@ -228,7 +228,7 @@ endif;
                 }
 
                 // Construct the URL with proper formatting
-                $dashboardURL = esc_url($currentURL .$perma. $dashQuery . $dashpage. '&card_id='.get_the_id()  );
+                $dashboardURL = esc_url($currentURL .'/'. $dashQuery . $dashpage. '&card_id='.get_the_id()  );
 
                 if($sanas_portfolio_meta['sanas_bg_color'])
                 {
