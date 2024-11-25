@@ -282,7 +282,7 @@ endif;
                     $perma = "/";
                 }
                 // Construct the URL with proper formatting
-                $dashboardURL = esc_url($currentURL .$perma. $dashQuery . $dashpage. '&card_id='.get_the_id()  );
+                $dashboardURL = esc_url($currentURL . '/'. $dashQuery . $dashpage. '&card_id='.get_the_id()  );
                 ?>
                     <a href="<?php echo $dashboardURL; ?>">
                         <img class="front-side" src="<?php echo esc_url($sanas_portfolio_meta['sanas_upload_front_Image']['url']) ?>" alt="blog">
