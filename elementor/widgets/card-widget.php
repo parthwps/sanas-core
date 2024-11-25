@@ -117,7 +117,7 @@ if ($query->have_posts()) :
 
         if ($sanas_portfolio_meta) {
             $currentURL = site_url();
-            $dashQuery = 'user-dashboard';
+            $dashQuery = '/user-dashboard';
             $dashpage = '/?dashboard=cover';
 
             // Build the URL with proper query parameter
