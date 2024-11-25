@@ -217,7 +217,7 @@ endif;
                  if($sluglink == $termss){
 
                 $currentURL = site_url();
-                $dashQuery = 'user-dashboard';
+                $dashQuery = '/user-dashboard';
                 $dashpage = '/?dashboard=cover';
                 // Determine the correct permalink structure
                 global $wp_rewrite;
@@ -272,7 +272,7 @@ endif;
                   <div class="image">
                 <?php 
                 $currentURL = site_url();
-                $dashQuery = 'user-dashboard';
+                $dashQuery = '/user-dashboard';
                 $dashpage = '/?dashboard=cover';
                 // Determine the correct permalink structure
                 global $wp_rewrite;
