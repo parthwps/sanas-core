@@ -46,13 +46,6 @@ class Sanas_card_Widget extends Widget_Base {
           'order' => 'ASC'
       );
 
-      $is_in_wishlist = $wpdb->get_var($wpdb->prepare(
-        "SELECT id FROM {$wpdb->prefix}sanas_wishlist WHERE user_id = %d AND card_id = %d",
-        get_current_user_id(),
-        get_the_ID()
-      ));
-      echo "<script>console.log(".$is_in_wishlist.");</script>";
-
       $settings = $this->get_settings_for_display();
       $posts_per_page = $settings['sanas_card_posts_per_page'] ? $settings['sanas_card_posts_per_page'] : -1;
       $sanas_card_mobile_all_url = $settings['sanas_card_mobile_all_url'];
@@ -114,6 +107,13 @@ $query = new \WP_Query($args);
 if ($query->have_posts()) :
     while ($query->have_posts()) : $query->the_post();
         $sanas_portfolio_meta = get_post_meta(get_the_ID(), 'sanas_metabox', true);
+
+        $is_in_wishlist = $wpdb->get_var($wpdb->prepare(
+          "SELECT id FROM {$wpdb->prefix}sanas_wishlist WHERE user_id = %d AND card_id = %d",
+          get_current_user_id(),
+          get_the_ID()
+        ));
+        echo "<script>console.log(".$is_in_wishlist.");</script>";
 
         if ($sanas_portfolio_meta) {
             $currentURL = site_url();
