@@ -1012,51 +1012,65 @@ function sanas_guest_invitation_response() {
 //send mail to guest
 function sanas_guest_invitation_response_mail($guest_email, $status, $prestatus, $kidsguest, $prekidsguest, $adultguest, $preadultguest, $event_image, $guest_name, $event_name, $event_date, $event_time_line, $event_location, $invite_link, $event_host) {
     
-    // if update the $kidsguest, $adultguest then send update mail
-    if ($kidsguest != $prekidsguest || $adultguest != $preadultguest || $status != $prestatus) {
-        // if maybe
-        if ($status == 'May Be') {
-            $subject = sanas_options('sanas_guest_update_maybe_subject');
-            $body = sanas_options('sanas_guest_update_maybe_body');
+    // Initialize subject and body
+    $subject = '';
+    $body = '';
+
+    // Check if status changed or guest counts updated
+    if ($status != $prestatus || $kidsguest != $prekidsguest || $adultguest != $preadultguest) {
+        
+        // If guest counts were updated, send update email based on current status
+        if ($kidsguest != $prekidsguest || $adultguest != $preadultguest) {
+            switch($status) {
+                case 'May Be':
+                    $subject = sanas_options('sanas_guest_update_maybe_subject');
+                    $body = sanas_options('sanas_guest_update_maybe_body');
+                    break;
+                case 'Accepted': 
+                    $subject = sanas_options('sanas_guest_update_yes_subject');
+                    $body = sanas_options('sanas_guest_update_yes_body');
+                    break;
+                case 'Declined':
+                    $subject = sanas_options('sanas_guest_update_no_subject');
+                    $body = sanas_options('sanas_guest_update_no_body');
+                    break;
+            }
         }
-        elseif ($status == 'Accepted') {
-            $subject = sanas_options('sanas_guest_update_yes_subject');
-            $body = sanas_options('sanas_guest_update_yes_body');
+        // If only status changed, send status change email
+        else if ($status != $prestatus) {
+            switch($status) {
+                case 'Declined':
+                    $subject = sanas_options('sanas_guest_declined_subject');
+                    $body = sanas_options('sanas_guest_declined_body');
+                    break;
+                case 'May Be':
+                    $subject = sanas_options('sanas_guest_maybe_subject');
+                    $body = sanas_options('sanas_guest_maybe_body');
+                    break;
+                case 'Accepted':
+                    $subject = sanas_options('sanas_guest_yes_subject');
+                    $body = sanas_options('sanas_guest_yes_body');
+                    break;
+            }
         }
-        elseif ($status == 'Declined') {
-            $subject = sanas_options('sanas_guest_update_no_subject');
-            $body = sanas_options('sanas_guest_update_no_body');
-        }
-    }
 
-    if ($status == 'Declined') {
-        $subject = sanas_options('sanas_guest_declined_subject');
-        $body = sanas_options('sanas_guest_declined_body');
-    }
-    elseif ($status == 'May Be') {
-        $subject = sanas_options('sanas_guest_maybe_subject');
-        $body = sanas_options('sanas_guest_maybe_body');
-    }
-    else {
-        $subject = sanas_options('sanas_guest_yes_subject');
-        $body = sanas_options('sanas_guest_yes_body');
-    }
-    
-    $body = str_replace(
-        array('%%guestname', '%%gueststatus', '%%guestkids', '%%guestadult', '%%eventimg', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%invitelink', '%%eventhost'), 
-        array($guest_name, $status, $kidsguest, $adultguest, $event_image, $event_name, $event_date, $event_time_line, $event_location, $invite_link, $event_host),
-        $body
-    );
+        // Replace placeholders in email content
+        $body = str_replace(
+            array('%%guestname', '%%gueststatus', '%%guestkids', '%%guestadult', '%%eventimg', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%invitelink', '%%eventhost'), 
+            array($guest_name, $status, $kidsguest, $adultguest, $event_image, $event_name, $event_date, $event_time_line, $event_location, $invite_link, $event_host),
+            $body
+        );
 
-    $subject = str_replace(
-        array('%%guestname', '%%eventname'), 
-        array($guest_name, $event_name),
-        $subject
-    );
+        $subject = str_replace(
+            array('%%guestname', '%%eventname'), 
+            array($guest_name, $event_name),
+            $subject
+        );
 
-    $headers = array('Content-Type: text/html; charset=UTF-8');
-    wp_mail($guest_email, $subject, $body, $headers);
-
+        // Send email
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+        wp_mail($guest_email, $subject, $body, $headers);
+    }
 }
 
 add_action('wp_ajax_nopriv_sanas_open_guest_invitation_response', 'sanas_open_guest_invitation_response');
