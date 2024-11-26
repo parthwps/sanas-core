@@ -1002,7 +1002,7 @@ function sanas_guest_invitation_response() {
     );
 
     if($prestatus != $status || $prekidsguest != $kidsguest || $preadultguest != $adultguest){
-        echo sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image_url, $guest_name, $event_name, $event_date, $event_time_line, $event_location, $invite_link, $event_host);
+        echo sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $prekidsguest, $adultguest, $preadultguest, $event_image_url, $guest_name, $event_name, $event_date, $event_time_line, $event_location, $invite_link, $event_host);
     }
     echo '<div class="alert alert-success pop-btn-div" role="alert">' . esc_html__('Guest Submitted Response Successfully.', 'sanas') . '</div>';
 
@@ -1010,8 +1010,25 @@ function sanas_guest_invitation_response() {
 }
 
 //send mail to guest
-function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $adultguest, $event_image, $guest_name, $event_name, $event_date, $event_time_line, $event_location, $invite_link, $event_host) {
+function sanas_guest_invitation_response_mail($guest_email, $status, $kidsguest, $prekidsguest, $adultguest, $preadultguest, $event_image, $guest_name, $event_name, $event_date, $event_time_line, $event_location, $invite_link, $event_host) {
     
+    // if update the $kidsguest, $adultguest then send update mail
+    if ($kidsguest != $prekidsguest || $adultguest != $preadultguest) {
+        // if maybe
+        if ($status == 'May Be') {
+            $subject = sanas_options('sanas_guest_update_maybe_subject');
+            $body = sanas_options('sanas_guest_update_maybe_body');
+        }
+        elseif ($status == 'Accepted') {
+            $subject = sanas_options('sanas_guest_update_yes_subject');
+            $body = sanas_options('sanas_guest_update_yes_body');
+        }
+        elseif ($status == 'Declined') {
+            $subject = sanas_options('sanas_guest_update_no_subject');
+            $body = sanas_options('sanas_guest_update_no_body');
+        }
+    }
+
     if ($status == 'Declined') {
         $subject = sanas_options('sanas_guest_declined_subject');
         $body = sanas_options('sanas_guest_declined_body');
