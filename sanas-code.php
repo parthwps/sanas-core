@@ -92,6 +92,7 @@ function create_sanas_card_guest_info_table() {
         guest_group varchar(255) NOT NULL, 
         guest_phone_num varchar(255) NOT NULL,
         guest_email varchar(255) NOT NULL,
+        guest_address VARCHAR(255) NOT NULL,
         guest_status varchar(255) NOT NULL,
         PRIMARY KEY (`guest_id`)
     ) $charset_collate AUTO_INCREMENT=1;";
