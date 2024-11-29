@@ -1516,7 +1516,8 @@ function sanas_send_invitations() {
                 $formated_mail_subject = sanas_sprintf("$sanas_mail_subject", array(
                     'website_url' => "$website_url",
                     'website_name' => "$website_name",
-                    'eventname' => "$mailtitle"
+                    'eventname' => "$mailtitle",
+                    'eventhost' => "$guestName",
                 ));   
                 $formated_mail_body = sanas_sprintf("$sanas_mail_body", array(
                     'website_url' => "$website_url",
