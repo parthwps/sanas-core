@@ -1532,7 +1532,8 @@ function sanas_send_invitations() {
 
 
                 $headers = array('Content-Type: text/html; charset=UTF-8');
-                $new_formated_mail = '<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">' . $formated_mail_body;
+                $new_formated_mail = '<style>
+    @import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");</style>' . $formated_mail_body;
                 // Send the email using wp_mail
                 wp_mail($guestemail, $formated_mail_subject, $new_formated_mail, $headers);
 
