@@ -1401,8 +1401,6 @@ add_action('wp_ajax_sanas_send_invitations', 'sanas_send_invitations');
 add_action('wp_ajax_nopriv_sanas_send_invitations', 'sanas_send_invitations');
 
 function sanas_send_invitations() {
-    // Check nonce for security (uncomment if you have a nonce field)
-    // check_ajax_referer('send_invitations_nonce', 'security');
      global $wpdb,$current_user;
     wp_get_current_user();
     $userID = $current_user->ID;     
@@ -1418,7 +1416,6 @@ function sanas_send_invitations() {
     $preview_image = $_POST['preview_image'];
     $mailtitle = $_POST['mailtitle'];
     $event_id = $_POST['event_id'];
-    // Decode the URL to handle HTML entities
     $emails = json_decode(stripslashes($_POST['emails']), true);
 
 
@@ -1535,9 +1532,9 @@ function sanas_send_invitations() {
 
 
                 $headers = array('Content-Type: text/html; charset=UTF-8');
-
+                $new_formated_mail = '<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">' + $formated_mail_body;
                 // Send the email using wp_mail
-                wp_mail($guestemail, $formated_mail_subject, $formated_mail_body, $headers);
+                wp_mail($guestemail, $formated_mail_subject, $new_formated_mail, $headers);
 
                 // Update the database for this guestId
                 $guest_details_info = $wpdb->prefix . 'guest_details_info'; // Replace with your table name
