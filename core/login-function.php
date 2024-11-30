@@ -739,7 +739,7 @@ if (!function_exists('sanas_guest_info')) {
             // wp_mail($guestEmail, $subject, $body, $headers);
 
             wp_send_json_success(array(
-                'message' => 'Guest inserted successfully. ', 
+                'message' => 'Guest added successfully.', 
                 'guest_id' => $guest_id,
                 // 'event_id' => $event_id,
                 // 'post_name' => $event_data->post_name,
