@@ -132,7 +132,11 @@ if ($query->have_posts()) :
 
             <div class="card-box col-lg-3 col-md-4 col-sm-6">
                 <div class="inner-box">
-                    <a href="<?php echo esc_url($dashboardURL); ?>" class="flip-container" <?php echo isset($bg_color) ? $bg_color : ''; ?>>
+                    <a 
+                    <?php if (is_user_logged_in()) : ?> 
+                       href="<?php echo esc_url($dashboardURL); ?>" class="flip-container"
+                       <?php else : ?>
+                       href="javascript:void(0)" data-href="<?php echo esc_url($dashboardURL); ?>" class="login-in sanas-login-popup flip-container" <?php endif; ?> <?php echo isset($bg_color) ? $bg_color : ''; ?>>
                         <div class="flipper">
                             <div class="front">
                                 <img src="<?php echo esc_url($sanas_portfolio_meta['sanas_upload_front_Image']['url']); ?>" alt="template">
