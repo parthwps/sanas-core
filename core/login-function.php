@@ -1078,7 +1078,7 @@ function sanas_guest_invitation_response_mail_1week_before($guest_email, $status
     if ($status === 'Accepted') {
         $current_date = current_time('Y-m-d');
         $event_date_timestamp = strtotime($event_date);
-        $one_week_before_event = date('Y-m-d', strtotime('-1 week', $event_date_timestamp));
+        $one_week_before_event = date('Y-m-d', strtotime('-2 minute', $event_date_timestamp));
 
         if ($current_date === $one_week_before_event) {
             $subject = sanas_options('sanas_guest_one_week_before_accepted_subject');
