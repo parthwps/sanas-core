@@ -1074,7 +1074,7 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $prestatus,
 }
 
 // send mail to host auto
-function sanas_guest_invitation_response_mail_auto($guest_email, $status, $prestatus, $kidsguest, $prekidsguest, $adultguest, $preadultguest, $event_image_url, $guest_name, $event_name, $event_date, $event_time_line, $event_location, $invite_link, $event_host) {
+function sanas_guest_invitation_response_mail_1week_before($guest_email, $status, $prestatus, $kidsguest, $prekidsguest, $adultguest, $preadultguest, $event_image_url, $guest_name, $event_name, $event_date, $event_time_line, $event_location, $invite_link, $event_host) {
     if ($status === 'Accepted') {
         $current_date = current_time('Y-m-d');
         $event_date_timestamp = strtotime($event_date);
@@ -1095,6 +1095,24 @@ function sanas_guest_invitation_response_mail_auto($guest_email, $status, $prest
         }
     }
 }
+
+// Schedule the cron job if not already scheduled
+if (!wp_next_scheduled('sanas_guest_invitation_response_mail_1week_before_cron')) {
+    wp_schedule_event(time(), 'daily', 'sanas_guest_invitation_response_mail_1week_before_cron');
+}
+
+// Hook the event to the function
+add_action('sanas_guest_invitation_response_mail_1week_before_cron', 'sanas_guest_invitation_response_mail_1week_before');
+
+function deactivate_event_email_1week_before_cron() {
+    $timestamp = wp_next_scheduled('sanas_guest_invitation_response_mail_1week_before_cron');
+    if ($timestamp) {
+        wp_unschedule_event($timestamp, 'sanas_guest_invitation_response_mail_1week_before_cron');
+    }
+}
+register_deactivation_hook(__FILE__, 'deactivate_event_email_1week_before_cron');
+
+
 
 add_action('wp_ajax_nopriv_sanas_open_guest_invitation_response', 'sanas_open_guest_invitation_response');
 add_action('wp_ajax_sanas_open_guest_invitation_response', 'sanas_open_guest_invitation_response');  
