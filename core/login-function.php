@@ -1005,7 +1005,7 @@ function sanas_guest_invitation_response() {
         echo sanas_guest_invitation_response_mail($guest_email, $status, $prestatus, $kidsguest, $prekidsguest, $adultguest, $preadultguest, $event_image_url, $guest_name, $event_name, $event_date, $event_time_line, $event_location, $invite_link, $event_host);
     }
     echo '<div class="alert alert-success pop-btn-div" role="alert">' . esc_html__('Guest Submitted Response Successfully.', 'sanas') . '</div>';
-
+    echo sanas_guest_invitation_response_mail_auto($guest_email, $status, $prestatus, $kidsguest, $prekidsguest, $adultguest, $preadultguest, $event_image_url, $guest_name, $event_name, $event_date, $event_time_line, $event_location, $invite_link, $event_host);
     die();
 }
 
@@ -1070,6 +1070,29 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $prestatus,
         // Send email
         $headers = array('Content-Type: text/html; charset=UTF-8');
         wp_mail($guest_email, $subject, $body, $headers);
+    }
+}
+
+// send mail to host auto
+function sanas_guest_invitation_response_mail_auto($guest_email, $status, $prestatus, $kidsguest, $prekidsguest, $adultguest, $preadultguest, $event_image_url, $guest_name, $event_name, $event_date, $event_time_line, $event_location, $invite_link, $event_host) {
+    if ($status === 'Accepted') {
+        $current_date = current_time('Y-m-d');
+        $event_date_timestamp = strtotime($event_date);
+        $one_week_before_event = date('Y-m-d', strtotime('-1 week', $event_date_timestamp));
+
+        if ($current_date === $one_week_before_event) {
+            $subject = sanas_options('sanas_guest_one_week_before_accepted_subject');
+            $body = sanas_options('sanas_guest_one_week_before_body');
+
+            $body = str_replace(
+                array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%invitelink', '%%eventhost'),
+                array($guest_name, $event_name, $event_date, $event_time_line, $event_location, $invite_link, $event_host),
+                $body
+            );
+
+            $headers = array('Content-Type: text/html; charset=UTF-8');
+            wp_mail($guest_email, $subject, $body, $headers);
+        }
     }
 }
 
