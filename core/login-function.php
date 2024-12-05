@@ -1074,77 +1074,81 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $prestatus,
 }
 
 // send mail to host auto
-function sanas_guest_invitation_response_mail_1week_before($event_id) {
+function sanas_guest_invitation_response_mail_10min_before($event_id) {
     global $wpdb;
 
     // Get event details
     $sanas_card_event_table = $wpdb->prefix . 'sanas_card_event';
-    $event_details_query = $wpdb->prepare(
-        "SELECT event_name, event_date, event_time_line, event_location, event_image 
-         FROM $sanas_card_event_table 
-         WHERE event_no = %d",
-        $event_id
-    );
-    $event_details = $wpdb->get_row($event_details_query, ARRAY_A);
-
-    if (!$event_details) {
-        return; // Exit if no event details found
-    }
-
-    $current_date = current_time('Y-m-d');
-    $event_date_timestamp = strtotime($event_details['event_date']);
-    $one_week_before_event = date('Y-m-d', strtotime('-10 minute', $event_date_timestamp));
-
-    // Get all accepted guests for the event
-    $guest_info_table = $wpdb->prefix . "guest_details_info";
-    $accepted_guests = $wpdb->get_results(
+    $event_details = $wpdb->get_row(
         $wpdb->prepare(
-            "SELECT guest_email, guest_name 
-             FROM $guest_info_table 
-             WHERE guest_event_id = %d AND guest_status = 'Accepted'",
+            "SELECT event_name, event_date, event_time_line, event_location, event_host FROM $sanas_card_event_table WHERE event_no = %d",
             $event_id
         )
     );
 
-    // Send email to each accepted guest
-    foreach ($accepted_guests as $guest) {
-        if ($current_date === $one_week_before_event) {
-            $subject = sanas_options('sanas_guest_one_week_before_accepted_subject');
-            $body = sanas_options('sanas_guest_one_week_before_body');
+    if ($event_details) {
+        $event_name = $event_details->event_name;
+        $event_date = $event_details->event_date;
+        $event_time_line = $event_details->event_time_line;
+        $event_location = $event_details->event_location;
+        $event_host = $event_details->event_host;
 
-            $body = str_replace(
-                array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%invitelink', '%%eventhost'),
-                array($guest->guest_name, $event_details['event_name'], $event_details['event_date'], $event_details['event_time_line'], $event_details['event_location'], '', ''), // Assuming invite_link and event_host are not needed here
-                $body
-            );
+        // Get all accepted guests for the event
+        $guest_info_table = $wpdb->prefix . "guest_details_info";
+        $accepted_guests = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT guest_email, guest_name FROM $guest_info_table WHERE guest_event_id = %d AND guest_status = 'Accepted'",
+                $event_id
+            )
+        );
 
-            $headers = array('Content-Type: text/html; charset=UTF-8');
-            wp_mail($guest->guest_email, $subject, $body, $headers);
+        // Calculate the time to send the email
+        $event_date_timestamp = strtotime($event_date . ' ' . $event_time_line);
+        $ten_minutes_before_event = date('Y-m-d H:i:s', strtotime('-10 minutes', $event_date_timestamp));
+
+        // Check if the current time is 10 minutes before the event
+        if (current_time('Y-m-d H:i:s') >= $ten_minutes_before_event && current_time('Y-m-d H:i:s') < $event_date_timestamp) {
+            foreach ($accepted_guests as $guest) {
+                $guest_email = $guest->guest_email;
+                $guest_name = $guest->guest_name;
+
+                $subject = sanas_options('sanas_guest_10min_before_subject');
+                $body = sanas_options('sanas_guest_10min_before_body');
+
+                $body = str_replace(
+                    array('%%guestname', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%eventhost'),
+                    array($guest_name, $event_name, $event_date, $event_time_line, $event_location, $event_host),
+                    $body
+                );
+
+                $headers = array('Content-Type: text/html; charset=UTF-8');
+                wp_mail($guest_email, $subject, $body, $headers);
+            }
         }
     }
 }
 
 // Schedule the cron job if not already scheduled
-if (!wp_next_scheduled('sanas_guest_invitation_response_mail_1week_before_cron')) {
-    wp_schedule_event(time(), 'daily', 'sanas_guest_invitation_response_mail_1week_before_cron');
+if (!wp_next_scheduled('sanas_guest_invitation_response_mail_10min_before_cron')) {
+    wp_schedule_event(time(), 'every_minute', 'sanas_guest_invitation_response_mail_10min_before_cron');
 }
 
 // Hook the event to the function
-add_action('sanas_guest_invitation_response_mail_1week_before_cron', function() {
+add_action('sanas_guest_invitation_response_mail_10min_before_cron', function() {
     global $wpdb;
     $event_ids = $wpdb->get_col("SELECT DISTINCT guest_event_id FROM {$wpdb->prefix}guest_details_info WHERE guest_status = 'Accepted'");
     foreach ($event_ids as $event_id) {
-        sanas_guest_invitation_response_mail_1week_before($event_id);
+        sanas_guest_invitation_response_mail_10min_before($event_id);
     }
 });
 
-function deactivate_event_email_1week_before_cron() {
-    $timestamp = wp_next_scheduled('sanas_guest_invitation_response_mail_1week_before_cron');
+function deactivate_event_email_10min_before_cron() {
+    $timestamp = wp_next_scheduled('sanas_guest_invitation_response_mail_10min_before_cron');
     if ($timestamp) {
-        wp_unschedule_event($timestamp, 'sanas_guest_invitation_response_mail_1week_before_cron');
+        wp_unschedule_event($timestamp, 'sanas_guest_invitation_response_mail_10min_before_cron');
     }
 }
-register_deactivation_hook(__FILE__, 'deactivate_event_email_1week_before_cron');
+register_deactivation_hook(__FILE__, 'deactivate_event_email_10min_before_cron');
 
 
 
