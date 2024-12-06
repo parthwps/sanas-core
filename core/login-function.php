@@ -99,9 +99,9 @@ if (!function_exists('sanas_signup_user_status')) {
         } elseif (empty($password)) {
             $response['message'] = esc_html__('Please enter a password.', 'sanas');
         } elseif (username_exists($user_name)) {
-            $response['message'] = esc_html__('Username already exists.Please signin', 'sanas');
+            $response['message'] = esc_html__('Username already exists. Please signin', 'sanas');
         } elseif (email_exists($user_email)) {
-            $response['message'] = esc_html__('Email already exists.Please signin', 'sanas');
+            $response['message'] = esc_html__('Email already exists. Please signin', 'sanas');
         } else {
             $user_id = wp_create_user($user_name, $password, $user_email);
             if (!is_wp_error($user_id)) {
