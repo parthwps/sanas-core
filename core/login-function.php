@@ -41,10 +41,7 @@ if (!function_exists('sanas_signin_user_status')) {
                                 'event_front_bg_color' => $colorbg,
                                 'event_guest_id' => 0,
                                 'event_step_id' => '1',
-                                'event_status' => '',
-                                'event_venue_name' => '',
-                                'event_venue_address' => '',
-                                'event_venue_address_link' => ''
+                                'event_status' => ''
                             )
                         );
                         $response['inserted_id'] = $wpdb->insert_id;
@@ -422,9 +419,6 @@ if (!function_exists('sanas_save_canvas_data_callback')) {
         $event_id = isset($_POST['event_id']) ? intval($_POST['event_id']) : 0;
         $imageUrl = $_POST['imageUrl'];
         $colorbg = $_POST['colorbg'];
-        $venue_name = $_POST['event_venue_name'];
-        $venue_address = $_POST['event_venue_address'];
-        $venue_address_link = $_POST['event_venue_address_link'];
         if ($canvas_data && $card_id && $image_data) {
             // Validate base64 image data
             if (preg_match('/^data:image\/(png|jpg|jpeg);base64,/', $image_data)) {
@@ -441,9 +435,6 @@ if (!function_exists('sanas_save_canvas_data_callback')) {
                                 'event_front_bg_color' => $colorbg,
                                 'event_front_bg_link' => $imageUrl,
                                 'event_step_id' => $step_id,
-                                'event_venue_name' => $venue_name,
-                                'event_venue_address' => $venue_address,
-                                'event_venue_address_link' => $venue_address_link
                             ),
                             array(
                                 '%d',
@@ -452,10 +443,7 @@ if (!function_exists('sanas_save_canvas_data_callback')) {
                                 '%s',
                                 '%s',
                                 '%s',
-                                '%d',
-                                '%s',
-                                '%s',
-                                '%s'
+                                '%d'
                             )
                         );
                         if ($result === false) {
@@ -481,9 +469,6 @@ if (!function_exists('sanas_save_canvas_data_callback')) {
                         'event_step_id' => $step_id,
                         'event_front_bg_link' => $imageUrl,
                         'event_front_bg_color' => $colorbg,
-                        'event_venue_name' => $venue_name,
-                        'event_venue_address' => $venue_address,
-                        'event_venue_address_link' => $venue_address_link
                     ),
                     array(
                         'event_no' => $event_id,
@@ -494,9 +479,6 @@ if (!function_exists('sanas_save_canvas_data_callback')) {
                         '%s',
                         '%s',
                         '%d',
-                        '%s',
-                        '%s',
-                        '%s',
                         '%s',
                         '%s'
                     ),
@@ -543,9 +525,6 @@ function sanas_save_back_canvas_data_callback() {
     $image_data = $_POST['image_data'];
     $imageUrl = $_POST['imageUrl'];
     $colorbg = $_POST['colorbg'];
-    $venue_name = $_POST['event_venue_name'];
-    $venue_address = $_POST['event_venue_address'];
-    $venue_address_link = $_POST['event_venue_address_link'];
     if ($canvas_data && $card_id && $event_no) {
         $table_name = $wpdb->prefix . 'sanas_card_event';
         $result = $wpdb->update(
@@ -558,9 +537,6 @@ function sanas_save_back_canvas_data_callback() {
                 'event_step_id' => $step_id,
                 'event_front_bg_link' => $imageUrl,
                 'event_front_bg_color' => $colorbg,
-                'event_venue_name' => $venue_name,
-                'event_venue_address' => $venue_address,
-                'event_venue_address_link' => $venue_address_link
             ),
             array('event_no' => $event_no),
             array(
@@ -569,9 +545,6 @@ function sanas_save_back_canvas_data_callback() {
                 '%s',
                 '%s',
                 '%d',
-                '%s',
-                '%s',
-                '%s',
                 '%s',
                 '%s'
             ),
@@ -1354,9 +1327,6 @@ if (!function_exists('sanas_save_rsvp_data_callback')) {
         $registry_data = json_decode(stripslashes($_POST['registryData']), true); // Decode JSON string
         $rsvp_id = isset($_POST['rsvp_id']) ? intval($_POST['rsvp_id']) : 0;
         $event_id = isset($_POST['event_id']) ? intval($_POST['event_id']) : 0;
-        $venue_name = $_POST['event_venue_name'];
-        $venue_address = $_POST['event_venue_address'];
-        $venue_address_link = $_POST['event_venue_address_link'];
 
         $eventtitlecss = $_POST['eventtitlecss'];
         $guestNamecss  = $_POST['guestNamecss'];
@@ -1391,9 +1361,6 @@ if (!function_exists('sanas_save_rsvp_data_callback')) {
                 update_post_meta($rsvp_id, 'event_name', $event_title);
                 update_post_meta($rsvp_id, 'event_date', $event_date);
                 update_post_meta($rsvp_id, 'itinerary', $itinerary);
-                update_post_meta($rsvp_id, 'event_venue_name', $venue_name);
-                update_post_meta($rsvp_id, 'event_venue_address', $venue_address);
-                update_post_meta($rsvp_id, 'event_venue_address_link', $venue_address_link);
 
                 update_post_meta($rsvp_id, 'guest_name_css', $guestNamecss);
                 update_post_meta($rsvp_id, 'guest_contact_css', $guestContactcss);
@@ -1473,9 +1440,6 @@ if (!function_exists('sanas_save_rsvp_data_callback')) {
                 update_post_meta($rsvp_id, 'event_name', $event_title);
                 update_post_meta($rsvp_id, 'event_date', $event_date);
                 update_post_meta($rsvp_id, 'itinerary', $itinerary);
-                update_post_meta($rsvp_id, 'event_venue_name', $venue_name);
-                update_post_meta($rsvp_id, 'event_venue_address', $venue_address);
-                update_post_meta($rsvp_id, 'event_venue_address_link', $venue_address_link);
 
                 update_post_meta($rsvp_id, 'guest_name_css', $guestNamecss);
                 update_post_meta($rsvp_id, 'guest_contact_css', $guestContactcss);
