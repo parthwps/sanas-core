@@ -75,6 +75,9 @@ function create_sanas_card_event_info_table() {
         event_guest_id BIGINT(20) UNSIGNED NOT NULL,
         event_step_id BIGINT(20) UNSIGNED NOT NULL,
         event_status VARCHAR(50) NOT NULL,
+        event_venue_name VARCHAR(255) NOT NULL,
+        event_venue_address TEXT NOT NULL,
+        event_venue_address_link TEXT NOT NULL,
         PRIMARY KEY (event_no)
     ) $charset_collate;"; 
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
