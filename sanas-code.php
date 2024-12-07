@@ -75,9 +75,6 @@ function create_sanas_card_event_info_table() {
         event_guest_id BIGINT(20) UNSIGNED NOT NULL,
         event_step_id BIGINT(20) UNSIGNED NOT NULL,
         event_status VARCHAR(50) NOT NULL,
-        event_venue_name VARCHAR(255) NOT NULL,
-        event_venue_address TEXT NOT NULL,
-        event_venue_address_link TEXT NOT NULL,
         PRIMARY KEY (event_no)
     ) $charset_collate;"; 
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -217,3 +214,19 @@ function sanas_toggle_wishlist() {
 
     wp_die();
 }
+
+function alter_sanas_card_event_table() {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'sanas_card_event';
+    $charset_collate = $wpdb->get_charset_collate();
+
+    $sql = "ALTER TABLE $table_name 
+            ADD COLUMN event_venue_name VARCHAR(255) NOT NULL,
+            ADD COLUMN event_venue_address TEXT NOT NULL,
+            ADD COLUMN event_venue_address_link VARCHAR(255) NOT NULL;";
+
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+    dbDelta($sql);
+}
+
+register_activation_hook(__FILE__, 'alter_sanas_card_event_table');
