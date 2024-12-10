@@ -944,8 +944,11 @@ function sanas_guest_invitation_response() {
     $event_image = $event_data->event_front_card_preview;
     $event_name = $event_data->event_name;
     $event_date = esc_html(get_post_meta($event_data->event_rsvp_id, 'event_date', true));
-    $event_location = esc_html(get_post_meta($event_data->event_rsvp_id, 'guest_message', true));
+    $event_message = esc_html(get_post_meta($event_data->event_rsvp_id, 'guest_message', true));
     $program = get_post_meta($event_data->event_rsvp_id, 'listing_itinerary_details', true);
+    $event_venue_name = esc_html(get_post_meta($event_data->event_rsvp_id, 'event_venue_name', true));
+    $event_venue_address = esc_html(get_post_meta($event_data->event_rsvp_id, 'event_venue_address', true));
+    $event_venue_address_link = esc_html(get_post_meta($event_data->event_rsvp_id, 'event_venue_address_link', true));
 
     $event_host = $event_data->host_name;
 
@@ -1002,15 +1005,15 @@ function sanas_guest_invitation_response() {
     );
 
     if($prestatus != $status || $prekidsguest != $kidsguest || $preadultguest != $adultguest){
-        echo sanas_guest_invitation_response_mail($guest_email, $status, $prestatus, $kidsguest, $prekidsguest, $adultguest, $preadultguest, $event_image_url, $guest_name, $event_name, $event_date, $event_time_line, $event_location, $invite_link, $event_host);
+        echo sanas_guest_invitation_response_mail($guest_email, $status, $prestatus, $kidsguest, $prekidsguest, $adultguest, $preadultguest, $event_image_url, $guest_name, $event_name, $event_date, $event_time_line, $event_message, $invite_link, $event_host, $event_venue_name, $event_venue_address, $event_venue_address_link);
     }
     echo '<div class="alert alert-success pop-btn-div" role="alert">' . esc_html__('Guest Submitted Response Successfully.', 'sanas') . '</div>';
-    echo sanas_guest_invitation_response_mail_auto($guest_email, $status, $prestatus, $kidsguest, $prekidsguest, $adultguest, $preadultguest, $event_image_url, $guest_name, $event_name, $event_date, $event_time_line, $event_location, $invite_link, $event_host);
+    echo sanas_guest_invitation_response_mail_auto($guest_email, $status, $prestatus, $kidsguest, $prekidsguest, $adultguest, $preadultguest, $event_image_url, $guest_name, $event_name, $event_date, $event_time_line, $event_message, $invite_link, $event_host, $event_venue_name, $event_venue_address, $event_venue_address_link);
     die();
 }
 
 //send mail to guest
-function sanas_guest_invitation_response_mail($guest_email, $status, $prestatus, $kidsguest, $prekidsguest, $adultguest, $preadultguest, $event_image, $guest_name, $event_name, $event_date, $event_time_line, $event_location, $invite_link, $event_host) {
+function sanas_guest_invitation_response_mail($guest_email, $status, $prestatus, $kidsguest, $prekidsguest, $adultguest, $preadultguest, $event_image, $guest_name, $event_name, $event_date, $event_time_line, $event_message, $invite_link, $event_host, $event_venue_name, $event_venue_address, $event_venue_address_link) {
     
     // Initialize subject and body
     $subject = '';
@@ -1056,8 +1059,8 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $prestatus,
 
         // Replace placeholders in email content
         $body = str_replace(
-            array('%%guestname', '%%gueststatus', '%%guestkids', '%%guestadult', '%%eventimg', '%%eventname', '%%eventdate', '%%eventtime', '%%eventlocation', '%%invitelink', '%%eventhost'), 
-            array($guest_name, $status, $kidsguest, $adultguest, $event_image, $event_name, $event_date, $event_time_line, $event_location, $invite_link, $event_host),
+            array('%%guestname', '%%gueststatus', '%%guestkids', '%%guestadult', '%%eventimg', '%%eventname', '%%eventdate', '%%eventtime', '%%eventmessage', '%%invitelink', '%%eventhost', '%%eventvenue', '%%eventvenueaddress', '%%eventvenueaddresslink'), 
+            array($guest_name, $status, $kidsguest, $adultguest, $event_image, $event_name, $event_date, $event_time_line, $event_message, $invite_link, $event_host, $event_venue_name, $event_venue_address, $event_venue_address_link),
             $body
         );
 
