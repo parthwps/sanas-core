@@ -1623,8 +1623,8 @@ function sanas_send_invitations() {
                     'eventhost' => "$guestName",
                     'guestemail' => "$guestemail",
                     'eventvenue' => "$event_venue_name",
-                    'eventvenueaddress' => "$event_venue_address",
-                    'eventvenueaddresslink' => "$event_venue_address_link"
+                    'venueaddress' => "$event_venue_address",
+                    'venueaddresslink' => "$event_venue_address_link"
                 ));   
 
 
