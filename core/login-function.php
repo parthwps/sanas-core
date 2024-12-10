@@ -1059,7 +1059,7 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $prestatus,
 
         // Replace placeholders in email content
         $body = str_replace(
-            array('%%guestname', '%%gueststatus', '%%guestkids', '%%guestadult', '%%eventimg', '%%eventname', '%%eventdate', '%%eventtime', '%%eventmessage', '%%invitelink', '%%eventhost', '%%eventvenue', '%%eventvenueaddress', '%%eventvenueaddresslink'), 
+            array('%%guestname', '%%gueststatus', '%%guestkids', '%%guestadult', '%%eventimg', '%%eventname', '%%eventdate', '%%eventtime', '%%eventmessage', '%%invitelink', '%%eventhost', '%%eventvenue', '%%venueaddress', '%%googlelink'), 
             array($guest_name, $status, $kidsguest, $adultguest, $event_image, $event_name, $event_date, $event_time_line, $event_message, $invite_link, $event_host, $event_venue_name, $event_venue_address, $event_venue_address_link),
             $body
         );
