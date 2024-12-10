@@ -1371,6 +1371,9 @@ if (!function_exists('sanas_save_rsvp_data_callback')) {
                 update_post_meta($rsvp_id, 'event_title_css', $eventtitlecss);
                 update_post_meta($rsvp_id, 'event_date_css', $eventdatecss);
                 update_post_meta($rsvp_id, 'itinerarycss', $itinerarycss);
+                update_post_meta($rsvp_id, 'event_venue_name', $venue_name);
+                update_post_meta($rsvp_id, 'event_venue_address', $venue_address);
+                update_post_meta($rsvp_id, 'event_venue_address_link', $venue_address_link);
 
                 if (!empty($video_src)) {
                     update_post_meta($rsvp_id, 'opt_upload_video', $video_src);
@@ -1450,6 +1453,9 @@ if (!function_exists('sanas_save_rsvp_data_callback')) {
                 update_post_meta($rsvp_id, 'event_title_css', $eventtitlecss);
                 update_post_meta($rsvp_id, 'event_date_css', $eventdatecss);
                 update_post_meta($rsvp_id, 'itinerarycss', $itinerarycss);
+                update_post_meta($rsvp_id, 'event_venue_name', $venue_name);
+                update_post_meta($rsvp_id, 'event_venue_address', $venue_address);
+                update_post_meta($rsvp_id, 'event_venue_address_link', $venue_address_link);
 
                 if (!empty($video_src)) {
                     update_post_meta($rsvp_id, 'opt_upload_video', $video_src);
