@@ -1624,7 +1624,7 @@ function sanas_send_invitations() {
                     'guestemail' => "$guestemail",
                     'eventvenue' => "$event_venue_name",
                     'venueaddress' => "$event_venue_address",
-                    'venueaddresslink' => "$event_venue_address_link"
+                    'googlelink' => "$event_venue_address_link"
                 ));   
 
 
