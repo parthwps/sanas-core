@@ -1572,6 +1572,9 @@ function sanas_send_invitations() {
     $guestContact = esc_html(get_post_meta($rsvp_id, 'guest_contact', true));
     $guestMessage = esc_html(get_post_meta($rsvp_id, 'guest_message', true));
     $program = get_post_meta($rsvp_id, 'listing_itinerary_details', true);
+    $event_venue_name = esc_html(get_post_meta($rsvp_id, 'event_venue_name', true));
+    $event_venue_address = esc_html(get_post_meta($rsvp_id, 'event_venue_address', true));
+    $event_venue_address_link = esc_html(get_post_meta($rsvp_id, 'event_venue_address_link', true));
 
 
     $formated_subject = sanas_sprintf("$sanas_guest_invite_email_subject", array(
@@ -1614,11 +1617,14 @@ function sanas_send_invitations() {
                     'eventimg' => "$preview_image",
                     'eventdate' => "$eventdate",
                     'eventtime' => $event_time_line,
-                    'eventlocation' => "$guestMessage",
+                    'eventmessage' => "$guestMessage",
                     'invitelink' => "$guest_url",
                     'eventname' => "$mailtitle",
                     'eventhost' => "$guestName",
-                    'guestemail' => "$guestemail"
+                    'guestemail' => "$guestemail",
+                    'eventvenue' => "$event_venue_name",
+                    'eventvenueaddress' => "$event_venue_address",
+                    'eventvenueaddresslink' => "$event_venue_address_link"
                 ));   
 
 
