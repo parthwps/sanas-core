@@ -37,11 +37,11 @@ class Sanas_Search_Widget extends Widget_Base {
     }
     protected function render() {
         $settings = $this->get_settings_for_display(); ?>
-        <form class="search-form text-center" method="post" action="<?php echo esc_url(home_url( '/' )); ?>">
-              <input type="search" id="search" name="s" value="<?php the_search_query(); ?>"  placeholder="<?php echo esc_html($settings['sanas_search_text']); ?>">
-              <ul id="suggestionlist"></ul>
-              <button class="search-btn" type="submit"><i class="icon-Search"></i></button>
-            </form>        
+        <form class="search-form text-center" method="get" action="<?php echo esc_url(home_url( '/' )); ?>">
+            <input type="search" id="search" name="s" value="<?php the_search_query(); ?>" placeholder="<?php echo esc_html($settings['sanas_search_text']); ?>">
+            <ul id="suggestionlist"></ul>
+            <button class="search-btn" type="submit"><i class="icon-Search"></i></button>
+        </form>
         <?php
     }
 }
