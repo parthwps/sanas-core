@@ -93,6 +93,7 @@ function create_sanas_card_guest_info_table() {
         guest_phone_num varchar(255) NOT NULL,
         guest_email varchar(255) NOT NULL,
         guest_status varchar(255) NOT NULL,
+        subscribe TINYINT(1) NOT NULL DEFAULT 1,
         PRIMARY KEY (`guest_id`)
     ) $charset_collate AUTO_INCREMENT=1;";
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
