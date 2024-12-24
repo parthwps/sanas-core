@@ -130,7 +130,7 @@ if ($query->have_posts()) :
 
             ?>
 
-            <div class="card-box col-lg-3 col-md-4 col-sm-6" data-card-id="<?php echo get_the_ID(); ?>">
+            <div class="card-box col-lg-3 col-md-4 col-sm-6 card-preview" data-card-id="<?php echo get_the_ID(); ?>">
                 <div class="inner-box">
                     <a 
                     href="javascript:void(0)" 
