@@ -134,7 +134,7 @@ if ($query->have_posts()) :
                 <div class="inner-box">
                     <a 
                     <?php if (is_user_logged_in()) : ?> 
-                       href="<?php echo esc_url($dashboardURL); ?>" class="flip-container"
+                       href="javascript:void(0)" class="flip-container"
                        <?php else : ?>
                        href="javascript:void(0)" data-href="<?php echo esc_url($dashboardURL); ?>" data-card-id="<?php echo get_the_ID(); ?> class="login-in sanas-login-popup flip-container" <?php endif; ?> <?php echo isset($bg_color) ? $bg_color : ''; ?>>
                         <div class="flipper">
