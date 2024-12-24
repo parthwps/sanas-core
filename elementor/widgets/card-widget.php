@@ -130,13 +130,13 @@ if ($query->have_posts()) :
 
             ?>
 
-            <div class="card-box col-lg-3 col-md-4 col-sm-6">
+            <div class="card-box col-lg-3 col-md-4 col-sm-6" data-card-id="<?php echo get_the_ID(); ?>">
                 <div class="inner-box">
                     <a 
                     <?php if (is_user_logged_in()) : ?> 
                        href="<?php echo esc_url($dashboardURL); ?>" class="flip-container"
                        <?php else : ?>
-                       href="javascript:void(0)" data-href="<?php echo esc_url($dashboardURL); ?>" class="login-in sanas-login-popup flip-container" <?php endif; ?> <?php echo isset($bg_color) ? $bg_color : ''; ?>>
+                       href="javascript:void(0)" data-href="<?php echo esc_url($dashboardURL); ?>" data-card-id="<?php echo get_the_ID(); ?> class="login-in sanas-login-popup flip-container" <?php endif; ?> <?php echo isset($bg_color) ? $bg_color : ''; ?>>
                         <div class="flipper">
                             <div class="front">
                                 <img src="<?php echo esc_url($sanas_portfolio_meta['sanas_upload_front_Image']['url']); ?>" alt="template">
@@ -150,10 +150,10 @@ if ($query->have_posts()) :
                         </div>
                     </a>
                     <div class="lower-content">
-                        <a href="<?php echo esc_url($dashboardURL); ?>" class="card-box-title">
+                        <a href="javascript:void(0);" class="card-box-title">
                             <h4><?php echo esc_html(get_the_title()); ?></h4>
                         </a>
-                        <a href="<?php echo esc_url($dashboardURL); ?>">Free</a>
+                        <a href="javascript:void(0);">Free</a>
                         <?php if (is_user_logged_in()) : ?>
                           <div class="heart-icon <?php echo $is_in_wishlist ? 'active' : ''; ?>" 
                             data-card-id="<?php echo get_the_ID(); ?>" 
@@ -239,7 +239,7 @@ endif;
                     $bg_color='style="background:'.$sanas_portfolio_meta['sanas_bg_color'].'"';
                 }
                 ?>
-                  <div class="card-box col-lg-3 col-md-4 col-sm-6">
+                  <div class="card-box col-lg-3 col-md-4 col-sm-6" data-card-id="<?php echo get_the_ID(); ?>">
                     <div class="inner-box" >
                       <a href="<?php echo $dashboardURL;?>" class="flip-container" <?php echo $bg_color;?>>
                         <div class="flipper">
