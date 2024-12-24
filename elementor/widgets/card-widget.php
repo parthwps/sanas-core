@@ -244,7 +244,7 @@ endif;
                     <div class="inner-box" >
                       <a href="<?php echo $dashboardURL;?>" class="flip-container" <?php echo $bg_color;?>>
                         <div class="flipper">
-                          <div class="front" data-bg-color="<?php echo isset($bg_color) ? $bg_color : ''; ?>">
+                          <div class="front">
                             <img src="<?php echo esc_url($sanas_portfolio_meta['sanas_upload_front_Image']['url']) ?>" alt="template">
                           </div>
                           <div class="middel-card">
