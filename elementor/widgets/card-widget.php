@@ -137,7 +137,7 @@ if ($query->have_posts()) :
                     class="<?php echo is_user_logged_in() ? '' : 'login-in sanas-login-popup'; ?> flip-container" 
                     <?php echo !is_user_logged_in() ? 'data-href="' . esc_url($dashboardURL) . '" data-card-id="' . get_the_ID() . '"' : ''; ?> 
                     <?php echo isset($bg_color) ? $bg_color : ''; ?>
-                    style="<?php echo isset($bg_color) ? $bg_color : ''; ?>"
+                    data-bg-color="<?php echo isset($bg_color) ? $bg_color : ''; ?>"
                     >
                         <div class="flipper">
                             <div class="front">
