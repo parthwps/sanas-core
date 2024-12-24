@@ -126,6 +126,7 @@ if ($query->have_posts()) :
             // Check if background color is set
             if (isset($sanas_portfolio_meta['sanas_bg_color'])) {
                 $bg_color = 'style="background:' . esc_attr($sanas_portfolio_meta['sanas_bg_color']) . '"';
+                $bg_color_code=esc_attr($sanas_portfolio_meta['sanas_bg_color']);
             }
 
             ?>
@@ -137,7 +138,7 @@ if ($query->have_posts()) :
                     class="<?php echo is_user_logged_in() ? '' : 'login-in sanas-login-popup'; ?> flip-container" 
                     <?php echo !is_user_logged_in() ? 'data-href="' . esc_url($dashboardURL) . '" data-card-id="' . get_the_ID() . '"' : ''; ?> 
                     <?php echo isset($bg_color) ? $bg_color : ''; ?>
-                    data-bg-color="<?php echo isset($bg_color) ? $bg_color : ''; ?>"
+                    data-bg-color="<?php echo isset($bg_color_code) ? $bg_color_code : ''; ?>"
                     >
                         <div class="flipper">
                             <div class="front">
