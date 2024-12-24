@@ -130,13 +130,13 @@ if ($query->have_posts()) :
 
             ?>
 
-            <div class="card-box col-lg-3 col-md-4 col-sm-6">
+            <div class="card-box col-lg-3 col-md-4 col-sm-6" data-card-id="<?php echo get_the_ID(); ?>">
                 <div class="inner-box">
                     <a 
                     <?php if (is_user_logged_in()) : ?> 
                        href="<?php echo esc_url($dashboardURL); ?>" class="flip-container"
                        <?php else : ?>
-                       href="javascript:void(0)" data-href="<?php echo esc_url($dashboardURL); ?>" class="login-in sanas-login-popup flip-container" <?php endif; ?> <?php echo isset($bg_color) ? $bg_color : ''; ?>>
+                        href="javascript:void(0);" data-card-id="<?php echo get_the_ID(); ?>" class="login-in sanas-login-popup flip-container card-preview" <?php endif; ?> <?php echo isset($bg_color) ? $bg_color : ''; ?>>
                         <div class="flipper">
                             <div class="front">
                                 <img src="<?php echo esc_url($sanas_portfolio_meta['sanas_upload_front_Image']['url']); ?>" alt="template">
@@ -313,3 +313,25 @@ endif;
     }
 }
 Plugin::instance()->widgets_manager->register_widget_type(new Sanas_card_Widget());
+?>
+
+<!-- preview popup -->
+<div id="cardPreviewPopup" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="cardPreviewLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cardPreviewLabel">Card Preview</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img id="previewImage" src="" alt="Card Preview" class="img-fluid">
+                <div id="previewDetails"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
