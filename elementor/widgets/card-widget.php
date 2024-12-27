@@ -139,6 +139,8 @@ if ($query->have_posts()) :
                     <?php echo !is_user_logged_in() ? 'data-href="' . esc_url($dashboardURL) . '" data-card-id="' . get_the_ID() . '"' : ''; ?> 
                     <?php echo isset($bg_color) ? $bg_color : ''; ?>
                     data-bg-color="<?php echo isset($bg_color_code) ? $bg_color_code : ''; ?>"
+                    data-card-id="<?php echo get_the_ID(); ?>" 
+                    data-href="<?php echo esc_url($dashboardURL); ?>"
                     >
                         <div class="flipper">
                             <div class="front">
