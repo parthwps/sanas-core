@@ -2098,25 +2098,25 @@ function sanas_load_fabric_js_data_back_user() {
 
 
 // Send Signup Email
-    function sanas_send_signup_email() {
-        check_ajax_referer('ajax-usersignup-nonce', 'security');
-        $user_email = sanitize_email($_POST['email']);
+    // function sanas_send_signup_email() {
+    //     check_ajax_referer('ajax-usersignup-nonce', 'security');
+    //     $user_email = sanitize_email($_POST['email']);
         
-        // Get the email subject and body from theme options
-        $subject = sanas_options('sanas_user_signup_subject');
-        $body = sanas_options('sanas_user_signup_body');
+    //     // Get the email subject and body from theme options
+    //     $subject = sanas_options('sanas_user_signup_subject');
+    //     $body = sanas_options('sanas_user_signup_body');
 
-        // Prepare email headers
-        $headers = array('Content-Type: text/html; charset=UTF-8');
+    //     // Prepare email headers
+    //     $headers = array('Content-Type: text/html; charset=UTF-8');
 
-        // Send the email
-        wp_mail($user_email, $subject, $body, $headers);
+    //     // Send the email
+    //     wp_mail($user_email, $subject, $body, $headers);
 
-        wp_die();
-    }
-    
-    add_action('wp_ajax_nopriv_sanas_send_signup_email', 'sanas_send_signup_email');
-    add_action('wp_ajax_sanas_send_signup_email', 'sanas_send_signup_email');
+    //     wp_die();
+    // }
+
+    // add_action('wp_ajax_nopriv_sanas_send_signup_email', 'sanas_send_signup_email');
+    // add_action('wp_ajax_sanas_send_signup_email', 'sanas_send_signup_email');
 
 
   
