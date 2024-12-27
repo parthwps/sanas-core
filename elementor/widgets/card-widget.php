@@ -133,7 +133,8 @@ if ($query->have_posts()) :
 
             <div class="card-box col-lg-3 col-md-4 col-sm-6 card-preview" data-card-id="<?php echo get_the_ID(); ?>" data-bg-color="<?php echo isset($bg_color) ? $bg_color : ''; ?>"
                     data-front-img="<?php echo esc_url($sanas_portfolio_meta['sanas_upload_front_Image']['url']); ?>" data-href="<?php echo esc_url($dashboardURL); ?>"
-                    data-back-img="<?php echo esc_url($sanas_portfolio_meta['sanas_upload_back_Image']['url']); ?>" data-card-title="<?php echo esc_html(get_the_title()); ?>">
+                    data-back-img="<?php echo esc_url($sanas_portfolio_meta['sanas_upload_back_Image']['url']); ?>" data-card-title="<?php echo esc_html(get_the_title()); ?>"
+                    data-bgcolor-code="<?php echo isset($bg_color_code) ?>">
                 <div class="inner-box">
                     <a 
                     href="javascript:void(0)" 
