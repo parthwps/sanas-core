@@ -2098,7 +2098,6 @@ function sanas_load_fabric_js_data_back_user() {
 
 
 // Send Signup Email
-if (!function_exists('sanas_send_signup_email')) {
     function sanas_send_signup_email() {
         check_ajax_referer('ajax-usersignup-nonce', 'security');
         $user_email = sanitize_email($_POST['email']);
@@ -2115,9 +2114,9 @@ if (!function_exists('sanas_send_signup_email')) {
 
         wp_die();
     }
+    
     add_action('wp_ajax_nopriv_sanas_send_signup_email', 'sanas_send_signup_email');
     add_action('wp_ajax_sanas_send_signup_email', 'sanas_send_signup_email');
-}
 
 
   
