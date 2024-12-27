@@ -125,7 +125,7 @@ if ($query->have_posts()) :
 
             // Check if background color is set
             if (isset($sanas_portfolio_meta['sanas_bg_color'])) {
-                $bg_color = 'style="background:' . esc_attr($sanas_portfolio_meta['sanas_bg_color']) . '"';
+                $bg_color = "style='background:" . esc_attr($sanas_portfolio_meta['sanas_bg_color']) . "'";
                 $bg_color_code=esc_attr($sanas_portfolio_meta['sanas_bg_color']);
             }
 
