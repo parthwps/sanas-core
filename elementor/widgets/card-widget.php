@@ -137,7 +137,7 @@ if ($query->have_posts()) :
                 <div class="inner-box">
                     <a 
                     href="javascript:void(0)" 
-                    class="<?php echo is_user_logged_in() ? '' : 'login-in sanas-login-popup'; ?> flip-container sanas-card-preview" 
+                    class="<?php echo is_user_logged_in() ? 'sanas-card-preview' : 'login-in sanas-login-popup'; ?> flip-container" 
                     <?php echo !is_user_logged_in() ? 'data-href="' . esc_url($dashboardURL) . '" data-card-id="' . get_the_ID() . '"' : ''; ?> 
                     <?php echo isset($bg_color) ? $bg_color : ''; ?>
                     data-bg-color="<?php echo isset($bg_color_code) ? $bg_color_code : ''; ?>"
