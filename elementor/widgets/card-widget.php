@@ -107,8 +107,8 @@ class Sanas_card_Widget extends Widget_Base {
                 foreach ($terms as $term): 
                     $active_class = isset($_GET['category']) && $_GET['category'] == $term->slug ? 'active' : 'd-none';
                 ?>
-                    <li class="nav-item" role="presentation">
-                        <button class="update-category-name nav-link <?php echo $active_class; ?>" id="pills-<?php echo esc_attr($term->slug); ?>-tab" data-bs-toggle="pill" data-bs-target="#pills-<?php echo esc_attr($term->slug); ?>" type="button" role="tab" aria-controls="pills-<?php echo esc_attr($term->slug); ?>" aria-selected="true"><?php echo esc_html($term->name); ?></button>
+                    <li class="nav-item update-category-name" role="presentation">
+                        <button class="nav-link <?php echo $active_class; ?>" id="pills-<?php echo esc_attr($term->slug); ?>-tab" data-bs-toggle="pill" data-bs-target="#pills-<?php echo esc_attr($term->slug); ?>" type="button" role="tab" aria-controls="pills-<?php echo esc_attr($term->slug); ?>" aria-selected="true"><?php echo esc_html($term->name); ?></button>
                     </li>
                 <?php $j++; endforeach;
             } else {
