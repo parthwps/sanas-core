@@ -84,7 +84,7 @@ class Sanas_card_Widget extends Widget_Base {
         </ul>
         <div class="all-tamplate">
           <div>
-          <ul class="nav nav-pills update-category-name" id="" role="tablist">
+          <!-- <ul class="nav nav-pills update-category-name" id="" role="tablist">
             <li class="nav-item" role="presentation">
               <button class="nav-link active" id="pills-bestloved-tab" data-bs-toggle="pill" data-bs-target="#pills-bestloved" type="button" role="tab" aria-controls="pills-bestloved" aria-selected="true">Best Loved</button>
             </li>
@@ -109,8 +109,8 @@ class Sanas_card_Widget extends Widget_Base {
               <li class="nav-item" role="presentation">
                 <button class="nav-link <?php echo $active_class; ?>" id="pills-<?php echo esc_attr($term->slug); ?>-tab" data-bs-toggle="pill" data-category-name="<?php echo esc_html($term->name); ?>" data-bs-target="#pills-<?php echo esc_attr($term->slug); ?>" type="button" role="tab" aria-controls="pills-<?php echo esc_attr($term->slug); ?>" aria-selected="true"><?php echo esc_html($term->name); ?></button>
               </li>
-         <?php endforeach; } else { echo '<li class="nav-item">No categories found.</li>'; } ?>
-          </ul>
+         <?php endforeach; //} else { echo '<li class="nav-item">No categories found.</li>'; } ?>
+          </ul> -->
           </div>
           <div>
             <a href="javascript:void(0)" class="all-tamplate-btn" id="view-all-categories">View all categories<i class="icon-chevron-down"></i></a>
