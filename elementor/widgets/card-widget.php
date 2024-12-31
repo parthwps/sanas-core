@@ -109,7 +109,7 @@ class Sanas_card_Widget extends Widget_Base {
               <li class="nav-item" role="presentation">
                 <button class="nav-link <?php echo $active_class; ?>" id="pills-<?php echo esc_attr($term->slug); ?>-tab" data-bs-toggle="pill" data-category-name="<?php echo esc_html($term->name); ?>" data-bs-target="#pills-<?php echo esc_attr($term->slug); ?>" type="button" role="tab" aria-controls="pills-<?php echo esc_attr($term->slug); ?>" aria-selected="true"><?php echo esc_html($term->name); ?></button>
               </li>
-         <?php endforeach; //} else { echo '<li class="nav-item">No categories found.</li>'; } ?>
+         <?php endforeach; } else { echo '<li class="nav-item">No categories found.</li>'; } ?>
           </ul> -->
           </div>
           <div>
