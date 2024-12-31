@@ -84,7 +84,7 @@ class Sanas_card_Widget extends Widget_Base {
         </ul>
         <div class="all-tamplate">
           <div>
-          <ul class="nav nav-pills" id="pills-tab" role="tablist">
+          <ul class="nav nav-pills" id="" role="tablist">
           <li class="nav-item" role="presentation">
               <button class="nav-link active" id="pills-bestloved-tab" data-bs-toggle="pill" data-bs-target="#pills-bestloved" type="button" role="tab" aria-controls="pills-bestloved" aria-selected="true">Best Loved</button>
           </li>
