@@ -83,7 +83,7 @@ class Sanas_card_Widget extends Widget_Base {
             ?>
         </ul>
         <div class="all-tamplate">
-          <a href="<?php echo $sanas_card_mobile_all_url; ?>" class="all-tamplate-btn">View all categories <i class="icon-chevron-down"></i></a>
+          <a href="javascript:void(0)" class="all-tamplate-btn" id="view-all-categories">View all categories<i class="icon-chevron-down"></i></a>
         </div>
         <div class="tab-content" id="pills-tabContent">
           <div class="tab-pane fade show active" id="pills-bestloved" role="tabpanel" aria-labelledby="pills-bestloved">
