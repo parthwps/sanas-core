@@ -181,13 +181,13 @@ if ($query->have_posts()) :
                     >
                         <div class="flipper">
                             <div class="front">
-                                <img src="<?php echo esc_url($sanas_portfolio_meta['sanas_upload_front_Image']['url']); ?>" alt="template">
+                                <img src="<?php echo esc_url(isset($sanas_portfolio_meta['sanas_upload_front_Image']['url']) ? $sanas_portfolio_meta['sanas_upload_front_Image']['url'] : ''); ?>" alt="template">
                             </div>
                             <div class="middel-card">
-                                <img src="<?php echo esc_url($sanas_portfolio_meta['sanas_upload_back_Image']['url']); ?>" alt="template">
+                                <img src="<?php echo esc_url(isset($sanas_portfolio_meta['sanas_upload_back_Image']['url']) ? $sanas_portfolio_meta['sanas_upload_back_Image']['url'] : ''); ?>" alt="template">
                             </div>
                             <div class="back">
-                                <img src="<?php echo esc_url($sanas_portfolio_meta['sanas_upload_back_Image']['url']); ?>" alt="template">
+                                <img src="<?php echo esc_url(isset($sanas_portfolio_meta['sanas_upload_back_Image']['url']) ? $sanas_portfolio_meta['sanas_upload_back_Image']['url'] : ''); ?>" alt="template">
                             </div>
                         </div>
                     </a>
