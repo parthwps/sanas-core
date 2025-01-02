@@ -168,7 +168,8 @@ if ($query->have_posts()) :
             data-bg-color="<?php echo isset($bg_color) ? $bg_color : ''; ?>"
             data-front-img="<?php echo esc_url(isset($sanas_portfolio_meta['sanas_upload_front_Image']['url']) ? $sanas_portfolio_meta['sanas_upload_front_Image']['url'] : ''); ?>"
             data-href="<?php echo esc_url($dashboardURL); ?>"
-            data-back-img="<?php echo esc_url($sanas_portfolio_meta['sanas_upload_back_Image']['url']); ?>" data-card-title="<?php echo esc_html(get_the_title()); ?>">
+            data-back-img="<?php echo esc_url(isset($sanas_portfolio_meta['sanas_upload_back_Image']['url']) ? $sanas_portfolio_meta['sanas_upload_back_Image']['url'] : ''); ?>"
+            data-card-title="<?php echo esc_html(get_the_title()); ?>">
                 <div class="inner-box">
                     <a 
                     href="javascript:void(0)" 
