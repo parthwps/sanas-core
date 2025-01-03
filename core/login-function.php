@@ -1086,11 +1086,12 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $prestatus,
                 'htmlContent' => $body
             ]);
             $result = $apiInstance->sendTransacEmail($sendSmtpEmail);
+            print_r($result);
             echo 'Email sent successfully!';
         } catch (Exception $e) {
             echo 'Error sending email: ', $e->getMessage(), PHP_EOL;
         }
-        echo 'Email sent successfully!2';
+        echo "test2";
         // wp_mail($guest_email, $subject, $body, $headers);
     }
 }
