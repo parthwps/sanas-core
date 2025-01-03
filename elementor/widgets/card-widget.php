@@ -162,7 +162,7 @@ if ($query->have_posts()) :
 
             ?>
 
-            <div class="card-box col-lg-3 col-md-4 col-sm-6 card-preview"
+            <div class="card-box col-lg-4 col-md-4 col-sm-6 card-preview"
             data-card-id="<?php echo get_the_ID(); ?>"
             data-bgcolor-code="<?php echo isset($bg_color_code) ? $bg_color_code : ''; ?>"
             data-bg-color="<?php echo isset($bg_color) ? $bg_color : ''; ?>"
@@ -281,7 +281,7 @@ endif;
                     $bg_color='style="background:'.$sanas_portfolio_meta['sanas_bg_color'].'"';
                 }
                 ?>
-                  <div class="card-box col-lg-3 col-md-4 col-sm-6" data-card-id="<?php echo get_the_ID(); ?>">
+                  <div class="card-box col-lg-4 col-md-4 col-sm-6" data-card-id="<?php echo get_the_ID(); ?>">
                     <div class="inner-box" >
                       <a href="<?php echo $dashboardURL;?>" class="flip-container" <?php echo $bg_color;?>>
                         <div class="flipper">
