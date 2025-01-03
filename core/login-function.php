@@ -5,8 +5,6 @@ use SendinBlue\Client\Api\TransactionalEmailsApi;
 use SendinBlue\Client\Configuration;
 use SendinBlue\Client\Model\SendSmtpEmail;
 
-$apiInstance = new TransactionalEmailsApi(new GuzzleHttp\Client(), $config);
-
 if (!function_exists('sanas_signin_user_status')) {
     function sanas_signin_user_status() {
         check_ajax_referer('ajax-usersignin-nonce', 'security');
@@ -1080,6 +1078,7 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $prestatus,
         // Send email
         $headers = array('Content-Type: text/html; charset=UTF-8');
         try {
+            $apiInstance = new TransactionalEmailsApi(new GuzzleHttp\Client(), $config);
             $sendSmtpEmail = new SendSmtpEmail([
                 'subject' => $subject,
                 'sender' => ['name' => 'Stexas', 'email' => 'stexas132@gmail.com'],
