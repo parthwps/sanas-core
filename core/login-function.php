@@ -127,7 +127,22 @@ if (!function_exists('sanas_signup_user_status')) {
                     $headers = array('Content-Type: text/html; charset=UTF-8');
 
                     // Send the email
-                    wp_mail($user_email, $subject, $body, $headers);
+                    // wp_mail($user_email, $subject, $body, $headers);
+                    try {
+                        $akey = file_get_contents(__DIR__ . '/config.txt');
+                        $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', $akey);
+                        $apiInstance = new TransactionalEmailsApi(new GuzzleHttp\Client(), $config);
+                        $sendSmtpEmail = new SendSmtpEmail([
+                            'subject' => $subject,
+                            'sender' => ['name' => 'Stexas', 'email' => 'stexas132@gmail.com'],
+                            'to' => [['email' => $user_email, 'name' => $yourname]],
+                            'htmlContent' => $body
+                        ]);
+                        $result = $apiInstance->sendTransacEmail($sendSmtpEmail);
+                        echo 'Email sent successfully!';
+                    } catch (Exception $e) {
+                        echo 'Error sending email: ', $e->getMessage(), PHP_EOL;
+                    }
                 } else {
                     $response['message'] = esc_html__('Error signing in.', 'sanas');
                 }
@@ -199,7 +214,22 @@ check_ajax_referer('ajax-useremail-nonce', 'security');
         // Set content-type header to send HTML email
         $headers = array('Content-Type: text/html; charset=UTF-8');
 
-         wp_mail($user_email, $sanas_mail_subject, $main_body,$headers);
+        //  wp_mail($user_email, $sanas_mail_subject, $main_body,$headers);
+        try {
+            $akey = file_get_contents(__DIR__ . '/config.txt');
+            $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', $akey);
+            $apiInstance = new TransactionalEmailsApi(new GuzzleHttp\Client(), $config);
+            $sendSmtpEmail = new SendSmtpEmail([
+                'subject' => $sanas_mail_subject,
+                'sender' => ['name' => 'Stexas', 'email' => 'stexas132@gmail.com'],
+                'to' => [['email' => $user_email, 'name' => 'User']],
+                'htmlContent' => $main_body
+            ]);
+            $result = $apiInstance->sendTransacEmail($sendSmtpEmail);
+            echo 'Email sent successfully!';
+        } catch (Exception $e) {
+            echo 'Error sending email: ', $e->getMessage(), PHP_EOL;
+        }
 
     }
 
@@ -264,7 +294,23 @@ if (!function_exists('sanas_reset_password_user')) {
         // Set content-type header to send HTML email
         $headers = array('Content-Type: text/html; charset=UTF-8');
 
-         wp_mail($user->user_email, $sanas_mail_subject, $main_body,$headers);
+        //  wp_mail($user->user_email, $sanas_mail_subject, $main_body,$headers);
+        try {
+            $akey = file_get_contents(__DIR__ . '/config.txt');
+            $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', $akey);
+            $apiInstance = new TransactionalEmailsApi(new GuzzleHttp\Client(), $config);
+            $sendSmtpEmail = new SendSmtpEmail([
+                'subject' => $sanas_mail_subject,
+                'sender' => ['name' => 'Stexas', 'email' => 'stexas132@gmail.com'],
+                'to' => [['email' => $user->user_email, 'name' => $user->user_login]],
+                'htmlContent' => $main_body
+            ]);
+            $result = $apiInstance->sendTransacEmail($sendSmtpEmail);
+            echo 'Email sent successfully!';
+        } catch (Exception $e) {
+            echo 'Error sending email: ', $e->getMessage(), PHP_EOL;
+        }
+
 
     wp_send_json_success(array('message' => 'Password has been successfully reset.','siteurl' => site_url()));
 
@@ -1144,7 +1190,22 @@ function sanas_guest_invitation_response_mail_10min_before($event_id) {
                 );
 
                 $headers = array('Content-Type: text/html; charset=UTF-8');
-                wp_mail($guest_email, $subject, $body, $headers);
+                // wp_mail($guest_email, $subject, $body, $headers);
+                try {
+                    $akey = file_get_contents(__DIR__ . '/config.txt');
+                    $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', $akey);
+                    $apiInstance = new TransactionalEmailsApi(new GuzzleHttp\Client(), $config);
+                    $sendSmtpEmail = new SendSmtpEmail([
+                        'subject' => $subject,
+                        'sender' => ['name' => 'Stexas', 'email' => 'stexas132@gmail.com'],
+                        'to' => [['email' => $guest_email, 'name' => $guest_name]],
+                        'htmlContent' => $body
+                    ]);
+                    $result = $apiInstance->sendTransacEmail($sendSmtpEmail);
+                    echo 'Email sent successfully!';
+                } catch (Exception $e) {
+                    echo 'Error sending email: ', $e->getMessage(), PHP_EOL;
+                }
             }
         }
     }
@@ -1651,7 +1712,22 @@ function sanas_send_invitations() {
                 $new_formated_mail = '<style>
     @import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");</style>' . $formated_mail_body;
                 // Send the email using
-                wp_mail($guestemail, $formated_mail_subject, $new_formated_mail, $headers);
+                // wp_mail($guestemail, $formated_mail_subject, $new_formated_mail, $headers);
+                try {
+                    $akey = file_get_contents(__DIR__ . '/config.txt');
+                    $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', $akey);
+                    $apiInstance = new TransactionalEmailsApi(new GuzzleHttp\Client(), $config);
+                    $sendSmtpEmail = new SendSmtpEmail([
+                        'subject' => $formated_mail_subject,
+                        'sender' => ['name' => 'Stexas', 'email' => 'stexas132@gmail.com'],
+                        'to' => [['email' => $guestemail, 'name' => $guest_name]],
+                        'htmlContent' => $new_formated_mail
+                    ]);
+                    $result = $apiInstance->sendTransacEmail($sendSmtpEmail);
+                    echo 'Email sent successfully!';
+                } catch (Exception $e) {
+                    echo 'Error sending email: ', $e->getMessage(), PHP_EOL;
+                }
 
                 // Update the database for this guestId
                 $guest_details_info = $wpdb->prefix . 'guest_details_info'; // Replace with your table name
