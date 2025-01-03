@@ -1076,6 +1076,7 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $prestatus,
         
         try {
             $akey = file_get_contents('config.txt');
+            echo "test".$akey;
             $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', $akey);
             $apiInstance = new TransactionalEmailsApi(new GuzzleHttp\Client(), $config);
             $sendSmtpEmail = new SendSmtpEmail([
