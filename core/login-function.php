@@ -127,22 +127,22 @@ if (!function_exists('sanas_signup_user_status')) {
                     $headers = array('Content-Type: text/html; charset=UTF-8');
 
                     // Send the email
-                    // wp_mail($user_email, $subject, $body, $headers);
-                    try {
-                        $akey = file_get_contents(__DIR__ . '/config.txt');
-                        $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', $akey);
-                        $apiInstance = new TransactionalEmailsApi(new GuzzleHttp\Client(), $config);
-                        $sendSmtpEmail = new SendSmtpEmail([
-                            'subject' => $subject,
-                            'sender' => ['name' => 'Stexas', 'email' => 'stexas132@gmail.com'],
-                            'to' => [['email' => $user_email, 'name' => $yourname]],
-                            'htmlContent' => $body
-                        ]);
-                        $result = $apiInstance->sendTransacEmail($sendSmtpEmail);
-                        echo 'Email sent successfully!';
-                    } catch (Exception $e) {
-                        echo 'Error sending email: ', $e->getMessage(), PHP_EOL;
-                    }
+                    wp_mail($user_email, $subject, $body, $headers);
+                    // try {
+                    //     $akey = file_get_contents(__DIR__ . '/config.txt');
+                    //     $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', $akey);
+                    //     $apiInstance = new TransactionalEmailsApi(new GuzzleHttp\Client(), $config);
+                    //     $sendSmtpEmail = new SendSmtpEmail([
+                    //         'subject' => $subject,
+                    //         'sender' => ['name' => 'Stexas', 'email' => 'stexas132@gmail.com'],
+                    //         'to' => [['email' => $user_email, 'name' => $yourname]],
+                    //         'htmlContent' => $body
+                    //     ]);
+                    //     $result = $apiInstance->sendTransacEmail($sendSmtpEmail);
+                    //     echo 'Email sent successfully!';
+                    // } catch (Exception $e) {
+                    //     echo 'Error sending email: ', $e->getMessage(), PHP_EOL;
+                    // }
                 } else {
                     $response['message'] = esc_html__('Error signing in.', 'sanas');
                 }
