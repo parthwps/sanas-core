@@ -1090,6 +1090,7 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $prestatus,
         } catch (Exception $e) {
             echo 'Error sending email: ', $e->getMessage(), PHP_EOL;
         }
+        echo 'Email sent successfully!2';
         // wp_mail($guest_email, $subject, $body, $headers);
     }
 }
