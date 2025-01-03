@@ -1172,7 +1172,7 @@ function sanas_open_guest_invitation_response() {
 
     $kidsguest = $_POST['kidsguest'];
     $adultguest = $_POST['adultguest'];
-    $guest_preview_url = esc_url(isset($_POST['guest_preview_url']) ? $_POST['guest_preview_url'] : '')
+    $guest_preview_url = esc_url(isset($_POST['guest_preview_url']) ? $_POST['guest_preview_url'] : '');
     $mesg = $_POST['mesg'];
  
     $guest_info_table = $wpdb->prefix . "guest_details_info"; 
