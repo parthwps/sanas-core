@@ -1075,6 +1075,8 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $prestatus,
         // $headers = array('Content-Type: text/html; charset=UTF-8');
         
         try {
+            $akey = trim(file_get_contents('config.txt'));
+            $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', $akey);
             $apiInstance = new TransactionalEmailsApi(new GuzzleHttp\Client(), $config);
             $sendSmtpEmail = new SendSmtpEmail([
                 'subject' => $subject,
@@ -1088,10 +1090,9 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $prestatus,
         } catch (Exception $e) {
             echo 'Error sending email: ', $e->getMessage(), PHP_EOL;
         }
-        echo "test2";
         // wp_mail($guest_email, $subject, $body, $headers);
     }else{
-        echo "test53";
+        echo "Nothing changed";
     }
 }
 
