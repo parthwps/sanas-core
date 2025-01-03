@@ -1,5 +1,12 @@
 <?php
-// Sanas Signin Login Popup
+require '../php-library/vendor/autoload.php';
+
+use SendinBlue\Client\Api\TransactionalEmailsApi;
+use SendinBlue\Client\Configuration;
+use SendinBlue\Client\Model\SendSmtpEmail;
+
+$apiInstance = new TransactionalEmailsApi(new GuzzleHttp\Client(), $config);
+
 if (!function_exists('sanas_signin_user_status')) {
     function sanas_signin_user_status() {
         check_ajax_referer('ajax-usersignin-nonce', 'security');
@@ -1072,7 +1079,19 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $prestatus,
 
         // Send email
         $headers = array('Content-Type: text/html; charset=UTF-8');
-        wp_mail($guest_email, $subject, $body, $headers);
+        try {
+            $sendSmtpEmail = new SendSmtpEmail([
+                'subject' => $subject,
+                'sender' => ['name' => 'Stexas', 'email' => 'stexas132@gmail.com'],
+                'to' => [['email' => $guest_email, 'name' => $guest_name]],
+                'htmlContent' => $body
+            ]);
+            $result = $apiInstance->sendTransacEmail($sendSmtpEmail);
+            echo 'Email sent successfully!';
+        } catch (Exception $e) {
+            echo 'Error sending email: ', $e->getMessage(), PHP_EOL;
+        }
+        // wp_mail($guest_email, $subject, $body, $headers);
     }
 }
 
@@ -1631,7 +1650,7 @@ function sanas_send_invitations() {
                 $headers = array('Content-Type: text/html; charset=UTF-8');
                 $new_formated_mail = '<style>
     @import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");</style>' . $formated_mail_body;
-                // Send the email using wp_mail
+                // Send the email using
                 wp_mail($guestemail, $formated_mail_subject, $new_formated_mail, $headers);
 
                 // Update the database for this guestId
