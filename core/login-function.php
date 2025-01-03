@@ -1016,7 +1016,6 @@ use SendinBlue\Client\Configuration;
 use SendinBlue\Client\Model\SendSmtpEmail;
 //send mail to guest
 function sanas_guest_invitation_response_mail($guest_email, $status, $prestatus, $kidsguest, $prekidsguest, $adultguest, $preadultguest, $event_image, $guest_name, $event_name, $event_date, $event_time_line, $event_message, $invite_link, $event_host, $event_venue_name, $event_venue_address, $event_venue_address_link) {
-    echo "test";
     // Initialize subject and body
     $subject = '';
     $body = '';
@@ -1091,6 +1090,8 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $prestatus,
         }
         echo "test2";
         // wp_mail($guest_email, $subject, $body, $headers);
+    }else{
+        echo "test53";
     }
 }
 
