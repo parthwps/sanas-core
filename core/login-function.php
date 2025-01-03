@@ -1,10 +1,4 @@
 <?php
-require 'php-library/vendor/autoload.php';
-
-use SendinBlue\Client\Api\TransactionalEmailsApi;
-use SendinBlue\Client\Configuration;
-use SendinBlue\Client\Model\SendSmtpEmail;
-
 if (!function_exists('sanas_signin_user_status')) {
     function sanas_signin_user_status() {
         check_ajax_referer('ajax-usersignin-nonce', 'security');
@@ -1014,10 +1008,12 @@ function sanas_guest_invitation_response() {
     }
     // echo '<div class="alert alert-success pop-btn-div" role="alert">' . esc_html__('Guest Submitted Response Successfully.', 'sanas') . '</div>';
     echo sanas_guest_invitation_response_mail($guest_email, $status, $prestatus, $kidsguest, $prekidsguest, $adultguest, $preadultguest, $event_image_url, $guest_name, $event_name, $event_date, $event_time_line, $event_message, $invite_link, $event_host, $event_venue_name, $event_venue_address, $event_venue_address_link);
-    echo 'test3';
     die();
 }
-
+require 'php-library/vendor/autoload.php';
+use SendinBlue\Client\Api\TransactionalEmailsApi;
+use SendinBlue\Client\Configuration;
+use SendinBlue\Client\Model\SendSmtpEmail;
 //send mail to guest
 function sanas_guest_invitation_response_mail($guest_email, $status, $prestatus, $kidsguest, $prekidsguest, $adultguest, $preadultguest, $event_image, $guest_name, $event_name, $event_date, $event_time_line, $event_message, $invite_link, $event_host, $event_venue_name, $event_venue_address, $event_venue_address_link) {
     
@@ -1077,7 +1073,8 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $prestatus,
         );
 
         // Send email
-        $headers = array('Content-Type: text/html; charset=UTF-8');
+        // $headers = array('Content-Type: text/html; charset=UTF-8');
+        
         try {
             $apiInstance = new TransactionalEmailsApi(new GuzzleHttp\Client(), $config);
             $sendSmtpEmail = new SendSmtpEmail([
