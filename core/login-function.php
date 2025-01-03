@@ -1,5 +1,5 @@
 <?php
-require '../php-library/vendor/autoload.php';
+require 'php-library/vendor/autoload.php';
 
 use SendinBlue\Client\Api\TransactionalEmailsApi;
 use SendinBlue\Client\Configuration;
