@@ -1663,7 +1663,7 @@ function sanas_send_invitations() {
                         'htmlContent' => $new_formated_mail
                     ]);
                     $result = $apiInstance->sendTransacEmail($sendSmtpEmail);
-                    echo 'Email sent successfully!';
+                    // echo 'Email sent successfully!';
                 } catch (Exception $e) {
                     echo 'Error sending email: ', $e->getMessage(), PHP_EOL;
                 }
