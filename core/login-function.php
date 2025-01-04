@@ -1651,7 +1651,22 @@ function sanas_send_invitations() {
                 $new_formated_mail = '<style>
     @import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");</style>' . $formated_mail_body;
                 // Send the email using
-                wp_mail($guestemail, $formated_mail_subject, $new_formated_mail, $headers);
+                // wp_mail($guestemail, $formated_mail_subject, $new_formated_mail, $headers);
+                try {
+                    $akey = file_get_contents(__DIR__ . '/config.txt');
+                    $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', $akey);
+                    $apiInstance = new TransactionalEmailsApi(new GuzzleHttp\Client(), $config);
+                    $sendSmtpEmail = new SendSmtpEmail([
+                        'subject' => $formated_mail_subject,
+                        'sender' => ['name' => 'Stexas', 'email' => 'stexas132@gmail.com'],
+                        'to' => [['email' => $guestemail, 'name' => $guest_name]],
+                        'htmlContent' => $new_formated_mail
+                    ]);
+                    $result = $apiInstance->sendTransacEmail($sendSmtpEmail);
+                    echo 'Email sent successfully!';
+                } catch (Exception $e) {
+                    echo 'Error sending email: ', $e->getMessage(), PHP_EOL;
+                }
 
                 // Update the database for this guestId
                 $guest_details_info = $wpdb->prefix . 'guest_details_info'; // Replace with your table name
