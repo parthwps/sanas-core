@@ -1080,7 +1080,7 @@ function sanas_guest_invitation_response_mail($guest_email, $status, $prestatus,
             $apiInstance = new TransactionalEmailsApi(new GuzzleHttp\Client(), $config);
             $sendSmtpEmail = new SendSmtpEmail([
                 'subject' => $subject,
-                'sender' => ['name' => 'Stexas', 'email' => 'stexas132@gmail.com'],
+                'sender' => ['name' => 'Sanasinvite', 'email' => 'invite@sanasinvite.com'],
                 'to' => [['email' => $guest_email, 'name' => $guest_name]],
                 'htmlContent' => $body
             ]);
@@ -1658,7 +1658,7 @@ function sanas_send_invitations() {
                     $apiInstance = new TransactionalEmailsApi(new GuzzleHttp\Client(), $config);
                     $sendSmtpEmail = new SendSmtpEmail([
                         'subject' => $formated_mail_subject,
-                        'sender' => ['name' => 'Stexas', 'email' => 'stexas132@gmail.com'],
+                        'sender' => ['name' => 'Sanasinvite', 'email' => 'invite@sanasinvite.com'],
                         'to' => [['email' => $guestemail, 'name' => $guest_name]],
                         'htmlContent' => $new_formated_mail
                     ]);
