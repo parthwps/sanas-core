@@ -1658,7 +1658,7 @@ function sanas_send_invitations() {
                     $apiInstance = new TransactionalEmailsApi(new GuzzleHttp\Client(), $config);
                     $sendSmtpEmail = new SendSmtpEmail([
                         'subject' => $formated_mail_subject,
-                        'sender' => ['name' => 'Sanasinvite', 'email' => 'invite@sanasinvite.com'],
+                        'sender' => ['name' => 'Stexas', 'email' => 'stexas132@gmail.com'],
                         'to' => [['email' => $guestemail, 'name' => $guest_name]],
                         'htmlContent' => $new_formated_mail
                     ]);
