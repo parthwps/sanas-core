@@ -144,7 +144,6 @@ if ($query->have_posts()) :
           get_current_user_id(),
           get_the_ID()
         ));
-        echo "<script>console.log(".$is_in_wishlist.");</script>";
 
         if ($sanas_portfolio_meta) {
             $currentURL = site_url();
