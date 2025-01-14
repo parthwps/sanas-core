@@ -122,7 +122,11 @@ if (!function_exists('sanas_signup_user_status')) {
                     // Retrieve email subject and body from theme options
                     $subject = sanas_options('sanas_user_signup_subject');
                     $body = sanas_options('sanas_user_signup_body');
-
+                    $body = str_replace(
+                        array('%%username', '%%useremail'), 
+                        array($user_name, $user_email),
+                        $body
+                    );
                     // Prepare email headers
                     $headers = array('Content-Type: text/html; charset=UTF-8');
 
