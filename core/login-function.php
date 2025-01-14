@@ -112,7 +112,12 @@ if (!function_exists('sanas_signup_user_status')) {
                     'user_login' => $user_name,
                     'user_password' => $password,
                 );
-                update_user_meta( $user_id, 'first_name', $yourname) ;
+                update_user_meta( $user_id, 'first_name', $yourname);
+                wp_update_user([
+                    'ID' => $user_id,
+                    'user_nicename' => $yourname,
+                    'display_name' => $yourname
+                ]);
                 $user_signon = wp_signon($info, true);
                 if (!is_wp_error($user_signon)) {
                     $response['register'] = true;
