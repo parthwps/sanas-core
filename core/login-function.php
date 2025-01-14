@@ -174,7 +174,7 @@ check_ajax_referer('ajax-useremail-nonce', 'security');
 
         // Email content
         $subject = 'Password Reset Request';
-        $message = 'Hello ' . $user->user_login . ",\n\n";
+        $message = 'Hello ' . $user->display_name . ",\n\n";
         $message .= 'You have requested a password reset. Please click the following link to reset your password in a popup on our site:' . "\n\n";
         $message .= $reset_url . "\n\n";
         $message .= 'If you did not request this, please ignore this email.' . "\n\n";
@@ -194,7 +194,7 @@ check_ajax_referer('ajax-useremail-nonce', 'security');
         $formated_mail_content = sanas_sprintf("$sanas_mail_body", array(
             'website_url' => "$website_url",
             'website_name' => "$website_name",
-            'username' => "$user->user_login",
+            'username' => "$user->display_name",
             'forgotlink' => "$reset_url"
         ));   
 
@@ -203,7 +203,7 @@ check_ajax_referer('ajax-useremail-nonce', 'security');
         // Set content-type header to send HTML email
         $headers = array('Content-Type: text/html; charset=UTF-8');
 
-         wp_mail($user_email, $sanas_mail_subject, $main_body,$headers);
+         wp_mail($user_email, $sanas_mail_subject, $main_body, $headers);
 
     }
 
