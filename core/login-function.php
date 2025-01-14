@@ -124,7 +124,7 @@ if (!function_exists('sanas_signup_user_status')) {
                     $body = sanas_options('sanas_user_signup_body');
                     $body = str_replace(
                         array('%%username', '%%useremail'), 
-                        array($user_name, $user_email),
+                        array($yourname, $user_email),
                         $body
                     );
                     // Prepare email headers
