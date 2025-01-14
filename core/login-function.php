@@ -1342,6 +1342,7 @@ if (!function_exists('sanas_save_rsvp_data_callback')) {
         $guest_message = wp_kses_post($_POST['guestMessage']);
         $event_title = wp_kses_post($_POST['eventTitle']);
         $event_date = wp_kses_post($_POST['eventDate']);
+        $event_time = wp_kses_post($_POST['eventTime']);
         $itinerary = wp_kses_post($_POST['itinerary']);    
         $video_src = esc_url($_POST['videoSrc']);
         $youtube_src = esc_url($_POST['youtubeSrc']);
@@ -1358,6 +1359,7 @@ if (!function_exists('sanas_save_rsvp_data_callback')) {
         $guestContactcss = $_POST['guestContactcss'];
         $guestMessagecss = $_POST['guestMessagecss'];
         $eventdatecss = $_POST['eventdatecss'];
+        $eventtimecss = $_POST['eventtimecss'];
         $itinerarycss = $_POST['itinerarycss'];
 
 
@@ -1385,6 +1387,7 @@ if (!function_exists('sanas_save_rsvp_data_callback')) {
                 update_post_meta($rsvp_id, 'guest_message', $guest_message);
                 update_post_meta($rsvp_id, 'event_name', $event_title);
                 update_post_meta($rsvp_id, 'event_date', $event_date);
+                update_post_meta($rsvp_id, 'event_time', $event_time);
                 update_post_meta($rsvp_id, 'itinerary', $itinerary);
 
                 update_post_meta($rsvp_id, 'guest_name_css', $guestNamecss);
@@ -1392,6 +1395,7 @@ if (!function_exists('sanas_save_rsvp_data_callback')) {
                 update_post_meta($rsvp_id, 'guest_message_css', $guestMessagecss);
                 update_post_meta($rsvp_id, 'event_title_css', $eventtitlecss);
                 update_post_meta($rsvp_id, 'event_date_css', $eventdatecss);
+                update_post_meta($rsvp_id, 'event_time_css', $eventtimecss);
                 update_post_meta($rsvp_id, 'itinerarycss', $itinerarycss);
                 update_post_meta($rsvp_id, 'event_venue_name', $venue_name);
                 update_post_meta($rsvp_id, 'event_venue_address', $venue_address);
@@ -1467,6 +1471,7 @@ if (!function_exists('sanas_save_rsvp_data_callback')) {
                 update_post_meta($rsvp_id, 'guest_message', $guest_message);
                 update_post_meta($rsvp_id, 'event_name', $event_title);
                 update_post_meta($rsvp_id, 'event_date', $event_date);
+                update_post_meta($rsvp_id, 'event_time', $event_time);
                 update_post_meta($rsvp_id, 'itinerary', $itinerary);
 
                 update_post_meta($rsvp_id, 'guest_name_css', $guestNamecss);
@@ -1474,6 +1479,7 @@ if (!function_exists('sanas_save_rsvp_data_callback')) {
                 update_post_meta($rsvp_id, 'guest_message_css', $guestMessagecss);
                 update_post_meta($rsvp_id, 'event_title_css', $eventtitlecss);
                 update_post_meta($rsvp_id, 'event_date_css', $eventdatecss);
+                update_post_meta($rsvp_id, 'event_time_css', $eventtimecss);
                 update_post_meta($rsvp_id, 'itinerarycss', $itinerarycss);
                 update_post_meta($rsvp_id, 'event_venue_name', $venue_name);
                 update_post_meta($rsvp_id, 'event_venue_address', $venue_address);
@@ -1588,6 +1594,7 @@ function sanas_send_invitations() {
     $guestName = esc_html(get_post_meta($rsvp_id, 'guest_name', true));
     $eventtitle = esc_html(get_post_meta($rsvp_id, 'event_name', true));
     $eventdate = esc_html(get_post_meta($rsvp_id, 'event_date', true));
+    $eventtime = esc_html(get_post_meta($rsvp_id, 'event_time', true));
     $guestContact = esc_html(get_post_meta($rsvp_id, 'guest_contact', true));
     $guestMessage = esc_html(get_post_meta($rsvp_id, 'guest_message', true));
     $program = get_post_meta($rsvp_id, 'listing_itinerary_details', true);
